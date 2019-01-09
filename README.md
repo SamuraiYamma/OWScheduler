@@ -1,10 +1,10 @@
-OWScheduler
+#OWScheduler
 
 This program is intended for use by Users who want to generate balanced scrimmages
 
 Below you will find the project goals with every release.
 
-Alpha
+#Alpha
 
 -User Profiles
 
@@ -18,7 +18,7 @@ Alpha
 
     -View items in the database
 
-Version 1
+#Version 1
 
 -User Profiles
 
@@ -43,7 +43,7 @@ Version 1
     -Once matches begin, it waits for the input of Win/Loss statistics to attach to each User Profile
         -This also take into account what map was played
 
-Version 2
+#Version 2
 
 -Scheduler
 
@@ -57,7 +57,7 @@ Version 2
 
     -Have a web page where users can go to log in and review/change their information
 
-Version 3
+#Version 3
 
 -Make option for creating a schedule optimized by map win rates
 
@@ -65,6 +65,6 @@ Version 3
 
     -Auto create chat groups/teams bby moving users to different channels for scrims, help automation of processes
 
-Version 4
+#Version 4
 
 -Mobile App
