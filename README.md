@@ -7,65 +7,65 @@ Below you will find the project goals with every release.
 
 #Alpha
 
-###User Profiles
+## User Profiles
 
-    -Create user profile objects
+    - Create user profile objects
     
-###Database
+## Database
 
-    -Store user profiles
+    - Store user profiles
     
-###Engine
+## Engine
 
-    -View items in the database
+    - View items in the database
 
-##Version 1
+# Version 1
 
-###User Profiles
+## User Profiles
 
-    -User can create a profile where they input their Battlenet ID, Name, University, Schedule, Emails, Rank and Roles
+    - User can create a profile where they input their Battlenet ID, Name, University, Schedule, Emails, Rank and Roles
     
-###Database
+## Database
 
-    -Stores user profiles
+    - Stores user profiles
     
-###Scheduler
+## Scheduler
 
-    -Makes multiple schedules based on factors of Schedules, Rank, Role
+    - Makes multiple schedules based on factors of Schedules, Rank, Role
     
-    -This is initiated by a User who makes a list of all the Users (By Battle.net ID) they want to have a scrimmage with
+    - This is initiated by a User who makes a list of all the Users (By Battle.net ID) they want to have a scrimmage with
      (A list of 12 or more users). Once everyone has been added to a list, you can simply hit "Make matches" to get all
      possible schedules. User should be able to choose which times they wish to view.
      
-###Prompter
+## Prompter
 
-    -Takes the generated scheduler and prompts all associated users if it is acceptable
-    -If schedule is denied, then the schedule is reworked and is sent out again
-    -Once matches begin, it waits for the input of Win/Loss statistics to attach to each User Profile
+    - Takes the generated scheduler and prompts all associated users if it is acceptable
+    - If schedule is denied, then the schedule is reworked and is sent out again
+    - Once matches begin, it waits for the input of Win/Loss statistics to attach to each User Profile
         -This also take into account what map was played
 
-##Version 2
+# Version 2
 
-###Scheduler
+## Scheduler
 
-    -Add a function to add Universities
+    - Add a function to add Universities
     
-###Statistics access
+## Statistics access
 
-    -Gives users access to their own stats, as well as the stats of the people at their university
+    - Gives users access to their own stats, as well as the stats of the people at their university
     
-###Web Portal
+## Web Portal
 
-    -Have a web page where users can go to log in and review/change their information
+    - Have a web page where users can go to log in and review/change their information
 
-##Version 3
+# Version 3
 
-###Make option for creating a schedule optimized by map win rates
+## Make option for creating a schedule optimized by map win rates
 
-###Discord Linked
+## Discord Linked
 
-    -Auto create chat groups/teams bby moving users to different channels for scrims, help automation of processes
+    - Auto create chat groups/teams bby moving users to different channels for scrims, help automation of processes
 
-##Version 4
+# Version 4
 
--Mobile App
+    - Mobile App
