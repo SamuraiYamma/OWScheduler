@@ -3,6 +3,24 @@ OWScheduler
 
 This program is intended for use by Users who want to generate balanced scrimmages
 
+
+##Contents
+
+* **/docs**
+    -All documentation is in here
+    
+* **/LICENSE**
+    -Refer to this for the licensing and copying rights
+    
+* **/testing**
+    -All testing cases can be found here
+   
+* **/setup.py**
+    -Package and Distribution management
+  
+* **/README.md**
+    -The current document you are viewing, should contain all the information you might look for, unless it's in patch notes
+
 Below you will find the project goals with every release.
 
 ## Alpha
