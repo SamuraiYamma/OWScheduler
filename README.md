@@ -1,6 +1,11 @@
 OWScheduler
 
+This program is intended for use by Users who want to generate balanced scrimmages
+
+Below you will find the project goals with every release.
+
 Alpha
+
 -User Profiles
 
     -Create user profile objects
@@ -8,6 +13,7 @@ Alpha
 -Database
 
     -Store user profiles
+    
 -Engine
 
     -View items in the database
@@ -17,9 +23,11 @@ Version 1
 -User Profiles
 
     -User can create a profile where they input their Battlenet ID, Name, University, Schedule, Emails, Rank and Roles
+    
 -Database
 
     -Stores user profiles
+    
 -Scheduler
 
     -Makes multiple schedules based on factors of Schedules, Rank, Role
