@@ -5,6 +5,13 @@ Alpha
     -Create user profile objects
 -Database
     -Store user profiles
+	-Name
+	-Battlenet ID
+	-University
+	-Schedule
+	-Email
+	-Rank
+	-Role(s)
 -Engine
     -View items in the database
 
