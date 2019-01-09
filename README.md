@@ -7,16 +7,13 @@ Below you will find the project goals with every release.
 
 #Alpha
 
-## User Profiles
-
+..* **User Profiles**
     - Create user profile objects
     
-## Database
-
+--* **Database**
     - Store user profiles
     
-## Engine
-
+* **Engine**
     - View items in the database
 
 # Version 1
