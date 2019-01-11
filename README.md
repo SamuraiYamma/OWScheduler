@@ -4,7 +4,7 @@ OWScheduler
 This program is intended for use by Users who want to generate balanced scrimmages
 
 
-##Contents
+## Contents
 
 * **/docs**
     -All documentation is in here
