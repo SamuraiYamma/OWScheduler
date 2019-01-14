@@ -54,7 +54,8 @@ Below you will find the project goals with every release.
         - Players
             - Roles played
             - Characters played
-        - KDR (May not be necessary for OW)
+        - KDA ?
+        - 
     
 * **Scheduler**
     - Makes multiple schedules based on factors of Schedules, Rank, Role
@@ -63,8 +64,10 @@ Below you will find the project goals with every release.
         - Might consider separating users from matchmakers here. Should everyone be able to make matches? Or rather, does everyone want/need to make matches?
      
 * **Prompter**
-    - Takes the generated scheduler and prompts all associated users (players scheduled) if it is acceptable
-    - If schedule is denied, then the schedule can be manually reworked and is sent out again
+    - Takes the generated scheduler and prompts all associated users if it is acceptable
+        - Who does this prompt?
+    - If schedule is denied, then the schedule is reworked and is sent out again
+        - What changes when schedule is reworked?
     - Once matches begin, it waits for the input of Win/Loss statistics to attach to each User Profile
         - This also take into account what map was played
         - Should allow matchmakers to edit results after they've accepted the match setup

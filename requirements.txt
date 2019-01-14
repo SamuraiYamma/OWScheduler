@@ -1,9 +1,0 @@
-This document enlists the qualities and the needs of this project.
-
-    -Ask for help: Ethan(Master) has little to no experience in any of the fields this project touches. You're not alone.
-
-    -Useful commits: Make sure your code is working before you commit just anything.
-
-    -Framework over Features: The goal is not to deliver a lot of little features, but scale-able code
-
-    -
