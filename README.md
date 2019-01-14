@@ -53,29 +53,29 @@ Below you will find the project goals with every release.
         - Map
         - Players
             - Roles played
-            - Characters played
-        - KDA ?
-        - 
     
 * **Scheduler**
     - Makes multiple schedules based on factors of Schedules, Rank, Role
-        - TODO: decide precedence. Which is most important?
+        - Schedule starts by splitting players into groups by schedule. For each schedule block with 12 or more players, the players are split into two groups by roles, 
+        so each group has as close to the same roles as possible. After this, if the average rank is too unequal, then swap players of the same role between teams if their rank is uneven.
     - This is initiated by a User who makes a list of all the Users (By Battle.net ID) they want to have a scrimmage with (A list of 12 or more users). Once everyone has been added to a list, you can simply hit "Make matches" to get all possible schedules. User should be able to choose which times they wish to view.
-        - Might consider separating users from matchmakers here. Should everyone be able to make matches? Or rather, does everyone want/need to make matches?
-     
+        - Matchmakers can be any user who wants to see a possible schedule with certain users. If they wish to prompt the users, they need to be a registered admin of group/university  
+           
 * **Prompter**
     - Takes the generated scheduler and prompts all associated users if it is acceptable
-        - Who does this prompt?
+        - Users who have been scheduled for a certain time by a group administrator will receive a notification detailing the date and time of the scrimmage
     - If schedule is denied, then the schedule is reworked and is sent out again
-        - What changes when schedule is reworked?
+        - Users have the choice to RSVP for their match. If not enough users rsvp for the match (under 12) 24 hours before the match, the scheduler is prompted to cancel
     - Once matches begin, it waits for the input of Win/Loss statistics to attach to each User Profile
+        - This is manual input, a simple W or L for either team
         - This also take into account what map was played
         - Should allow matchmakers to edit results after they've accepted the match setup
 
 ## Version 2
 
 * **Scheduler**
-    - Add a function to add Universities
+    - Add a function to add Universities/Groups
+        - TBD how to implement this functionality
     
 * **Statistics access**
     - Gives users access to their own stats, as well as the stats of the people at their university
