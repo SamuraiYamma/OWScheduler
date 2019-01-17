@@ -1,0 +1,6 @@
+1-17-19 1600-1806
+Agenda: Cover the basics and frameworks used, cover Overwatch basics, cover mantras and requirements.
+Goals: Bring specific tasks to work on by next weeks meeting
+Next week agenda: Cover django structure and how to integrate OWScheduler into the framework
+
+
