@@ -1,25 +1,24 @@
 # About Django
 
 ## File System
-
--OWScheduler/
-|
+```
+-OWScheduler/  
+|  
 |---- OWScheduler/
-|	|
-|	|---- settings.py
-|	|---- urls.py
-|
-|---- scheduler/
-|	|---- admin.py
-|	|---- models.py
-|	|---- views.py
-|	|---- urls.py
-|	|---- templates/
-|	|	|---- any .html files
-|	|---- static/
-|	|	|---- any .js files
-|	|	|---- any .css files
-
+|	      |  
+|	      |---- settings.py  
+|	      |---- urls.py  
+|---- scheduler/  
+|	      |---- admin.py  
+|	      |---- models.py  
+|	      |---- views.py  
+|	      |---- urls.py  
+|	      |---- templates/  
+|	      |	      |---- any .html files  
+|	      |---- static/  
+|	      |	      |---- any .js files  
+|	      |	      |---- any .css files  
+```
 
 ### OWScheduler Folder
 
