@@ -23,6 +23,19 @@ This program is intended for use by Users who want to generate balanced scrimmag
 
 Below you will find the project goals with every release.
 
+## Required Features
+These are features we need to use to receive full marks on the assignment
+
+* **Testing**
+    - Django uses Python's standard module unittest for testing. Details on writing tests can be found [here](https://docs.djangoproject.com/en/2.1/topics/testing/overview/)
+    
+* **Checkstyle**
+    - Python has a checkstyle feature known as pycodestyle
+    
+* **FindBugs**
+    - [Pychecker](http://pychecker.sourceforge.net) is a feature to help spot bugs in our code. There might be a better program for this.
+    - [PyLint](https://www.pylint.org) seems to combine checkstyle and findbugs, but it may need to be investigated.
+
 ## Alpha
 
 * **User Profiles**
