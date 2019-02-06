@@ -29,3 +29,5 @@ OWScheduler Database Specs
 ## Time Slot
 - The week should be split into many time slots
 - Each time slot specifies a day and an hour
+- The key of the time slot is both the day and hour
+- Each entry includes which players are available during the given time slot
