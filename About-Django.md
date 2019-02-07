@@ -44,6 +44,16 @@ Our models go here. An example would include the "player" model, where we specif
 
 Here are urls specific to the "scheduler" app. This can include a simple www.example.com/user/ url, or extend to be www.example.com/scheduler/user/1. 
 
+##### Our URL's
+- /home -> the home page!
+- /players -> list of all the players
+- /teams -> list of all the teams
+- /team/{teamID} -> a specific's team page
+- /player/{battlenetID} -> a specific player's profile
+- /player/{battlenetID}/account -> a player's account management
+- /admin -> the admin page!
+
+
 #### Templates
 
 Django has its own language for templates, but it's built into html. So our home.html, user\_page.html, and other like files would be here. This is just for setting up the content of our webpages. 
