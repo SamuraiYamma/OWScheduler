@@ -134,7 +134,7 @@
     <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke-linecap: round; stroke: #000000" x1="878.002" y1="288.2" x2="801.002" y2="263.96"/>
     <g>
       <ellipse style="fill: #ffffff; fill-opacity: 1; stroke: none" cx="668.5" cy="118" rx="58.5" ry="18"/>
-      <ellipse style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke-linecap: round; stroke: #000000" cx="668.5" cy="118" rx="58.5" ry="18"/>
+      <ellipse style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 6; stroke: #000000" cx="668.5" cy="118" rx="58.5" ry="18"/>
       <text font-size="12.7998" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="668.5" y="122">SR_average</text>
     </g>
     <line style="fill: none; stroke-opacity: 1; stroke-width: 2; stroke-linecap: round; stroke: #000000" x1="668.5" y1="136" x2="669" y2="215.2"/>
