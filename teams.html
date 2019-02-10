@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>OWS - Home</title>
+    <title>OWS - Teams</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
@@ -29,11 +29,11 @@
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="teams.html">Teams</a>
+                <a class="nav-link active" href="teams.html">Teams</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="players.html">Players</a>
@@ -78,34 +78,42 @@
 </nav>
 
 <div class="container" style="margin-top:30px">
-    <div class="row">
-        <div class="col-sm-6">
-            <h3> About </h3>
-            <p> Overwatch Scheduler was created as a semester long project at Grand Valley State University. It's purpose is to make it easier to schedule times to have matches with teams both internally and externally.</p>
-        </div>
-        <div class="col-sm-6">
-            <h3> News </h3>
-            <p> V.Alpha.01: adding pages, links and content to get a basic framework and idea.</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <h3> Teams </h3>
-            <p>Team integration is a vital part of this project. Here you can create a team or request to join one. Just keep in mind you can't be apart of more than one team.</p>
-            <!--<button type = "button" class="btn btn-primary active">Go to Teams page</button>-->
-            <a href="teams.html" class="btn btn-primary">Go to Teams page</a>
-        </div>
-        <div class="col-sm-4">
-            <h3> Players </h3>
-            <p>Players are the core base of this application. Here you can find and add players to your team.</p>
-            <button type = "button" class="btn btn-primary active">Go to Players page</button>
-        </div>
-        <div class="col-sm-4">
-            <h3> Schedule </h3>
-            <p>This is the bread and butter of what we do. Once you have a team roster of 6+ you can schedule matches between other teams. Once your roster is 12+ you can schedule internal matches between your own players.</p>
-            <button type = "button" class="btn btn-primary active">Go to Schedule page</button>
-        </div>
-    </div>
+
+    <h3>
+        Teams
+    </h3>
+    <!--TODO: Search Bar-->
+    <form class="form-inline" action="/action_page.php">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+        <button class="btn btn-success" type="submit">Search</button>
+    </form>
+    <!--TODO: Team List-->
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Team</th>
+            <th>ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Team One</td>
+            <td>0001</td>
+        </tr>
+        <tr>
+            <td>Team Two</td>
+            <td>0010</td>
+        </tr>
+        <tr>
+            <td>Team Three</td>
+            <td>0011</td>
+        </tr>
+        <tr>
+            <td>Team Four</td>
+            <td>0100</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <!-- Footer in a non footer location. Huh?-->
