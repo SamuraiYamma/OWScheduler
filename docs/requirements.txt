@@ -1,0 +1,19 @@
+Project mantras:
+
+Quality over Quantity
+    -Don't commit and push with every little change. Push when your code is tested and ready. Then update the tests folder.
+
+Help over Hero
+    -Most of us don't have a clue how to do this. We need help. If you need help let us all know, but attempt a problem first.
+
+Working over Clean
+    -While we want something that is maintainable and doesnt smell, we will settle for what simply works.
+
+Caught-Up over Catch-Up
+    -Stay with or ahead of course requirements. This project is secondary to the other coursework. Refer to mantra 2 if you think you're falling behind.
+
+Communicate Communicate Communicate
+    -The earlier the better. Refer to other mantras.
+
+Read this for a better sense of what's desired
+http://www.mit.edu/~xela/tao.html
