@@ -1,3 +1,4 @@
+django
 Project mantras:
 
 Quality over Quantity
