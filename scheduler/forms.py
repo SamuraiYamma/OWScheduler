@@ -2,6 +2,8 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
 from django.forms.models import ModelMultipleChoiceField
 
+from dal import autocomplete
+
 from .models import Player, Team
 
 
@@ -15,7 +17,6 @@ class PlayerCreationForm(UserCreationForm):
             'first_name',
             'last_name',
             'email',
-            'university',
         )
 
 
@@ -23,6 +24,11 @@ class PlayerCreationForm(UserCreationForm):
 
 
 class PlayerChangeForm(UserChangeForm):
+    team_autocomplete = forms.ModelChoiceField(
+        queryset=Team.objects.all(),
+        widget=autocomplete.ModelSelect2(url='team-autocomplete'),
+        label="Team"
+    )
 
     def __init__(self, *args, **kargs):
         super(PlayerChangeForm, self).__init__(*args, **kargs)
@@ -37,7 +43,7 @@ class PlayerChangeForm(UserChangeForm):
             'university',
             'role',
             'skillRating',
-            'team',
+            'team_autocomplete'
         )
 
 
@@ -92,4 +98,4 @@ class AddToTeamForm(forms.ModelForm):
 
     class Meta:
         model = Team
-        fields = ('teamAlias', 'id', 'players',)
+        fields = ('teamAlias', 'id', 'players', 'is_active')

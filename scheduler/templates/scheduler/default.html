@@ -50,31 +50,46 @@
         </ul>
         <!-- Align Right from Here-->
         <ul class="navbar-nav">
+        {% if not user.is_authenticated %}
             <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
                 Login
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-                <form action="/action_page.php">
-                    <div class="form-group">
-                        <label for="email">Email address:</label>
-                        <input type="email" class="form-control" id="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="pwd">Password:</label>
-                        <input type="password" class="form-control" id="pwd">
-                    </div>
-                    <div class="form-group form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox"> Remember me
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <table>
+
+                        <tr>
+                            <td>{{ form.username.label_tag }}</td>
+                            <td>{{ form.username }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.password.label_tag }}</td>
+                            <td>{{ form.password }}</td>
+                        </tr>
+                    </table>
+                    <input type="submit" class="btn btn-primary" value="Login">
                 </form>
+                {% if form.errors or form.non_field_errors %}
+                    <p>Something went wrong here.</p>
+                {% endif %}
             </div>
 
-            <button type="button" class="btn btn-outline-light " >
+            <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'scheduler:register' %}'">
                 Register
             </button>
+        {% elif user.is_authenticated %}
+            <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
+            Hi, {{ user.username }}
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <table>
+                    <tr>
+                        <td><button type="button" onclick="location.href='{% url 'scheduler:user_logout' %}'">Logout</button></td>
+                    </tr>
+                </table>
+            </div>
+        {% endif %}
         </ul>
     </div>
 </nav>

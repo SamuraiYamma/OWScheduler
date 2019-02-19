@@ -1,4 +1,6 @@
 django
+django-autocomplete-light
+
 Project mantras:
 
 Quality over Quantity

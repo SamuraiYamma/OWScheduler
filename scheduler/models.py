@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-
 # Create your models here based on ER
 # Each model is a "table" in the schema
 
@@ -14,6 +13,9 @@ auto-increment an ID for each.
 class Team(models.Model):
     teamID = models.AutoField(primary_key=True)
     teamAlias = models.CharField(max_length=32)
+    team_admin = models.ForeignKey('Player', blank=True, null=True, on_delete=models.SET_NULL,
+                                   related_name='team_admin')
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.teamAlias) + "#" + str(self.teamID)
@@ -43,9 +45,13 @@ class Player(AbstractUser):
     university = models.CharField(max_length=100, null=True)
     role = models.CharField(max_length=7, choices=ROLE_CHOICES, null=True)  # damage, tank, or support
     battlenetID = models.CharField("BattleTag", max_length=64, primary_key=True)
-    # USERNAME_FIELD = 'battlenetID'  # in the future, we may want to use the battletag in place of the username
+    # USERNAME_FIELD = 'battlenetID'
+    # in the future, we may want to use the battletag in place of the username
+    # however, this may cause problems for urls
+
     skillRating = models.IntegerField("SR", null=True)
-    team = models.ForeignKey('Team', blank=True, null=True, on_delete=models.SET_NULL)  # column will be named team_id
+    team = models.ForeignKey('Team', blank=True, null=True, on_delete=models.SET_NULL,
+                             related_name='team_id')  # column will be named team_id
 
     def __str__(self):
         return self.battlenetID

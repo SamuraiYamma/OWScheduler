@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'dal',
+    'dal_select2',
     'scheduler.apps.SchedulerConfig',
 ]
 
@@ -124,3 +126,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'scheduler.Player'
+LOGIN_REDIRECT_URL = 'scheduler:home'
+LOGOUT_REDIRECT_URL = 'scheduler:home'

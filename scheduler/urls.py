@@ -1,13 +1,15 @@
 from django.urls import path, re_path
 
 from . import views
-
 app_name = 'scheduler'
 urlpatterns = [
-    path('', views.home), # home page
+    path('', views.home, name='home'),  # home page
     path('players/', views.players), # search for players
-    re_path(r'^players/(?P<battlenetID>([A-Za-z]+)#[0-9]{4-5})/', views.playerProfile), # player profile page
-    re_path(r'^players/(?P<battlenetID>([A-Za-z]+)#[0-9]{4-5})/account', views.account), # edit player account
-    path('teams/', views.teams), # search for teams
-    path('team/<int:pk>/', views.teamProfile), # team profile page
+    path('players/<str:username>/profile', views.player_profile),  # player profile page
+    path('players/<str:username>/account', views.account),  # edit player account
+    path('register/',  views.register, name='register'),
+    path('teams/', views.teams),  # search for teams
+    path('team/<int:pk>/', views.teamProfile),  # team profile page
+
+    path('logout/', views.user_logout, name='user_logout')  # logout current user
 ]
