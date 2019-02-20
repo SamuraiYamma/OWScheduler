@@ -47,7 +47,7 @@
         </ul>
         <!-- Align Right from Here-->
         <ul class="navbar-nav">
-        {% if not user.is_authenticated %}
+            {% if not user.is_authenticated %}
             <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
                 Login
             </button>
@@ -68,16 +68,16 @@
                     <input type="submit" class="btn btn-primary" value="Login">
                 </form>
                 {% if form.errors or form.non_field_errors %}
-                    <p>Something went wrong here.</p>
+                <p>Something went wrong here.</p>
                 {% endif %}
             </div>
 
             <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'scheduler:register' %}'">
                 Register
             </button>
-        {% elif user.is_authenticated %}
+            {% elif user.is_authenticated %}
             <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
-            Hi, {{ user.username }}
+                Hi, {{ user.username }}
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <table>
@@ -86,7 +86,7 @@
                     </tr>
                 </table>
             </div>
-        {% endif %}
+            {% endif %}
         </ul>
     </div>
 </nav>
