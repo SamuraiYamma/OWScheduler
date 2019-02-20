@@ -11,10 +11,8 @@ from dal import autocomplete
 from .models import Player, Team, Match, TimeSlot
 from .forms import PlayerCreationForm, PlayerChangeForm
 
-""" Home page that also manages login and its form """
 
-
-def home(request):
+def user_login(request):
     user = None
     form = AuthenticationForm()
     if request.method == 'POST':
@@ -26,15 +24,7 @@ def home(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                # or any other success page
-                return render(request, 'scheduler/default.html')
-
-    context = {
-        'form': form,
-        'user': user,
-    }
-
-    return render(request, 'scheduler/default.html', context)
+    return {'login_form': form, 'user': user}
 
 
 """ view that handles logging out the current user. Redirects to home page after. """
@@ -43,6 +33,15 @@ def home(request):
 def user_logout(request):
     logout(request)
     return render(request, 'scheduler/default.html')
+
+
+""" Home page """
+
+
+def home(request):
+    context = user_login(request)
+
+    return render(request, 'scheduler/default.html', context)
 
 
 """ WARINING: this is currently useless. """
@@ -104,10 +103,13 @@ def player_profile(request, username):
 def account(request, username):
     player = get_object_or_404(Player, username=username)
     form = PlayerChangeForm
-    context = {
+
+    context = user_login(request)
+    context.update({
         'form': form,
         'player': player,
-    }
+    })
+
     return render(request, 'scheduler/account.html', context)
 
 
@@ -115,6 +117,7 @@ def account(request, username):
 
 
 def teams(request):
+    user = request.user
     team_list = Team.objects.order_by('-teamID')
     if request.method == 'GET':
         search_query = request.GET.get('team_search', None)
@@ -124,7 +127,10 @@ def teams(request):
             else:
                 team_list = Team.objects.filter(teamAlias__icontains=search_query)
 
-    context = {'team_list': team_list}
+    context = user_login(request)
+    context['team_list'] = team_list
+    if user:
+        context['users_current_team'] = Player.objects.get(username=user.username).team_id
     return render(request, 'scheduler/teams.html', context)
 
 
@@ -150,7 +156,21 @@ class TeamAutoComplete(autocomplete.Select2QuerySetView):
 
 def team_profile(request, teamID):
     team = get_object_or_404(Team, teamID=teamID)
-    return render(request, 'scheduler/team_profile.html', {'current_team': team})
+    context = user_login(request)
+    context['current_team'] = team
+    return render(request, 'scheduler/team_profile.html', context)
+
+
+def join_team(request, teamID, username):
+    if request.method == 'GET':
+        player_set = Player.objects.filter(username=username).update(team=teamID)
+        return render(request, 'scheduler/team_profile.html')
+
+
+def leave_team(request, teamID, username):
+    if request.method == 'GET':
+        player_set = Player.objects.filter(username=username).update(team=None)
+        return render(request, 'scheduler/teams.html')
 
 
 """ view to add a new user and log them in """

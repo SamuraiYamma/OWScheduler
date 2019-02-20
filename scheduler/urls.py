@@ -12,4 +12,6 @@ urlpatterns = [
     path('team/<int:teamID>/', views.team_profile, name='team_profile'),  # team profile page
 
     path('logout/', views.user_logout, name='user_logout'),  # logout current user
+    path('join_team/<int:teamID>/<str:username>', views.join_team, name='join_team'),
+    path('leave_team/<int:teamID>/<str:username>', views.leave_team, name='leave_team'),
 ]
