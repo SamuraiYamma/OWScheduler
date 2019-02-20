@@ -83,36 +83,33 @@
         Players
     </h3>
     <!--TODO: Search Bar-->
-    <form class="form-inline" action="/action_page.php">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+    <form method="get" class="form-inline" action=".">
+        <input id="player_search" name="player_search" class="form-control mr-sm-2" type="text" placeholder="Search">
         <button class="btn btn-success" type="submit">Search</button>
     </form>
     <!--TODO: Players List-->
     <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>BNet</th>
-            <th>Team</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>SamuraiYamma#1467</td>
-            <td>LakeshoreWhite#2771</td>
-        </tr>
-        <tr>
-            <td>Scrub#15300</td>
-            <td>CarryMeDaddy#2231</td>
-        </tr>
-        <tr>
-            <td>NotASmurf#13452</td>
-            <td>CarryMeDaddy#1345</td>
-        </tr>
-        <tr>
-            <td>DELETEBRIG</td>
-            <td>MEMETEAM#6969</td>
-        </tr>
-        </tbody>
+        {% if player_list %}
+            <thead>
+            <tr>
+                <th>BattleTag</th>
+                <th>Team</th>
+                <th>University</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for player in player_list %}
+            <tr onclick="location.href='{% url 'scheduler:player_profile' username=player.username %}'">
+                <td>{{ player.battlenetID }}</td>
+                <td>{{ player.team }}</td>
+                <td>{{ player.university }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+
+        {% else %}
+            <tbody>Sorry, your search didn't return anything.</tbody>
+        {% endif %}
     </table>
 </div>
 

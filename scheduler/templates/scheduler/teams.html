@@ -98,11 +98,9 @@
                 </thead>
             <tbody>
             {% for team in team_list %}
-                <tr>
-                    <a href="{% url 'scheduler:team_profile' teamID=team.teamID %}">
+                <tr onclick="location.href='{% url 'scheduler:team_profile' teamID=team.teamID %}'">
                     <td>{{ team.teamAlias }}></td>
                     <td>{{ team.teamID }}</td>
-                    </a>
                 </tr>
             {% endfor %}
             </tbody>

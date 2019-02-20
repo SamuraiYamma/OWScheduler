@@ -11,7 +11,7 @@ from dal import autocomplete
 from .models import Player, Team, Match, TimeSlot
 from .forms import PlayerCreationForm, PlayerChangeForm
 
-""" Home page that also manages login and it's form """
+""" Home page that also manages login and its form """
 
 
 def home(request):
@@ -37,7 +37,7 @@ def home(request):
     return render(request, 'scheduler/default.html', context)
 
 
-""" view that handles logging out the current user. """
+""" view that handles logging out the current user. Redirects to home page after. """
 
 
 def user_logout(request):
@@ -79,7 +79,14 @@ Goes to the players page using the list of players sorted by battletags
 
 def players(request):
     player_list = Player.objects.order_by('-battlenetID')
-    context = {'player_list': player_list}
+    if request.method == "GET":
+        search_query = request.GET.get('player_search', None)
+        if search_query:
+            player_list = Player.objects.filter(battlenetID__icontains=search_query)
+
+    context = {
+        'player_list': player_list,
+    }
     return render(request, 'scheduler/players.html', context)
 
 
@@ -142,11 +149,11 @@ class TeamAutoComplete(autocomplete.Select2QuerySetView):
 
 
 def team_profile(request, teamID):
-    team = get_object_or_404(Team, pk=teamID)
-    return render(request, 'scheduler/teamProfile.html', {'team': team})
+    team = get_object_or_404(Team, teamID=teamID)
+    return render(request, 'scheduler/team_profile.html', {'current_team': team})
 
 
-""" view to add a new user """
+""" view to add a new user and log them in """
 
 
 def register(request):

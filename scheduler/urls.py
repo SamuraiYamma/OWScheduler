@@ -4,8 +4,8 @@ from . import views
 app_name = 'scheduler'
 urlpatterns = [
     path('', views.home, name='home'),  # home page
-    path('players/', views.players), # search for players
-    path('players/<str:username>/profile', views.player_profile),  # player profile page
+    path('players/', views.players),  # search for players
+    path('players/<str:username>/', views.player_profile, name='player_profile'),  # player profile page
     path('players/<str:username>/account', views.account),  # edit player account
     path('register/',  views.register, name='register'),
     path('teams/', views.teams, name='teams'),  # search for teams
