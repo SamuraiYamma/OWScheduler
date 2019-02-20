@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import get_object_or_404, render, render_to_response
+from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.db.models import Q
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect, HttpResponse
@@ -65,8 +65,6 @@ class Home(View):
                 # or any other success page
                 return render(self.request, 'scheduler/default.html')
 
-
-
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data()
     #     context['form'] = AuthenticationForm()
@@ -111,6 +109,14 @@ def account(request, username):
 
 def teams(request):
     team_list = Team.objects.order_by('-teamID')
+    if request.method == 'GET':
+        search_query = request.GET.get('team_search', None)
+        if search_query:
+            if search_query.isdigit():
+                team_list = Team.objects.filter(teamID__exact=int(search_query))
+            else:
+                team_list = Team.objects.filter(teamAlias__icontains=search_query)
+
     context = {'team_list': team_list}
     return render(request, 'scheduler/teams.html', context)
 
@@ -135,9 +141,9 @@ class TeamAutoComplete(autocomplete.Select2QuerySetView):
 """ displays the profile page for a team """
 
 
-def teamProfile(request, teamID):
+def team_profile(request, teamID):
     team = get_object_or_404(Team, pk=teamID)
-    return render(request, 'scheduler/teamProfile.html')
+    return render(request, 'scheduler/teamProfile.html', {'team': team})
 
 
 """ view to add a new user """
@@ -146,6 +152,13 @@ def teamProfile(request, teamID):
 def register(request):
     if request.method == 'POST':
         form = PlayerCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('scheduler:home')
     else:
         form = PlayerCreationForm()
 

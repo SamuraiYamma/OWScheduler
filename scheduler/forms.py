@@ -17,7 +17,20 @@ class PlayerCreationForm(UserCreationForm):
             'first_name',
             'last_name',
             'email',
+            'battlenetID',
+            'username',
+            'password1',
+            'password2',
         )
+        # widgets = {
+        #     'first_name': forms.TextInput(attrs={'class':'form-field'}),
+        #     'last_name': forms.TextInput(attrs={'class':'form-field'}),
+        #     'email': forms.EmailInput(attrs={'class':'form-field'}),
+        #     'battlenetID': forms.TextInput(attrs={'class':'form-field'}),
+        #     'username': forms.TextInput(attrs={'class':'form-field'}),
+        #     'password1': forms.PasswordInput(attrs={'class':'form-field'}),
+        #     'password2': forms.PasswordInput(attrs={'class':'form-field'}),
+        # }
 
 
 """ The form used to change a player's information """

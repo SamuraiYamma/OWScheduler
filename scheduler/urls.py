@@ -8,8 +8,8 @@ urlpatterns = [
     path('players/<str:username>/profile', views.player_profile),  # player profile page
     path('players/<str:username>/account', views.account),  # edit player account
     path('register/',  views.register, name='register'),
-    path('teams/', views.teams),  # search for teams
-    path('team/<int:pk>/', views.teamProfile),  # team profile page
+    path('teams/', views.teams, name='teams'),  # search for teams
+    path('team/<int:teamID>/', views.team_profile, name='team_profile'),  # team profile page
 
-    path('logout/', views.user_logout, name='user_logout')  # logout current user
+    path('logout/', views.user_logout, name='user_logout'),  # logout current user
 ]

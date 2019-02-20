@@ -94,6 +94,7 @@ class TimeSlot(models.Model):
 class Match(models.Model):
     matchID = models.AutoField(primary_key=True)
     matchMap = models.CharField(max_length=32)
+    match_time = models.ForeignKey('TimeSlot', null=True, on_delete=models.SET_NULL, db_column='match_time_id')
     captureTeam = models.ForeignKey('Team', on_delete=models.CASCADE, db_column='capture_id',
                                     related_name='capture_id')  # named capture_id
     defenseTeam = models.ForeignKey('Team', on_delete=models.CASCADE, db_column='defense_id',

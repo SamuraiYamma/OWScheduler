@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>OWS - Players</title>
+    <title>OWS - Teams</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
@@ -30,13 +30,13 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="../../../index.html">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="teams.html">Teams</a>
+                <a class="nav-link active" href="teams.html">Teams</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="players.html">Players</a>
+                <a class="nav-link" href="players.html">Players</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Schedule</a>
@@ -80,39 +80,35 @@
 <div class="container" style="margin-top:30px">
 
     <h3>
-        Players
+        Teams
     </h3>
     <!--TODO: Search Bar-->
-    <form class="form-inline" action="/action_page.php">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search">
-        <button class="btn btn-success" type="submit">Search</button>
+    <form class="form-inline" method="get" action=".">
+        <input id="team_search" name="team_search" class="form-control mr-sm-2" type="text" placeholder="Search">
+        <button id="team_search_submit" class="btn btn-success" type="submit">Search</button>
     </form>
-    <!--TODO: Players List-->
+    <!--TODO: Team List-->
     <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>BNet</th>
-            <th>Team</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>SamuraiYamma#1467</td>
-            <td>LakeshoreWhite#2771</td>
-        </tr>
-        <tr>
-            <td>Scrub#15300</td>
-            <td>CarryMeDaddy#2231</td>
-        </tr>
-        <tr>
-            <td>NotASmurf#13452</td>
-            <td>CarryMeDaddy#1345</td>
-        </tr>
-        <tr>
-            <td>DELETEBRIG</td>
-            <td>MEMETEAM#6969</td>
-        </tr>
-        </tbody>
+        {% if team_list %}
+                <thead>
+                <tr>
+                    <th>Team</th>
+                    <th>ID</th>
+                </tr>
+                </thead>
+            <tbody>
+            {% for team in team_list %}
+                <tr>
+                    <a href="{% url 'scheduler:team_profile' teamID=team.teamID %}">
+                    <td>{{ team.teamAlias }}></td>
+                    <td>{{ team.teamID }}</td>
+                    </a>
+                </tr>
+            {% endfor %}
+            </tbody>
+        {% else %}
+            <tbody>Sorry, there's nothing that matches your search.</tbody>
+        {% endif %}
     </table>
 </div>
 
