@@ -30,22 +30,23 @@
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav mr-auto">
-            <!--TODO: Change which link is active-->
-            <li class="nav-item ">
-                <a class="nav-link" href="#">Home</a>
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'scheduler:home' %}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Teams</a>
+                <a class="nav-link" href="{% url 'scheduler:teams' %}">Teams</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Players</a>
+                <a class="nav-link" href="{% url 'scheduler:players' %}">Players</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Schedule</a>
             </li>
+            {% if user.is_authenticated and user_team %}
             <li class="nav-item">
-                <a class="nav-link" href="#">My Team</a>
+                <a class="nav-link" href="{% url 'scheduler:team_profile' teamID=user_team %}">My Team</a>
             </li>
+            {% endif %}
 
         </ul>
         <!-- Align Right from Here-->

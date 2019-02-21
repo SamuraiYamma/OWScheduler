@@ -30,20 +30,22 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="../../../index.html">Home</a>
+                <a class="nav-link" href="{% url 'scheduler:home' %}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="teams.html">Teams</a>
+                <a class="nav-link active" href="{% url 'scheduler:teams' %}">Teams</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="players.html">Players</a>
+                <a class="nav-link" href="{% url 'scheduler:players' %}">Players</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Schedule</a>
             </li>
+            {% if user.is_authenticated and user_team %}
             <li class="nav-item">
-                <a class="nav-link" href="#">My Team</a>
+                <a class="nav-link" href="{% url 'scheduler:team_profile' teamID=user_team %}">My Team</a>
             </li>
+            {% endif %}
 
         </ul>
         <!-- Align Right from Here-->
@@ -118,19 +120,17 @@
                     <td>{{ team.teamAlias }}</td>
                     <td>{{ team.teamID }}</td>
                     {% if user.is_authenticated %}
-                        {% if users_current_team != team.teamID %}
-                            <td><form method="get" action="">
+                        {% if user_team != team.teamID %}
+                            <td><form method="get" action="{% url 'scheduler:join_team' teamID=team.teamID username=user.username %}">
                                 {% csrf_token %}
-                                <button class="btn btn-success" type="submit"
-                                        onclick="{% url 'scheduler:join_team' teamID=team.teamID username=user.username %}">
+                                <button class="btn btn-success" type="submit">
                                     Join Team</button>
                             </form></td>
-                        {% elif users_current_team == team.teamID %}
+                        {% elif user_team == team.teamID %}
                                 <td>
-                                    <form method="get" action=".">
+                                    <form method="get" action="{% url 'scheduler:leave_team' teamID=team.teamID username=user.username %}">
                                         {% csrf_token %}
-                                    <button class="btn btn-warning" type="submit"
-                                        onclick="{% url 'scheduler:leave_team' teamID=team.teamID username=user.username %}">
+                                    <button class="btn btn-warning" type="submit">
                                         Leave Team</button>
                                     </form>
                                 </td>
