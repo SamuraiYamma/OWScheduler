@@ -1,15 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Registration</title>
-</head>
-<body>
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'scheduler/create_player.css' %}">
+<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+<div id="wrapper">
+    <h2>New User</h2>
     <!--- this form should eventually action url to home or to login page --->
-    <form action="." method="post">
+    <form action="{% url 'scheduler:register' %}" method="post">
         {%  csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit">
+        <table>
+            <tr>
+                <td>{{ form.first_name.label_tag }}</td>
+                <td>{{ form.first_name }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.last_name.label_tag }}</td>
+                <td>{{ form.last_name }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.email.label_tag }}</td>
+                <td>{{ form.email }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.battlenetID.label_tag }}</td>
+                <td>{{ form.battlenetID }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.password1.label_tag }}</td>
+                <td>{{ form.password1 }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.password1.help_text }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.password2.label_tag }}</td>
+                <td>{{ form.password2 }}</td>
+            </tr>
+            {% for error in form.error_messages %}
+                <tr>
+                    <td class="form-error">{{ error }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div id="form-submit-container">
+            <button type="submit" id="form-submit">Submit</button>
+        </div>
     </form>
+</div>
 </body>
 </html>

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!--TODO: Add title-->
-    <title>[TITLE]</title>
+    <title>OWS - Teams</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
@@ -31,36 +30,36 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'scheduler:home' %}">Home</a>
+                <a class="nav-link" href="{% url 'scheduler:home' %}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'scheduler:teams' %}">Teams</a>
+                <a class="nav-link active" href="{% url 'scheduler:teams' %}">Teams</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'scheduler:players' %}">Players</a>
             </li>
             <li class="nav-item">
-<<<<<<< HEAD
-                <a class="nav-link" href="#">My Team</a>
+<<<<<<< HEAD:teams.html
+                <a class="nav-link" href="myteam.html">My Team</a>
 =======
                 <a class="nav-link" href="#">Schedule</a>
             </li>
             {% if user.is_authenticated and user_team %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'scheduler:team_profile' teamID=user_team %}">My Team</a>
->>>>>>> master
+>>>>>>> master:scheduler/templates/scheduler/teams.html
             </li>
             {% endif %}
 
         </ul>
         <!-- Align Right from Here-->
         <ul class="navbar-nav">
-        {% if not user.is_authenticated %}
+            {% if not user.is_authenticated %}
             <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
                 Login
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-                <form method="post" action="">
+                <form method="post" action=".">
                     {% csrf_token %}
                     <table>
 
@@ -100,7 +99,83 @@
 </nav>
 
 <div class="container" style="margin-top:30px">
-    <!--TODO: Add body-->
+
+    <h3>
+        Teams
+    </h3>
+    <!--TODO: Search Bar-->
+    <form class="form-inline" method="get" action=".">
+        <input id="team_search" name="team_search" class="form-control mr-sm-2" type="text" placeholder="Search">
+        <button id="team_search_submit" class="btn btn-success" type="submit">Search</button>
+    </form>
+    <!--TODO: Team List-->
+    <table class="table table-hover">
+<<<<<<< HEAD:teams.html
+        <thead>
+        <tr>
+            <th>Team</th>
+            <th>ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Team One</td>#
+            <td>0001</td>
+        </tr>
+        <tr>
+            <td>Team Two</td>
+            <td>0010</td>
+        </tr>
+        <tr>
+            <td>Team Three</td>
+            <td>0011</td>
+        </tr>
+        <tr>
+            <td>Team Four</td>
+            <td>0100</td>
+        </tr>
+        </tbody>
+=======
+        {% if team_list %}
+                <thead>
+                <tr>
+                    <th>Team</th>
+                    <th>ID</th>
+                    <th>Join/Leave Team</th>
+                </tr>
+                </thead>
+            <tbody>
+            {% for team in team_list %}
+                <tr onclick="location.href='{% url 'scheduler:team_profile' teamID=team.teamID %}'">
+                    <td>{{ team.teamAlias }}</td>
+                    <td>{{ team.teamID }}</td>
+                    {% if user.is_authenticated %}
+                        {% if user_team != team.teamID %}
+                            <td><form method="get" action="{% url 'scheduler:join_team' teamID=team.teamID username=user.username %}">
+                                {% csrf_token %}
+                                <button class="btn btn-success" type="submit">
+                                    Join Team</button>
+                            </form></td>
+                        {% elif user_team == team.teamID %}
+                                <td>
+                                    <form method="get" action="{% url 'scheduler:leave_team' teamID=team.teamID username=user.username %}">
+                                        {% csrf_token %}
+                                    <button class="btn btn-warning" type="submit">
+                                        Leave Team</button>
+                                    </form>
+                                </td>
+                        {% endif %}
+                    {% else %}
+                        <td><button met class="btjoinn btn-success" type="submit" disabled>Join Team</button></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        {% else %}
+            <tbody>Sorry, there's nothing that matches your search.</tbody>
+        {% endif %}
+>>>>>>> master:scheduler/templates/scheduler/teams.html
+    </table>
 </div>
 
 <!-- Footer in a non footer location. Huh?-->

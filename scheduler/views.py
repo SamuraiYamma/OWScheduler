@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import get_object_or_404, render, render_to_response
+from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.db.models import Q
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect, HttpResponse
@@ -11,38 +11,45 @@ from dal import autocomplete
 from .models import Player, Team, Match, TimeSlot
 from .forms import PlayerCreationForm, PlayerChangeForm
 
-""" Home page that also manages login and it's form """
+""" view that handles logging in the current user and returns login form and authenticated user """
 
 
-def home(request):
-    user = None
-    form = AuthenticationForm()
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            form.clean()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                # or any other success page
-                return render(request, 'scheduler/default.html')
-
-    context = {
-        'form': form,
-        'user': user,
-    }
-
-    return render(request, 'scheduler/default.html', context)
+def user_login(request):
+    if not request.user.is_authenticated:
+        user = None
+        form = AuthenticationForm()
+        user_team = None
+        if request.method == 'POST':
+            form = AuthenticationForm(data=request.POST)
+            if form.is_valid():
+                form.clean()
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    user_team = Player.objects.get(username=user.username).team_id
+        return {'login_form': form, 'user': user, 'user_team': user_team}
+    else:
+        user_team = Player.objects.get(username=request.user.username).team_id
+    return {'user_team': user_team}
 
 
-""" view that handles logging out the current user. """
+""" view that handles logging out the current user. Redirects to home page after. """
 
 
 def user_logout(request):
     logout(request)
-    return render(request, 'scheduler/default.html')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+""" Home page """
+
+
+def home(request):
+    context = user_login(request)
+
+    return render(request, 'scheduler/default.html', context)
 
 
 """ WARINING: this is currently useless. """
@@ -65,8 +72,6 @@ class Home(View):
                 # or any other success page
                 return render(self.request, 'scheduler/default.html')
 
-
-
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data()
     #     context['form'] = AuthenticationForm()
@@ -81,7 +86,14 @@ Goes to the players page using the list of players sorted by battletags
 
 def players(request):
     player_list = Player.objects.order_by('-battlenetID')
-    context = {'player_list': player_list}
+    if request.method == "GET":
+        search_query = request.GET.get('player_search', None)
+        if search_query:
+            player_list = Player.objects.filter(battlenetID__icontains=search_query)
+
+    context = {
+        'player_list': player_list,
+    }
     return render(request, 'scheduler/players.html', context)
 
 
@@ -99,19 +111,39 @@ def player_profile(request, username):
 def account(request, username):
     player = get_object_or_404(Player, username=username)
     form = PlayerChangeForm
-    context = {
+
+    context = user_login(request)
+    context.update({
         'form': form,
         'player': player,
-    }
+    })
     return render(request, 'scheduler/account.html', context)
+
+
+def set_availability(request, username):
+    context = user_login(request)
+    if request.user.is_authenticated:
+        print("validated user")
+
+    return render(request, 'scheduler/set_availability.html', context)
 
 
 """ displays the page that lists all the teams, sorted by their teamID """
 
 
 def teams(request):
+    user = request.user
     team_list = Team.objects.order_by('-teamID')
-    context = {'team_list': team_list}
+    if request.method == 'GET':
+        search_query = request.GET.get('team_search', None)
+        if search_query:
+            if search_query.isdigit():
+                team_list = Team.objects.filter(teamID__exact=int(search_query))
+            else:
+                team_list = Team.objects.filter(teamAlias__icontains=search_query)
+
+    context = user_login(request)
+    context['team_list'] = team_list
     return render(request, 'scheduler/teams.html', context)
 
 
@@ -121,7 +153,7 @@ def teams(request):
 class TeamAutoComplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
 
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return Team.objects.none()
 
         queryset = Team.objects.filter(is_active=True)
@@ -135,17 +167,38 @@ class TeamAutoComplete(autocomplete.Select2QuerySetView):
 """ displays the profile page for a team """
 
 
-def teamProfile(request, teamID):
-    team = get_object_or_404(Team, pk=teamID)
-    return render(request, 'scheduler/teamProfile.html')
+def team_profile(request, teamID):
+    team = get_object_or_404(Team, teamID=teamID)
+    context = user_login(request)
+    context['current_team'] = team
+    return render(request, 'scheduler/team_profile.html', context)
 
 
-""" view to add a new user """
+def join_team(request, teamID, username):
+    if request.method == 'GET':
+        player_set = Player.objects.filter(username=username).update(team=teamID)
+    return redirect('scheduler:teams')
+
+
+def leave_team(request, teamID, username):
+    if request.method == 'GET':
+        player_set = Player.objects.filter(username=username).update(team=None)
+    return redirect('scheduler:teams')
+
+
+""" view to add a new user and log them in """
 
 
 def register(request):
     if request.method == 'POST':
         form = PlayerCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('scheduler:home')
     else:
         form = PlayerCreationForm()
 
