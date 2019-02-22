@@ -11,7 +11,7 @@ auto-increment an ID for each.
 
 
 class Team(models.Model):
-    teamID = models.AutoField(primary_key=True)
+    teamID = models.IntegerField(primary_key=True)
     teamAlias = models.CharField(max_length=32)
     team_admin = models.ForeignKey('Player', blank=True, null=True, on_delete=models.SET_NULL,
                                    related_name='team_admin')

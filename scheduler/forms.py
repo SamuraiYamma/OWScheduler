@@ -72,7 +72,6 @@ class DetailedPlayerModelMultipleChoiceField(ModelMultipleChoiceField):
 
 
 class AddToTeamForm(forms.ModelForm):
-    id = forms.IntegerField()  # simply for display
 
     players = DetailedPlayerModelMultipleChoiceField(
         label='Players',
@@ -84,19 +83,15 @@ class AddToTeamForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AddToTeamForm, self).__init__(*args, **kwargs)
-        self.fields['id'].disabled = True  # disable editing b/c id field automatically increments
         instance = getattr(self, 'instance', None)
-        if instance and instance.teamID:
-            # set id field to teamID value
-            self.fields['id'].initial = instance.teamID
-
+        if instance:
             # set players on team to already be selected
             self.fields['players'].initial = Player.objects.filter(team=instance.teamID)
 
     def clean_players(self):
         value = self.cleaned_data['players']
-        if len(value) > 6:
-            raise forms.ValidationError('Only 6 players can be on a team!')
+        # if len(value) > 6:
+        #     raise forms.ValidationError('Only 6 players can be on a team!')
         return value
 
     def save(self, commit=True):
@@ -111,4 +106,4 @@ class AddToTeamForm(forms.ModelForm):
 
     class Meta:
         model = Team
-        fields = ('teamAlias', 'id', 'players', 'is_active')
+        fields = ('teamAlias', 'teamID', 'players', 'is_active')
