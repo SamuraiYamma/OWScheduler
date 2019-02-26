@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.db.models import Q
 from django.contrib.auth.forms import AuthenticationForm
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.views.generic import TemplateView, View
 from django.conf import settings
 
@@ -35,48 +35,22 @@ def user_login(request):
     return {'user_team': user_team}
 
 
-""" view that handles logging out the current user. Redirects to home page after. """
+""" view that handles logging out the current user. Redirects to previous page after, or home if it can't. """
 
 
 def user_logout(request):
+    next = request.GET.get('next', '/')  # stores previous page, otherwise home
     logout(request)
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect(next)  # temporary redirect
 
 
 """ Home page """
 
 
 def home(request):
-    context = user_login(request)
+    context = user_login(request)  # has user, user_team, and login_form
 
     return render(request, 'scheduler/default.html', context)
-
-
-""" WARINING: this is currently useless. """
-
-
-class Home(View):
-
-    def get(self, request, *args, **kwargs):
-        return render(request, 'scheduler/default.html')
-
-    def post(self):
-        form = AuthenticationForm(data=self.request.POST)
-        if form.is_valid():
-            form.clean()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(self.request, username=username, password=password)
-            if user is not None:
-                login(self.request, user)
-                # or any other success page
-                return render(self.request, 'scheduler/default.html')
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data()
-    #     context['form'] = AuthenticationForm()
-    #     context['user'] = None
-    #     return context
 
 
 """
@@ -87,7 +61,7 @@ Goes to the players page using the list of players sorted by battletags
 def players(request):
     player_list = Player.objects.order_by('-battlenetID')
     if request.method == "GET":
-        search_query = request.GET.get('player_search', None)
+        search_query = request.GET.get('player_search', None)  # get text from search
         if search_query:
             player_list = Player.objects.filter(battlenetID__icontains=search_query)
 
@@ -101,8 +75,11 @@ def players(request):
 
 
 def player_profile(request, username):
-    player = Player.objects.get(username=username)
-    return render(request, 'scheduler/player_profile.html', {'current_player': player})
+    try:
+        player = Player.objects.get(username=username)
+        return render(request, 'scheduler/player_profile.html', {'current_player': player})
+    except Player.DoesNotExist:
+        raise Http404
 
 
 """ displays the player account info """
@@ -110,14 +87,16 @@ def player_profile(request, username):
 
 def account(request, username):
     player = get_object_or_404(Player, username=username)
-    form = PlayerChangeForm
+    if player == request.user or request.user.is_superuser:
+        form = PlayerChangeForm
 
-    context = user_login(request)
-    context.update({
-        'form': form,
-        'player': player,
-    })
-    return render(request, 'scheduler/account.html', context)
+        context = user_login(request)
+        context.update({
+            'form': form,
+            'player': player,
+        })
+        return render(request, 'scheduler/account.html', context)
+    return render(request, 'scheduler/permission_denied.html')
 
 
 def set_availability(request, username):
@@ -175,14 +154,22 @@ def team_profile(request, teamID):
 
 
 def join_team(request, teamID, username):
-    if request.method == 'GET':
-        player_set = Player.objects.filter(username=username).update(team=teamID)
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            player_set = Player.objects.filter(username=username).update(team=teamID)
+    else:
+        error_message = "You cannot join a team until you are logged in."
+        return redirect('scheduler: teams', {'error_message': error_message})
     return redirect('scheduler:teams')
 
 
 def leave_team(request, teamID, username):
-    if request.method == 'GET':
-        player_set = Player.objects.filter(username=username).update(team=None)
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            player_set = Player.objects.filter(username=username).update(team=None)
+    else:
+        error_message = "You cannot leave a team until you are logged in."
+        return redirect('scheduler: teams', {'error_message': error_message})
     return redirect('scheduler:teams')
 
 
@@ -207,3 +194,18 @@ def register(request):
     }
 
     return render(request, 'scheduler/create_player.html', context)
+
+
+"""  using https://stackoverflow.com/questions/17662928/django-creating-a-custom-500-404-error-page """
+
+
+def handler404(request, exception, template_name="scheduler/404.html"):
+    response = render_to_response("scheduler/404.html")
+    response.status_code = 404
+    return response
+
+
+def handler500(request, exception, template_name="scheduler/500.html"):
+    response = render_to_response("scheduler/500.html")
+    response.status_code = 500
+    return response

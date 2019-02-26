@@ -86,7 +86,7 @@
             <div class="dropdown-menu dropdown-menu-right">
                 <table>
                     <tr>
-                        <td><button type="button" onclick="location.href='{% url 'scheduler:user_logout' %}'">Logout</button></td>
+                        <td><button type="button" onclick="location.href='{% url 'scheduler:user_logout' %}?next={{ request.path }}'">Logout</button></td>
                     </tr>
                 </table>
             </div>

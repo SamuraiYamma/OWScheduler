@@ -18,3 +18,6 @@ urlpatterns = [
     # path('accounts/reset-password-done', auth_views.PasswordChangeDoneView.as_view, name='reset-password-done'),
     url(r'^team-autocomplete/$', TeamAutoComplete.as_view(), name='team-autocomplete')
 ]
+
+handler404 = 'scheduler.views.handler404'
+handler500 = 'scheduler.views.handler500'

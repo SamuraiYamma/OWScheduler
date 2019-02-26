@@ -22,15 +22,6 @@ class PlayerCreationForm(UserCreationForm):
             'password1',
             'password2',
         )
-        # widgets = {
-        #     'first_name': forms.TextInput(attrs={'class':'form-field'}),
-        #     'last_name': forms.TextInput(attrs={'class':'form-field'}),
-        #     'email': forms.EmailInput(attrs={'class':'form-field'}),
-        #     'battlenetID': forms.TextInput(attrs={'class':'form-field'}),
-        #     'username': forms.TextInput(attrs={'class':'form-field'}),
-        #     'password1': forms.PasswordInput(attrs={'class':'form-field'}),
-        #     'password2': forms.PasswordInput(attrs={'class':'form-field'}),
-        # }
 
 
 """ The form used to change a player's information """
@@ -42,9 +33,6 @@ class PlayerChangeForm(UserChangeForm):
         widget=autocomplete.ModelSelect2(url='team-autocomplete'),
         label="Team"
     )
-
-    def __init__(self, *args, **kargs):
-        super(PlayerChangeForm, self).__init__(*args, **kargs)
 
     class Meta(UserChangeForm.Meta):
         model = Player
