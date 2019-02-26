@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>OWS - Players</title>
+    <!--TODO: Add title-->
+    <title>[TITLE]</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
@@ -29,31 +30,24 @@
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'scheduler:home' %}">Home</a>
+            <!--TODO: Change which link is active-->
+            <li class="nav-item ">
+                <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'scheduler:teams' %}">Teams</a>
+                <a class="nav-link" href="teams.html">Teams</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'scheduler:players' %}">Players</a>
+                <a class="nav-link" href="players.html">Players</a>
             </li>
             <li class="nav-item">
-<<<<<<< HEAD:players.html
                 <a class="nav-link" href="myteam.html">My Team</a>
-=======
-                <a class="nav-link" href="#">Schedule</a>
             </li>
-            {% if user.is_authenticated and user_team %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'scheduler:team_profile' teamID=user_team %}">My Team</a>
->>>>>>> master:scheduler/templates/scheduler/players.html
-            </li>
-            {% endif %}
+
         </ul>
         <!-- Align Right from Here-->
         <ul class="navbar-nav">
-               {% if not user.is_authenticated %}
+            {% if not user.is_authenticated %}
             <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
                 Login
             </button>
@@ -63,74 +57,42 @@
                     <table>
 
                         <tr>
-                            <td>{{ login_form.username.label_tag }}</td>
-                            <td>{{ login_form.username }}</td>
+                            <td>{{ form.username.label_tag }}</td>
+                            <td>{{ form.username }}</td>
                         </tr>
                         <tr>
-                            <td>{{ login_form.password.label_tag }}</td>
-                            <td>{{ login_form.password }}</td>
+                            <td>{{ form.password.label_tag }}</td>
+                            <td>{{ form.password }}</td>
                         </tr>
                     </table>
                     <input type="submit" class="btn btn-primary" value="Login">
                 </form>
                 {% if form.errors or form.non_field_errors %}
-                    <p>Something went wrong here.</p>
+                <p>Something went wrong here.</p>
                 {% endif %}
             </div>
 
             <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'scheduler:register' %}'">
                 Register
             </button>
-        {% elif user.is_authenticated %}
+            {% elif user.is_authenticated %}
             <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
-            Hi, {{ user.username }}
+                Hi, {{ user.username }}
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <table>
                     <tr>
-                        <td><button type="button" onclick="location.href='{% url 'scheduler:user_logout' %}?next={{ request.path }}'">Logout</button></td>
+                        <td><button type="button" onclick="location.href='{% url 'scheduler:user_logout' %}'">Logout</button></td>
                     </tr>
                 </table>
             </div>
-        {% endif %}
+            {% endif %}
         </ul>
     </div>
 </nav>
 
 <div class="container" style="margin-top:30px">
-
-    <h3>
-        Players
-    </h3>
-    <!--TODO: Search Bar-->
-    <form method="get" class="form-inline" action=".">
-        <input id="player_search" name="player_search" class="form-control mr-sm-2" type="text" placeholder="Search">
-        <button class="btn btn-success" type="submit">Search</button>
-    </form>
-    <!--TODO: Players List-->
-    <table class="table table-hover">
-        {% if player_list %}
-            <thead>
-            <tr>
-                <th>BattleTag</th>
-                <th>Team</th>
-                <th>University</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for player in player_list %}
-            <tr onclick="location.href='{% url 'scheduler:player_profile' username=player.username %}'">
-                <td>{{ player.battlenetID }}</td>
-                <td>{{ player.team }}</td>
-                <td>{{ player.university }}</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-
-        {% else %}
-            <tbody>Sorry, your search didn't return anything.</tbody>
-        {% endif %}
-    </table>
+    <!--TODO: Add body-->
 </div>
 
 <!-- Footer in a non footer location. Huh?-->

@@ -1,10 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+    <<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <title>OWS - Login</title>
+    <style>
+
+    </style>
 </head>
 <body>
-<p>here is the login page...</p>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-md sticky-top bg-dark navbar-dark" style="margin-top: 5%">
+        <a class="navbar-brand" href="#">OWS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'scheduler:home' %}">Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="row" style="margin-top: 7% ">
+        <div class="col-sm-4">
+        </div>
+        <div class="jumbotron col-sm-4">
+            <form method="post" action="">
+                {% csrf_token %}
+                <table>
+
+                    <tr>
+                        <td>{{ login_form.username.label_tag }}</td>
+                        <td>{{ login_form.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ login_form.password.label_tag }}</td>
+                        <td>{{ login_form.password }}</td>
+                    </tr>
+                </table>
+                <input type="submit" class="btn btn-primary" value="Login">
+            </form>
+            {% if form.errors or form.non_field_errors %}
+            <p>Something went wrong here.</p>
+            {% endif %
+            <!--TODO: Modify these with links-->
+            <h6 class="text-*-center">
+                <small>
+                    Forget your username? Click here to recover it.
+                </small>
+            </h6>
+            <h6 class="text-*-center">
+                <small>
+                    Forget your password? Click here to recover it.
+                </small>
+            </h6>
+            <h6 class="text-*-center">
+                <small>
+                    Create Account
+                </small>
+            </h6>
+        </div>
+        <div class="col-sm-4">
+        </div>
+    </div>
+</div>
+
+<div class="jumbotron text-center" style="margin-top:7%">
+    <div class="row">
+        <div class = "col-sm-4">
+            <h3>Contact Us</h3>
+            <p>[Leave some way to contact us here]</p>
+        </div>
+        <div class = "col-sm-4">
+            <h3>[empty]</h3>
+            <p>[???]</p>
+        </div>
+        <div class = "col-sm-4">
+            <h3>Links</h3>
+            <p>[links to whatever we want]</p>
+        </div>
+    </div>
+</div>
 </body>
 </html>
