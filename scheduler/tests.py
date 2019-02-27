@@ -1,6 +1,6 @@
 from django.test import TestCase, RequestFactory
 from django.db import IntegrityError
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import reverse
 
@@ -214,22 +214,22 @@ class ViewTests(TestCase):
 
     #  player account tests
     def test_nonexistent_player_account(self):
-        request = self.client.get('/players/not_a_user/account')
+        request = self.client.get('/players/not_a_user/account/')
         self.assertEqual(request.status_code, 404)
 
     def test_wrong_account(self):
         self.client.login(username='test_user', password='test_password')
-        request = self.client.get('/players/test_user2/account')
+        request = self.client.get('/players/test_user2/account/')
         self.assertTemplateUsed('scheduler/permission_denied.html')
 
     def test_admin_account_access(self):
         self.client.login(username='test_admin', password='admin')
-        request = self.client.get('/players/test_user2/account')
+        request = self.client.get('/players/test_user2/account/')
         self.assertTemplateUsed('scheduler/account.html')
 
     def test_correct_account(self):
         self.client.login(username='test_user', password='test_password')
-        request = self.client.get('/players/test_user/account')
+        request = self.client.get('/players/test_user/account/')
         self.assertTemplateUsed('scheduler/account.html')
 
     #  teams tests
@@ -237,7 +237,66 @@ class ViewTests(TestCase):
         self.client.get(reverse('scheduler:teams'))
         self.assertTemplateUsed('scheduler/teams.html')
 
+    def test_teams_search_alias(self):
+        request = self.client.get(reverse('scheduler:teams'), {'team_search': 'test'})
+        self.assertEqual(request.context['team_list'][0], Team.objects.get(teamID=1))
 
+    def test_teams_search_id(self):
+        request = self.client.get(reverse('scheduler:teams'), {'team_search': '1'})
+        self.assertEqual(request.context['team_list'][0], Team.objects.get(teamID=1))
 
+    def test_teams_search_fail(self):
+        request = self.client.get(reverse('scheduler:teams'), {'team_search': 'nothing_here'})
+        self.assertEqual(len(request.context['team_list']), 0)
 
+    #  team profile tests
+    def test_team_profile_valid(self):
+        request = self.client.get('/teams/1/')
+        self.assertTemplateUsed('scheduler/team_profile.html')
+        self.assertEqual(request.status_code, 200)
+
+    def test_team_profile_fail(self):
+        request = self.client.get('/teams/not_a_team/')
+        self.assertEqual(request.status_code, 404)
+
+    #  join team tests
+    def test_join_team_authenticated(self):
+        self.client.login(username='test_user2', password='test_password2')
+        request = self.client.get('/join_team/1/test_user2/')
+        self.assertEqual(Player.objects.get(username='test_user2').team.teamID, 1)
+
+    def test_join_team_not_authenticated(self):
+        self.client.logout()
+        request = self.client.get('/join_team/1/test_user2/')
+        self.assertIsNotNone(messages.get_messages(request))
+
+    def test_join_team_wrong_user(self):
+        self.client.login(username='test_user', password='test_password')
+        request = self.client.get('/join_team/1/test_user2/')
+        self.assertRedirects(request, reverse('scheduler:teams'))
+
+    #  leave team tests
+    def test_leave_team_authenticated(self):
+        self.client.login(username='test_user2', password='test_password2')
+        request = self.client.get('/leave_team/test_user2/')
+        self.assertIsNone(Player.objects.get(username='test_user2').team)
+
+    def test_leave_team_not_authenticated(self):
+        self.client.logout()
+        request = self.client.get('/leave_team/test_user/')
+        self.assertIsNotNone(messages.get_messages(request))
+
+    def test_leave_team_wrong_user(self):
+        self.client.login(username='test_user', password='test_password')
+        request = self.client.get('/leave_team/test_user2/')
+        self.assertRedirects(request, reverse('scheduler:teams'))
+
+    #  register tests
+    def test_register_template(self):
+        request = self.client.get(reverse('scheduler:register'))
+        self.assertTemplateUsed('scheduler/create_player.html')
+
+    def test_register_uses_form(self):
+        request = self.client.get(reverse('scheduler:register'))
+        self.assertIsNotNone(request.context['form'])
 

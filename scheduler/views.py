@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.views.generic import TemplateView, View
 from django.conf import settings
+from django.contrib import messages
 
 from dal import autocomplete
 
@@ -65,9 +66,10 @@ def players(request):
         if search_query:
             player_list = Player.objects.filter(battlenetID__icontains=search_query)
 
-    context = {
+    context = user_login(request)
+    context.update({
         'player_list': player_list,
-    }
+    })
     return render(request, 'scheduler/players.html', context)
 
 
@@ -122,7 +124,7 @@ def teams(request):
                 team_list = Team.objects.filter(teamAlias__icontains=search_query)
 
     context = user_login(request)
-    context['team_list'] = team_list
+    context.update({'team_list': team_list})
     return render(request, 'scheduler/teams.html', context)
 
 
@@ -154,22 +156,20 @@ def team_profile(request, teamID):
 
 
 def join_team(request, teamID, username):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and (request.user.username == username or request.user.is_superuser):
         if request.method == 'GET':
             player_set = Player.objects.filter(username=username).update(team=teamID)
     else:
-        error_message = "You cannot join a team until you are logged in."
-        return redirect('scheduler: teams', {'error_message': error_message})
+        messages.add_message(request, messages.ERROR, "You cannot join a team until you are logged in correctly.")
     return redirect('scheduler:teams')
 
 
-def leave_team(request, teamID, username):
-    if request.user.is_authenticated:
+def leave_team(request, username):
+    if request.user.is_authenticated and (request.user.username == username or request.user.is_superuser):
         if request.method == 'GET':
             player_set = Player.objects.filter(username=username).update(team=None)
     else:
-        error_message = "You cannot leave a team until you are logged in."
-        return redirect('scheduler: teams', {'error_message': error_message})
+        messages.add_message(request, messages.ERROR, "You cannot join a team until you are logged in correctly.")
     return redirect('scheduler:teams')
 
 
@@ -185,7 +185,10 @@ def register(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
+            messages.add_message(request, messages.SUCCESS, "Your account has been created successfully!")
             return redirect('scheduler:home')
+        else:
+            messages.add_message(request, messages.ERROR, "There was a problem creating your account.")
     else:
         form = PlayerCreationForm()
 

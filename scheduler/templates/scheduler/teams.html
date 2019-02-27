@@ -132,7 +132,7 @@
                             </form></td>
                         {% elif user_team == team.teamID %}
                                 <td>
-                                    <form method="get" action="{% url 'scheduler:leave_team' teamID=team.teamID username=user.username %}">
+                                    <form method="get" action="{% url 'scheduler:leave_team' username=user.username %}">
                                         {% csrf_token %}
                                     <button class="btn btn-warning" type="submit">
                                         Leave Team</button>

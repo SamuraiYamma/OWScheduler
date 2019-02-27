@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractUser
 
 """
 The Team model identifies an ID and Alias as identifiers. Although teams can have the same alias, our database will
-auto-increment an ID for each.
+ need a unique ID for each.
 """
 
 
