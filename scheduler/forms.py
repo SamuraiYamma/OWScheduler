@@ -1,6 +1,9 @@
+import re
+
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
 from django.forms.models import ModelMultipleChoiceField
+from django.forms import ValidationError
 
 from dal import autocomplete
 
@@ -11,14 +14,49 @@ from .models import Player, Team
 
 
 class PlayerCreationForm(UserCreationForm):
+    username = forms.CharField(label='Enter Username', min_length=4, max_length=150)
+    email = forms.EmailField(label='Enter Email')
+    battlenetID = forms.CharField(label='Enter BattleTag')
+
+    def clean_username(self):
+        username = self.cleaned_data['username'].lower()
+        r = Player.objects.filter(username=username)
+        if r.count():
+            raise ValidationError("Username already exists")
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data['email'].lower()
+        r = Player.objects.filter(email=email)
+        if r.count():
+            raise ValidationError("Email already exists")
+        return email
+
+    def clean_battlenetID(self):
+        battlenetID = self.cleaned_data['battlenetID'].lower()
+        pattern = re.compile("[a-zA-Z][a-zA-Z0-9]{2,11}#[0-9]{4,5}")
+        if not pattern.match(battlenetID):
+            raise ValidationError("BattleTag is not valid.")
+        r = Player.objects.filter(battlenetID=battlenetID)
+        if r.count():
+            raise ValidationError("BattleTag already in use.")
+        return battlenetID
+
+    def save(self, commit=True):
+        user = Player.objects.create_user(
+            self.cleaned_data['username'],
+            self.cleaned_data['email'],
+            self.cleaned_data['password1'],
+        )
+        user.battlenetID = self.cleaned_data['battlenetID']
+        return user
+
     class Meta(UserCreationForm):
         model = Player
         fields = (
-            'first_name',
-            'last_name',
             'email',
-            'battlenetID',
             'username',
+            'battlenetID',
             'password1',
             'password2',
         )

@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import get_object_or_404, render, render_to_response, redirect
+from django.shortcuts import get_object_or_404, render, render_to_response, redirect, reverse
 from django.db.models import Q
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect, HttpResponse, Http404
@@ -50,7 +50,6 @@ def user_logout(request):
 
 def home(request):
     context = user_login(request)  # has user, user_team, and login_form
-
     return render(request, 'scheduler/default.html', context)
 
 
@@ -186,7 +185,7 @@ def register(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.add_message(request, messages.SUCCESS, "Your account has been created successfully!")
-            return redirect('scheduler:home')
+            return HttpResponseRedirect(reverse('scheduler:home'))
         else:
             messages.add_message(request, messages.ERROR, "There was a problem creating your account.")
     else:

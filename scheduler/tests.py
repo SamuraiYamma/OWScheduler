@@ -8,6 +8,7 @@ from .models import Player, Team, Match, TimeSlot
 from . import views
 from scheduler import urls
 
+""" tests for accessing objects of the Player model and their team """
 
 class PlayerModelTests(TestCase):
 
@@ -68,6 +69,9 @@ class PlayerModelTests(TestCase):
             newUser0.team = 3
 
 
+""" tests for accessing the Team model objects and their information via alias and id """
+
+
 class TeamModelTests(TestCase):
 
     def setUp(self):
@@ -76,7 +80,7 @@ class TeamModelTests(TestCase):
         Team.objects.create(teamID=1234, teamAlias="TeamWhite")
         Team.objects.create(teamID=12345, teamAlias="TeamWhite")
         Player.objects.create(battlenetID="NewUser#0000", username="NewUser0")
-        Player.objects.create(battlenetID="NewUser#1111", username="NewUser1")
+        Player.objects.create(battlepermissionsnetID="NewUser#1111", username="NewUser1")
 
     def test_str(self):
         team1 = Team.objects.get(teamID=1)
@@ -106,10 +110,7 @@ class TeamModelTests(TestCase):
             self.assertEqual(team.teamAlias, "TeamBlue")
 
 
-# class UrlTests(TestCase):
-
-    # def test_home(self):
-    #     self.assert
+""" tests for all the views along with their errors and weaknesses """
 
 
 class ViewTests(TestCase):
@@ -299,4 +300,6 @@ class ViewTests(TestCase):
     def test_register_uses_form(self):
         request = self.client.get(reverse('scheduler:register'))
         self.assertIsNotNone(request.context['form'])
+
+    
 
