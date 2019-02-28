@@ -38,19 +38,13 @@
             <li class="nav-item">
                 <a class="nav-link active" href="{% url 'scheduler:players' %}">Players</a>
             </li>
-            <li class="nav-item">
-<<<<<<< HEAD:players.html
-                <a class="nav-link" href="myteam.html">My Team</a>
-=======
-                <a class="nav-link" href="#">Schedule</a>
-            </li>
             {% if user.is_authenticated and user_team %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'scheduler:team_profile' teamID=user_team %}">My Team</a>
->>>>>>> master:scheduler/templates/scheduler/players.html
             </li>
             {% endif %}
         </ul>
+
         <!-- Align Right from Here-->
         <ul class="navbar-nav">
                {% if not user.is_authenticated %}
@@ -81,6 +75,7 @@
             <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'scheduler:register' %}'">
                 Register
             </button>
+
         {% elif user.is_authenticated %}
             <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
             Hi, {{ user.username }}

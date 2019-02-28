@@ -104,7 +104,8 @@ def set_availability(request, username):
     context = user_login(request)
     if request.user.is_authenticated:
         print("validated user")
-
+    timeslots = TimeSlot.objects.all()
+    context.update({'timeslots':timeslots})
     return render(request, 'scheduler/set_availability.html', context)
 
 

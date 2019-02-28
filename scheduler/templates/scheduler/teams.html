@@ -38,16 +38,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'scheduler:players' %}">Players</a>
             </li>
-            <li class="nav-item">
-<<<<<<< HEAD:teams.html
-                <a class="nav-link" href="myteam.html">My Team</a>
-=======
-                <a class="nav-link" href="#">Schedule</a>
-            </li>
+
             {% if user.is_authenticated and user_team %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'scheduler:team_profile' teamID=user_team %}">My Team</a>
->>>>>>> master:scheduler/templates/scheduler/teams.html
             </li>
             {% endif %}
 
@@ -140,7 +134,7 @@
                                 </td>
                         {% endif %}
                     {% else %}
-                        <td><button met class="btjoinn btn-success" type="submit" disabled>Join Team</button></td>
+                        <td><button met class="btn btn-success" type="submit" disabled>Join Team</button></td>
                     {% endif %}
                 </tr>
             {% endfor %}
