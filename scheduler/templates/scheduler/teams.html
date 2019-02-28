@@ -38,16 +38,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'scheduler:players' %}">Players</a>
             </li>
-            <li class="nav-item">
-<<<<<<< HEAD:teams.html
-                <a class="nav-link" href="myteam.html">My Team</a>
-=======
-                <a class="nav-link" href="#">Schedule</a>
-            </li>
+
             {% if user.is_authenticated and user_team %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'scheduler:team_profile' teamID=user_team %}">My Team</a>
->>>>>>> master:scheduler/templates/scheduler/teams.html
             </li>
             {% endif %}
 
@@ -110,32 +104,6 @@
     </form>
     <!--TODO: Team List-->
     <table class="table table-hover">
-<<<<<<< HEAD:teams.html
-        <thead>
-        <tr>
-            <th>Team</th>
-            <th>ID</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Team One</td>#
-            <td>0001</td>
-        </tr>
-        <tr>
-            <td>Team Two</td>
-            <td>0010</td>
-        </tr>
-        <tr>
-            <td>Team Three</td>
-            <td>0011</td>
-        </tr>
-        <tr>
-            <td>Team Four</td>
-            <td>0100</td>
-        </tr>
-        </tbody>
-=======
         {% if team_list %}
                 <thead>
                 <tr>
@@ -166,7 +134,7 @@
                                 </td>
                         {% endif %}
                     {% else %}
-                        <td><button met class="btjoinn btn-success" type="submit" disabled>Join Team</button></td>
+                        <td><button met class="btn btn-success" type="submit" disabled>Join Team</button></td>
                     {% endif %}
                 </tr>
             {% endfor %}
@@ -174,7 +142,6 @@
         {% else %}
             <tbody>Sorry, there's nothing that matches your search.</tbody>
         {% endif %}
->>>>>>> master:scheduler/templates/scheduler/teams.html
     </table>
 </div>
 

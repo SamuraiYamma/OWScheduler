@@ -15,4 +15,5 @@ urlpatterns = [
     path('logout/', views.user_logout, name='user_logout'),  # logout current user
     path('join_team/<int:teamID>/<str:username>', views.join_team, name='join_team'),
     path('leave_team/<int:teamID>/<str:username>', views.leave_team, name='leave_team'),
+    path('default/', views.available_slots, name='get_ava')
 ]

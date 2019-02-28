@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <title>OWS - Home</title>
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/js/bootstrap4-toggle.min.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
@@ -9,10 +11,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <style>
-        .fakeimg {
-            height: 200px;
-            background: #aaa;
-        }
+        .toggle.android { border-radius: 0px;}
+        .toggle.android .toggle-handle { border-radius: 0px; }
     </style>
 </head>
 <body>
@@ -75,36 +75,32 @@
 </nav>
 
 <div class="container" style="margin-top:30px">
-    <div class="row">
-        <div class="col-sm-6">
-            <h3> About </h3>
-            <p> Overwatch Scheduler was created as a semester long project at Grand Valley State University. It's purpose is to make it easier to schedule times to have matches with teams both internally and externally.</p>
-        </div>
-        <div class="col-sm-6">
-            <h3> News </h3>
-            <!--TODO: ADD UPDATE NEWS-->
-            <p> V.Alpha.01: adding pages, links and content to get a basic framework and idea.</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <h3> Teams </h3>
-            <p>Team integration is a vital part of this project. Here you can create a team or request to join one. Just keep in mind you can't be apart of more than one team.</p>
-            <!--<button type = "button" class="btn btn-primary active">Go to Teams page</button>-->
-            <a href="scheduler/templates/scheduler/teams.html" class="btn btn-primary">Go to Teams page</a>
-        </div>
-        <div class="col-sm-4">
-            <h3> Players </h3>
-            <p>Players are the core base of this application. Here you can find and add players to your team.</p>
-            <button type = "button" class="btn btn-primary active">Go to Players page</button>
-        </div>
-        <div class="col-sm-4">
-            <!--TODO: REMOVE SCHEDULE, REPLACE WITH A LINK TO LOGIN OR MYTEAM?-->
-            <h3> Schedule </h3>
-            <p>This is the bread and butter of what we do. Once you have a team roster of 6+ you can schedule matches between other teams. Once your roster is 12+ you can schedule internal matches between your own players.</p>
-            <button type = "button" class="btn btn-primary active">Go to Schedule page</button>
-        </div>
-    </div>
+    <form class="align-content-center" action="" method="post">
+        <table class="table table-bordered">
+            <thead>
+            <th scope="col">Time</th>
+            <th scope="col">Monday</th>
+            <th scope="col">Tuesday</th>
+            <th scope="col">Wednesday</th>
+            <th scope="col">Thursday</th>
+            <th scope="col">Friday</th>
+            <th scope="col">Saturday</th>
+            <th scope="col">Sunday</th>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">0000</th>
+                <td><input type="checkbox" data-on= "Available" data-off = "Not Available" checked data-toggle="toggle" data-style="android" data-onstyle="info"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
 </div>
 
 <!-- Footer in a non footer location. Huh?-->

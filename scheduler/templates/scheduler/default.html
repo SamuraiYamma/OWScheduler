@@ -4,8 +4,10 @@
     <title>OWS - Home</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/js/bootstrap4-toggle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <style>
@@ -38,16 +40,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'scheduler:players' %}">Players</a>
             </li>
-            <li class="nav-item">
-<<<<<<< HEAD
-                <a class="nav-link" href="#">My Team</a>
-=======
-                <a class="nav-link" href="#">Schedule</a>
-            </li>
             {% if user.is_authenticated and user_team %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'scheduler:team_profile' teamID=user_team %}">My Team</a>
->>>>>>> master
             </li>
             {% endif %}
 
@@ -124,7 +119,7 @@
         <div class="col-sm-4">
             <h3> Create Account </h3>
             <p>Create an account to use these features.</p>
-            <a href="{% url 'scheduler:registration' %}" class="btn btn-primary">Create Account</a>
+            <a href="{% url 'scheduler:register' %}" class="btn btn-primary">Create Account</a>
         </div>
     </div>
 </div>

@@ -124,7 +124,8 @@ def set_availability(request, username):
     context = user_login(request)
     if request.user.is_authenticated:
         print("validated user")
-
+    timeslots = TimeSlot.objects.all()
+    context.update({'timeslots':timeslots})
     return render(request, 'scheduler/set_availability.html', context)
 
 
@@ -198,12 +199,23 @@ def register(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('scheduler:home')
+            return redirect('/')
     else:
         form = PlayerCreationForm()
 
     context = {
         'form': form
     }
-
     return render(request, 'scheduler/create_player.html', context)
+
+def available_slots(request):
+    #TODO: Make this cleaner by removing for loop
+    # counts = TimeSlot.players_available.all().count()
+    list = TimeSlot.objects.all()
+    # for i in counts:
+    #     print(i)
+    context = user_login(request)
+    context['times'] = list
+    return render(request, 'scheduler/default.html', context)
+
+
