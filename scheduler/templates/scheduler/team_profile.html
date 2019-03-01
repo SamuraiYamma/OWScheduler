@@ -33,14 +33,14 @@
                 <a class="nav-link" href="{% url 'scheduler:home' %}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'scheduler:teams' %}">Teams</a>
+                <a class="nav-link" href="{% url 'scheduler:teams' %}">Teams</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'scheduler:players' %}">Players</a>
             </li>
             {% if user.is_authenticated and user_team %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'scheduler:team_profile' teamID=user_team %}">My Team</a>
+                <a class="nav-link active" href="{% url 'scheduler:team_profile' teamID=user_team %}">My Team</a>
             </li>
             {% endif %}
 
@@ -80,11 +80,8 @@
             Hi, {{ user.username }}
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-                <table>
-                    <tr>
-                        <td><button type="button" class = "btn btn-primary" onclick="location.href='{% url 'scheduler:user_logout' %}'">Logout</button></td>
-                    </tr>
-                </table>
+                <a class="dropdown-item" href="{% url 'scheduler:account' username=user.username %}">Account</a>
+                <button type="button" class = "btn btn-primary" onclick="location.href='{% url 'scheduler:user_logout' %}'">Logout</button>
             </div>
         {% endif %}
         </ul>
@@ -97,10 +94,10 @@
     <div class="row">
         <div class="col-sm-5">
             <h3>
-                TEAM NAME
+                {{ current_team.teamAlias }}
             </h3>
             <h6>
-                #ID
+                #{{ current_team.teamID }}
             </h6>
             <div class="jumbotron">
                 <p>
@@ -109,12 +106,12 @@
             </div>
             <!--TODO: ONLY AVAILABLE WITH ROSTER OF 12+-->
             <button class="btn btn-success" type="submit">
-                Scrimmage this team
+                Generate Scrimmage Schedule
             </button>
             <!--TODO: ONLY AVAILABLE WITH ROSTER OF 6+-->
-            <button class="btn btn-success" type="submit" style="margin-top: 10px;">
-                Scrimmage another team
-            </button>
+{#            <button class="btn btn-success" type="submit" style="margin-top: 10px">#}
+{#                Scrimmage another team#}
+{#            </button>#}
         </div>
         <div class="col-sm-2">
             <!--NOTHING GOES HERE-->
@@ -123,20 +120,28 @@
             <h3>
                 Roster
             </h3>
-            <table>
-                <tr>
-                    <td>Battlenet ID</td>
-                </tr>
-                <tr>
-                    <td>
-                        <!--TODO: USER DATA GOES HERE-->
-                    </td>
-                </tr>
+            <table class="table ">
+                <thead>
+                    <tr>
+                        <th>Battlenet ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for items in roster %}
+                    <tr>
+                        <td>{{ items.battlenetID }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>
+                            <button class="btn btn-success" type="button" disabled>
+{#                                TODO: Link to player page, V2#}
+                            Add Player
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
-            <!--TODO: LINKS TO PLAYERS PAGE-->
-            <button class="btn btn-success" type="button">
-                Add Player
-            </button>
         </div>
     </div>
 </div>
