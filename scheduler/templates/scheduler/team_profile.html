@@ -104,14 +104,27 @@
                     Team Description
                 </p>
             </div>
-            <!--TODO: ONLY AVAILABLE WITH ROSTER OF 12+-->
-            <button class="btn btn-success" type="submit">
-                Generate Scrimmage Schedule
-            </button>
-            <!--TODO: ONLY AVAILABLE WITH ROSTER OF 6+-->
-{#            <button class="btn btn-success" type="submit" style="margin-top: 10px">#}
-{#                Scrimmage another team#}
-{#            </button>#}
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Day</td>
+                        <td>Time</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for timeslot in times %}
+                        <tr>
+                            <td>
+                                timeslot.dayOfWeek
+                            </td>
+                            <td>
+                                timeslot.hour
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
         <div class="col-sm-2">
             <!--NOTHING GOES HERE-->

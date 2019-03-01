@@ -264,6 +264,15 @@ def leave_team(request, username):
     return redirect('scheduler:teams')
 
 
+def get_schedule(request, teamID):
+    context = {}
+    team_players = Player.objects.filter(team_id=teamID)
+    # filter so that times only contains that teams availability
+    times = TimeSlot.objects.filter(players_available=team_players)
+    context['times'] = times
+    return render(request,'scheduler/team_profile', context)
+
+
 """
 view to add a new user and log them in. Redirects on successful user 
 creation or shows form errors if the input was not valid.
