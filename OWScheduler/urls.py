@@ -23,3 +23,4 @@ urlpatterns = [
 
 handler404 = 'scheduler.views.handler404'
 handler500 = 'scheduler.views.handler500'
+handler403 = 'scheduler.views.handler403'
