@@ -46,10 +46,11 @@ class Player(AbstractUser):
         (SUPPORT, 'Support'),
     )
 
-    university = models.CharField(max_length=100, null=True)
+    university = models.CharField(max_length=100, blank=True, null=True)
 
     # damage, tank, or support
-    role = models.CharField(max_length=7, choices=ROLE_CHOICES, null=True)
+    role = models.CharField(max_length=7, choices=ROLE_CHOICES,
+                            blank=True, null=True)
 
     battlenetID = models.CharField("BattleTag", max_length=64,
                                    primary_key=True)
@@ -57,7 +58,7 @@ class Player(AbstractUser):
     # in the future, we may want to use the battletag in place of the username
     # however, this may cause problems for urls
 
-    skillRating = models.IntegerField("SR", null=True)
+    skillRating = models.IntegerField("SR", null=True, blank=True)
     team = models.ForeignKey('Team', blank=True, null=True,
                              on_delete=models.SET_NULL,
                              related_name='team_id')

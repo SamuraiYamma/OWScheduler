@@ -91,10 +91,14 @@
         <form action="" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" />
+            <input type="submit" class="btn btn-success"
+                   value="Save Changes"/>
         </form>
     </div>
     {% endblock %}
+</div>
+<div>
+    {% include 'scheduler/set_availability.html' %}
 </div>
 
 <!-- Footer in a non footer location. Huh?-->

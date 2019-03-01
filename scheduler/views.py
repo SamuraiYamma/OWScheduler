@@ -117,7 +117,7 @@ def account(request, username):
     context = user_login(request)
 
     if player == request.user or request.user.is_superuser:
-        form = PlayerChangeForm
+        form = PlayerChangeForm(instance=player)
         timeslots = TimeSlot.objects.filter(players_available=player)
 
         #  creating a list for each hour to fill a table row by row (hour by
@@ -129,16 +129,17 @@ def account(request, username):
         context['hour_lists'] = hour_lists
 
         if request.method == 'POST':
+            #  remove previous availability
+            for slot in TimeSlot.objects.filter(players_available=player):
+                slot.players_available.remove(player)
+            #  restore with new availability
             available_times = request.POST.getlist('availability')
             for slot in available_times:
-                player = Player.objects.get(username=request.user.username)
                 TimeSlot.objects.get(timeSlotID=slot).players_available.add(
                     player)
 
-        context.update({
-            'form': form,
-            'player': player,
-        })
+        context['form'] = form
+        context['player'] = player
         return render(request, 'scheduler/account.html', context)
     return render(request, 'scheduler/access_denied.html')
 
@@ -155,12 +156,16 @@ def set_availability(request, username):
             hour_lists['hour{0}'.format(i)] = TimeSlot.objects.filter(hour=i)
         context['timeslots'] = timeslots
         context['hour_lists'] = hour_lists
-    if request.method == 'POST':
-        available_times = request.POST.getlist('availability')
-        for slot in available_times:
-            player = Player.objects.get(username=request.user.username)
-            TimeSlot.objects.get(timeSlotID=slot).players_available.add(
-                player)
+        if request.method == 'POST':
+            #  remove previous availability
+            for slot in TimeSlot.objects.filter(players_available=player):
+                slot.players_available.remove(player)
+                print(slot.players_available)
+            #  restore with new availability
+            available_times = request.POST.getlist('availability')
+            for slot in available_times:
+                TimeSlot.objects.get(timeSlotID=slot).players_available.add(
+                    player)
     return render(request, 'scheduler/set_availability.html', context)
 
 

@@ -10,8 +10,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <html lang="en">
+    <div style="width:80%; text-align:center;">
     <form class="align-content-center" action="" method="post">
         {% csrf_token %}
+        <button type="submit" class="btn btn-success" style="margin: 10px auto;
+">Save
+            Availability</button>
         <table class="table table-bordered">
             <thead>
             <th scope="col">Time</th>
@@ -41,6 +45,6 @@
             {% endfor %}
             </tbody>
         </table>
-        <button type="submit" class="button btn-success">Save</button>
     </form>
+    </div>
     </html>
