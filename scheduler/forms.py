@@ -70,7 +70,7 @@ class PlayerChangeForm(UserChangeForm):
     team_autocomplete = forms.ModelChoiceField(
         queryset=Team.objects.all(),
         widget=autocomplete.ModelSelect2(url='team-autocomplete'),
-        label="Team"
+        label="Team", required=False
     )
 
     class Meta(UserChangeForm.Meta):

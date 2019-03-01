@@ -1,0 +1,6 @@
+/home/allison/OWScheduler/scheduler/models.py:101:61: E251 unexpected spaces around keyword / parameter equals
+/home/allison/OWScheduler/scheduler/tests.py:332:1: W293 blank line contains whitespace
+/OWScheduler/scheduler/tests.py:333:1: W391 blank line at end of file
+1       E251 unexpected spaces around keyword / parameter equals
+1       W293 blank line contains whitespace
+1       W391 blank line at end of file

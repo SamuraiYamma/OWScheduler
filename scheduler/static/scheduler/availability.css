@@ -1,0 +1,32 @@
+.big-checkbox {
+    height:50px;
+    width:75px;
+    -webkit-appearance: none;
+    border: solid #79838d 1px;
+    margin: 0px;
+    padding: 0px;
+    display: block;
+    border-radius: 10px;
+}
+
+.big-checkbox:hover {
+    background-color: #9cff8e;
+}
+
+.big-checkbox:checked {
+    background-color: #29ab46;
+}
+table.table {
+    width: auto;
+    margin:0 auto;
+}
+
+/** only for the head of the table. */
+table.table thead th {
+    padding:0.3em;
+}
+
+/** only for the body of the table. */
+table.table tbody td {
+    padding:0.3em;
+}
