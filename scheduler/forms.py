@@ -44,12 +44,10 @@ class PlayerCreationForm(UserCreationForm):
         return battlenetID
 
     def save(self, commit=True):
-        user = Player.objects.create_user(
-            self.cleaned_data['username'],
-            self.cleaned_data['email'],
-            self.cleaned_data['password1'],
-        )
+        user = super(PlayerCreationForm, self).save(commit=False)
         user.battlenetID = self.cleaned_data['battlenetID']
+        if commit:
+            user.save()
         return user
 
     class Meta(UserCreationForm):
@@ -67,11 +65,11 @@ class PlayerCreationForm(UserCreationForm):
 
 
 class PlayerChangeForm(UserChangeForm):
-    team_autocomplete = forms.ModelChoiceField(
-        queryset=Team.objects.all(),
-        widget=autocomplete.ModelSelect2(url='team-autocomplete'),
-        label="Team", required=False
-    )
+    # team_autocomplete = forms.ModelChoiceField(
+    #     queryset=Team.objects.all(),
+    #     widget=autocomplete.ModelSelect2(url='team-autocomplete'),
+    #     label="Team", required=False
+    # )
 
     class Meta(UserChangeForm.Meta):
         model = Player
@@ -83,7 +81,7 @@ class PlayerChangeForm(UserChangeForm):
             'university',
             'role',
             'skillRating',
-            'team_autocomplete'
+            'team'
         )
 
 
