@@ -174,6 +174,7 @@ def team_profile(request, teamID):
     team = get_object_or_404(Team, teamID=teamID)
     context = user_login(request)
     context['current_team'] = team
+    context['roster'] = Player.objects.filter(team_id=teamID)
     return render(request, 'scheduler/team_profile.html', context)
 
 

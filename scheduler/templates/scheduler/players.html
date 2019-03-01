@@ -81,11 +81,8 @@
             Hi, {{ user.username }}
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-                <table>
-                    <tr>
-                        <td><button type="button" onclick="location.href='{% url 'scheduler:user_logout' %}?next={{ request.path }}'">Logout</button></td>
-                    </tr>
-                </table>
+                <a class="dropdown-item" href="{% url 'scheduler:account' username=user.username %}">Account</a>
+                <button type="button" onclick="location.href='{% url 'scheduler:user_logout' %}?next={{ request.path }}'">Logout</button>
             </div>
         {% endif %}
         </ul>
@@ -110,6 +107,8 @@
                 <th>BattleTag</th>
                 <th>Team</th>
                 <th>University</th>
+                <th>Role</th>
+{#                TODO: Invite players to team#}
             </tr>
             </thead>
             <tbody>
@@ -118,6 +117,7 @@
                 <td>{{ player.battlenetID }}</td>
                 <td>{{ player.team }}</td>
                 <td>{{ player.university }}</td>
+                <td>{{ player.role }}</td>
             </tr>
             {% endfor %}
             </tbody>
