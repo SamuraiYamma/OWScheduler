@@ -10,6 +10,7 @@ from scheduler import urls
 
 """ tests for accessing objects of the Player model and their team """
 
+
 class PlayerModelTests(TestCase):
 
     def setUp(self):
@@ -40,10 +41,12 @@ class PlayerModelTests(TestCase):
 
     def test_duplicate_error(self):
         with self.assertRaises(IntegrityError):
-            Player.objects.create(battlenetID="NewUser#0000", username="NewUser0")
+            Player.objects.create(
+                battlenetID="NewUser#0000", username="NewUser0")
 
     def test_get_none_team(self):
-        self.assertEqual(Player.objects.get(battlenetID="NewUser#0000").team, None)
+        self.assertEqual(Player.objects.get(
+            battlenetID="NewUser#0000").team, None)
 
     def test_set_team(self):
         newUser0 = Player.objects.get(battlenetID="NewUser#0000")
@@ -69,7 +72,10 @@ class PlayerModelTests(TestCase):
             newUser0.team = 3
 
 
-""" tests for accessing the Team model objects and their information via alias and id """
+"""
+tests for accessing the Team model objects and 
+their information via alias and id 
+"""
 
 
 class TeamModelTests(TestCase):
@@ -80,7 +86,7 @@ class TeamModelTests(TestCase):
         Team.objects.create(teamID=1234, teamAlias="TeamWhite")
         Team.objects.create(teamID=12345, teamAlias="TeamWhite")
         Player.objects.create(battlenetID="NewUser#0000", username="NewUser0")
-        Player.objects.create(battlepermissionsnetID="NewUser#1111", username="NewUser1")
+        Player.objects.create(battlenetID="NewUser#1111", username="NewUser1")
 
     def test_str(self):
         team1 = Team.objects.get(teamID=1)
@@ -148,13 +154,17 @@ class ViewTests(TestCase):
         self.assertIsNotNone(request.context['login_form'])
 
     def test_failed_user_login_context(self):
-        request = self.client.post(reverse('scheduler:home'), {'username': 'test_user', 'password': 'bad_password'})
+        request = self.client.post(reverse('scheduler:home'),
+                                   {'username': 'test_user',
+                                    'password': 'bad_password'})
         self.assertIsNone(request.context['user'])
         self.assertIsNone(request.context['user_team'])
         self.assertIsNotNone(request.context['login_form'])
 
     def test_user_login_context_post(self):
-        request = self.client.post(reverse('scheduler:home'), {'username': 'test_user', 'password': 'test_password'})
+        request = self.client.post(reverse('scheduler:home'),
+                                   {'username': 'test_user',
+                                    'password': 'test_password'})
         self.assertIsNotNone(request.context['user'])
         self.assertIsNotNone(request.context['user_team'])
         self.assertIsNotNone(request.context['login_form'])
@@ -169,27 +179,37 @@ class ViewTests(TestCase):
         self.assertTemplateUsed(template_name='scheduler/default.html')
 
     def test_home_login(self):
-        request = self.factory.post(reverse('scheduler:home'), {'username': 'test_user', 'password': 'test_password'})
+        request = self.factory.post(reverse('scheduler:home'),
+                                    {'username': 'test_user',
+                                     'password': 'test_password'})
         request.user = self.user1
         self.assertTrue(request.user.is_authenticated)
 
     def test_home_logout(self):
         self.client.login(username='test_user', password='test_password')
         response = self.client.get(reverse('scheduler:user_logout'))
-        self.assertRedirects(response, '/', status_code=302, target_status_code=200, fetch_redirect_response=False)
+        self.assertRedirects(response, '/', status_code=302,
+                             target_status_code=200,
+                             fetch_redirect_response=False)
         self.assertTemplateUsed(template_name='scheduler/default.html')
 
     #  other logout tests
     def test_logout_from_teams(self):
         self.client.login(username='test_user', password='test_password')
-        response = self.client.get(reverse('scheduler:user_logout'), {'next': '/teams/'})
-        self.assertRedirects(response, '/teams/', status_code=302, target_status_code=200, fetch_redirect_response=False)
+        response = self.client.get(reverse('scheduler:user_logout'),
+                                   {'next': '/teams/'})
+        self.assertRedirects(response, '/teams/', status_code=302,
+                             target_status_code=200,
+                             fetch_redirect_response=False)
         self.assertTemplateUsed(template_name='scheduler/teams.html')
 
     def test_logout_from_players(self):
         self.client.login(username='test_user', password='test_password')
-        response = self.client.get(reverse('scheduler:user_logout'), {'next': '/players/'})
-        self.assertRedirects(response, '/players/', status_code=302, target_status_code=200, fetch_redirect_response=False)
+        response = self.client.get(reverse('scheduler:user_logout'),
+                                   {'next': '/players/'})
+        self.assertRedirects(response, '/players/', status_code=302,
+                             target_status_code=200,
+                             fetch_redirect_response=False)
         self.assertTemplateUsed(template_name='scheduler/players.html')
 
     #  players tests
@@ -198,10 +218,12 @@ class ViewTests(TestCase):
 
     def test_players_list_size(self):
         request = self.client.get(reverse('scheduler:players'))
-        self.assertEqual(len(Player.objects.filter(is_active=True)), len(request.context['player_list']))
+        self.assertEqual(len(Player.objects.filter(is_active=True)),
+                         len(request.context['player_list']))
 
     def test_players_search(self):
-        request = self.client.get(reverse('scheduler:players'), {'player_search': 'TestUser#1'})
+        request = self.client.get(reverse('scheduler:players'),
+                                  {'player_search': 'TestUser#1'})
         self.assertEqual(len(request.context['player_list']), 1)
 
     #  player profile tests
@@ -221,7 +243,7 @@ class ViewTests(TestCase):
     def test_wrong_account(self):
         self.client.login(username='test_user', password='test_password')
         request = self.client.get('/players/test_user2/account/')
-        self.assertTemplateUsed('scheduler/permission_denied.html')
+        self.assertTemplateUsed('scheduler/access_denied.html')
 
     def test_admin_account_access(self):
         self.client.login(username='test_admin', password='admin')
@@ -239,15 +261,20 @@ class ViewTests(TestCase):
         self.assertTemplateUsed('scheduler/teams.html')
 
     def test_teams_search_alias(self):
-        request = self.client.get(reverse('scheduler:teams'), {'team_search': 'test'})
-        self.assertEqual(request.context['team_list'][0], Team.objects.get(teamID=1))
+        request = self.client.get(reverse('scheduler:teams'),
+                                  {'team_search': 'test'})
+        self.assertEqual(request.context['team_list'][0],
+                         Team.objects.get(teamID=1))
 
     def test_teams_search_id(self):
-        request = self.client.get(reverse('scheduler:teams'), {'team_search': '1'})
-        self.assertEqual(request.context['team_list'][0], Team.objects.get(teamID=1))
+        request = self.client.get(reverse('scheduler:teams'),
+                                  {'team_search': '1'})
+        self.assertEqual(request.context['team_list'][0],
+                         Team.objects.get(teamID=1))
 
     def test_teams_search_fail(self):
-        request = self.client.get(reverse('scheduler:teams'), {'team_search': 'nothing_here'})
+        request = self.client.get(reverse('scheduler:teams'),
+                                  {'team_search': 'nothing_here'})
         self.assertEqual(len(request.context['team_list']), 0)
 
     #  team profile tests
@@ -264,7 +291,8 @@ class ViewTests(TestCase):
     def test_join_team_authenticated(self):
         self.client.login(username='test_user2', password='test_password2')
         request = self.client.get('/join_team/1/test_user2/')
-        self.assertEqual(Player.objects.get(username='test_user2').team.teamID, 1)
+        self.assertEqual(Player.objects.get(
+            username='test_user2').team.teamID, 1)
 
     def test_join_team_not_authenticated(self):
         self.client.logout()

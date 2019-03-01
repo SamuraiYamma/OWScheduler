@@ -14,7 +14,8 @@ from .models import Player, Team
 
 
 class PlayerCreationForm(UserCreationForm):
-    username = forms.CharField(label='Enter Username', min_length=4, max_length=150)
+    username = forms.CharField(label='Enter Username',
+                               min_length=4, max_length=150)
     email = forms.EmailField(label='Enter Email')
     battlenetID = forms.CharField(label='Enter BattleTag')
 
@@ -86,7 +87,8 @@ class PlayerChangeForm(UserChangeForm):
         )
 
 
-""" A class that extends django's ModelMultipleChoiceField to display extra attributes in field """
+""" A class that extends django's ModelMultipleChoiceField 
+to display extra attributes in field """
 
 
 class DetailedPlayerModelMultipleChoiceField(ModelMultipleChoiceField):
@@ -112,7 +114,8 @@ class AddToTeamForm(forms.ModelForm):
         instance = getattr(self, 'instance', None)
         if instance:
             # set players on team to already be selected
-            self.fields['players'].initial = Player.objects.filter(team=instance.teamID)
+            self.fields['players'].initial = \
+                Player.objects.filter(team=instance.teamID)
 
     def clean_players(self):
         value = self.cleaned_data['players']
@@ -124,7 +127,8 @@ class AddToTeamForm(forms.ModelForm):
         players = self.cleaned_data.get('players', None)
         team_id = self.cleaned_data.get('id', None)
 
-        old_team = Player.objects.filter(team=team_id)  # make sure only the players selected are on the team
+        # make sure only the players selected are on the team
+        old_team = Player.objects.filter(team=team_id)
         old_team.update(team=None)  # unselect all old players
         players.update(team=team_id)  # reselect new players
 
