@@ -5,6 +5,7 @@ app_name = 'scheduler'
 urlpatterns = [
     path('', views.home, name='home'),  # home page
     path('players/', views.players, name='players'),  # search for players
+<<<<<<< Updated upstream
 
     path('players/<str:username>/', views.player_profile,
          name='player_profile'),  # player profile page
@@ -14,6 +15,12 @@ urlpatterns = [
          name='set_availability'),
     path('register/', views.register, name='register'),
 
+=======
+    path('players/<str:username>/', views.player_profile, name='player_profile'),  # player profile page
+    path('players/<str:username>/account/', views.account, name='account'),  # edit player account
+    path('players/<str:username>/set-availability/', views.set_availability, name='set_availability'),
+    path('register/',  views.register, name='register'),
+>>>>>>> Stashed changes
     path('teams/', views.teams, name='teams'),  # search for teams
     path('teams/<int:teamID>/', views.team_profile,
          name='team_profile'),  # team profile page
