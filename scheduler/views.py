@@ -35,7 +35,7 @@ def user_login(request):
                                     password=password)
                 if user is not None:
                     login(request, user)
-                    user_team = Player.objects.get(username=user.username).\
+                    user_team = Player.objects.get(username=user.username). \
                         team_id
         return {'login_form': form, 'user': user, 'user_team': user_team}
     else:
@@ -64,7 +64,8 @@ def home(request):
 
 
 """
-Goes to the players page using the list of players sorted by battletags
+Goes to the players page using the list of players sorted by battletags and 
+uses the player search bar to generate the list of players matching the search.
 """
 
 
@@ -86,28 +87,54 @@ def players(request):
 
 """ 
 displays the profile page for a player by username 
-(battletag doesn't work in url) 
+the battletag doesn't work in url so the username is another key we can use to 
+identify the player
+
+:param the username of the profile to view
 """
 
 
 def player_profile(request, username):
     try:
         player = Player.objects.get(username=username)
+        times = TimeSlot.objects.filter(players_available=player)
         return render(request, 'scheduler/player_profile.html',
-                      {'current_player': player})
+                      {'current_player': player, 'availability': times})
     except Player.DoesNotExist:
         raise Http404
 
 
-""" displays the player account info """
+"""
+displays the player account info that allows the user to change their 
+password, add information to their profile, and set their availability
+
+:param the username of the account to edit
+"""
 
 
 def account(request, username):
     player = get_object_or_404(Player, username=username)
+    context = user_login(request)
+
     if player == request.user or request.user.is_superuser:
         form = PlayerChangeForm
+        timeslots = TimeSlot.objects.filter(players_available=player)
 
-        context = user_login(request)
+        #  creating a list for each hour to fill a table row by row (hour by
+        #  hour)
+        hour_lists = {}
+        for i in range(24):
+            hour_lists['hour{0}'.format(i)] = TimeSlot.objects.filter(hour=i)
+        context['timeslots'] = timeslots
+        context['hour_lists'] = hour_lists
+
+        if request.method == 'POST':
+            available_times = request.POST.getlist('availability')
+            for slot in available_times:
+                player = Player.objects.get(username=request.user.username)
+                TimeSlot.objects.get(timeSlotID=slot).players_available.add(
+                    player)
+
         context.update({
             'form': form,
             'player': player,
@@ -119,13 +146,28 @@ def account(request, username):
 def set_availability(request, username):
     context = user_login(request)
     if request.user.is_authenticated:
-        print("validated user")
-    timeslots = TimeSlot.objects.all()
-    context.update({'timeslots': timeslots})
+        player = get_object_or_404(Player, username=username)
+        timeslots = TimeSlot.objects.filter(players_available=player)
+        #  creating a list for each hour to fill a table row by row (hour by
+        #  hour)
+        hour_lists = {}
+        for i in range(24):
+            hour_lists['hour{0}'.format(i)] = TimeSlot.objects.filter(hour=i)
+        context['timeslots'] = timeslots
+        context['hour_lists'] = hour_lists
+    if request.method == 'POST':
+        available_times = request.POST.getlist('availability')
+        for slot in available_times:
+            player = Player.objects.get(username=request.user.username)
+            TimeSlot.objects.get(timeSlotID=slot).players_available.add(
+                player)
     return render(request, 'scheduler/set_availability.html', context)
 
 
-""" displays the page that lists all the teams, sorted by their teamID """
+""" 
+displays the page that lists all the teams, sorted by their teamID. This 
+also implements searching for teams by their name or id.
+"""
 
 
 def teams(request):
@@ -147,7 +189,8 @@ def teams(request):
 
 
 """ 
-Creates the parameters used to search for a team in PlayerChangeForm 
+Extends the autocomplete plugin. Creates the parameters used to search for 
+a team in PlayerChangeForm 
 team field, which is a drop down search.
 """
 
@@ -178,6 +221,15 @@ def team_profile(request, teamID):
     return render(request, 'scheduler/team_profile.html', context)
 
 
+"""
+Allows a user to join a team. Also provides a way for a superuser to add a 
+player to a team without going through the admin page.
+
+:param the teamID of the team to join
+:param the username of the player to add to a team
+"""
+
+
 def join_team(request, teamID, username):
     if request.user.is_authenticated and \
             (request.user.username == username or request.user.is_superuser):
@@ -191,11 +243,19 @@ def join_team(request, teamID, username):
     return redirect('scheduler:teams')
 
 
+"""
+Allows a user to leave a team. Allows a superuser to remove a player from 
+their team. This can be used later to allow team leaders to remove players.
+
+:param the username of the player to remove from a team
+"""
+
+
 def leave_team(request, username):
-    if request.user.is_authenticated and\
+    if request.user.is_authenticated and \
             (request.user.username == username or request.user.is_superuser):
         if request.method == 'GET':
-            player_set = Player.objects.filter(username=username).\
+            player_set = Player.objects.filter(username=username). \
                 update(team=None)
     else:
         messages.add_message(request, messages.ERROR, "You cannot join a "
@@ -204,7 +264,10 @@ def leave_team(request, username):
     return redirect('scheduler:teams')
 
 
-""" view to add a new user and log them in """
+"""
+view to add a new user and log them in. Redirects on successful user 
+creation or shows form errors if the input was not valid.
+"""
 
 
 def register(request):

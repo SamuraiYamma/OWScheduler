@@ -1,0 +1,26 @@
+/home/allison/OWScheduler/scheduler/models.py:101:61: E251 unexpected spaces around keyword / parameter equals
+/home/allison/OWScheduler/scheduler/tests.py:44:80: E501 line too long (82 > 79 characters)
+/home/allison/OWScheduler/scheduler/tests.py:47:80: E501 line too long (83 > 79 characters)
+/home/allison/OWScheduler/scheduler/tests.py:73:80: E501 line too long (89 > 79 characters)
+/home/allison/OWScheduler/scheduler/tests.py:194:80: E501 line too long (89 > 79 characters)
+/home/allison/OWScheduler/scheduler/tests.py:202:80: E501 line too long (91 > 79 characters)
+/home/allison/OWScheduler/scheduler/tests.py:325:1: W293 blank line contains whitespace
+/home/allison/OWScheduler/scheduler/tests.py:326:1: W391 blank line at end of file
+/home/allison/OWScheduler/scheduler/urls.py:14:22: E241 multiple spaces after ','
+/home/allison/OWScheduler/scheduler/views.py:124:32: E231 missing whitespace after ':'
+/home/allison/OWScheduler/scheduler/views.py:189:39: E131 continuation line unaligned for hanging indent
+/home/allison/OWScheduler/OWScheduler/settings.py:96:80: E501 line too long (91 > 79 characters)
+/home/allison/OWScheduler/OWScheduler/settings.py:99:80: E501 line too long (81 > 79 characters)
+/home/allison/OWScheduler/OWScheduler/settings.py:102:80: E501 line too long (82 > 79 characters)
+/home/allison/OWScheduler/OWScheduler/settings.py:105:80: E501 line too long (83 > 79 characters)
+/home/allison/OWScheduler/OWScheduler/urls.py:3:80: E501 line too long (115 > 79 characters)
+/home/allison/OWScheduler/OWScheduler/urls.py:17:80: E501 line too long (121 > 79 characters)
+/home/allison/OWScheduler/OWScheduler/urls.py:18:80: E501 line too long (114 > 79 characters)
+/home/allison/OWScheduler/OWScheduler/urls.py:19:80: E501 line too long (86 > 79 characters)
+1       E131 continuation line unaligned for hanging indent
+1       E231 missing whitespace after ':'
+1       E241 multiple spaces after ','
+1       E251 unexpected spaces around keyword / parameter equals
+13      E501 line too long (82 > 79 characters)
+1       W293 blank line contains whitespace
+1       W391 blank line at end of file

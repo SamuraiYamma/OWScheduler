@@ -95,7 +95,7 @@ class TimeSlot(models.Model):
 
     # alternative solution for composite key
     timeSlotID = models.AutoField(primary_key=True)
-    dayOfWeek = models.CharField(max_length=8, choices=DAYS_OF_WEEK)
+    dayOfWeek = models.IntegerField(choices=DAYS_OF_WEEK)
     hour = models.IntegerField(default=0)
     players_available = models.ManyToManyField(Player,
                                                related_name=
