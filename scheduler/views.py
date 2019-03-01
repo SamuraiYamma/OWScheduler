@@ -174,6 +174,7 @@ def team_profile(request, teamID):
     team = get_object_or_404(Team, teamID=teamID)
     context = user_login(request)
     context['current_team'] = team
+    context['roster'] = Player.objects.filter(team_id=teamID)
     return render(request, 'scheduler/team_profile.html', context)
 
 
@@ -244,6 +245,13 @@ def handler404(request, exception, template_name="scheduler/404.html"):
 
 
 def handler500(request, exception, template_name="scheduler/500.html"):
-    response = render_to_response("scheduler/500.html")
+    response = render_to_response("scheduler/500")
     response.status_code = 500
     return response
+
+
+def handler403(request, exception, template_name="scheduler/access_denied.html"):
+    response = render_to_response("scheduler/access_denied.html")
+    response.status_code = 403
+    return response
+

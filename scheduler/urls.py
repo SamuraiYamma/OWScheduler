@@ -8,7 +8,7 @@ urlpatterns = [
     path('players/<str:username>/', views.player_profile,
          name='player_profile'),  # player profile page
     path('players/<str:username>/account/',
-         views.account),  # edit player account
+         views.account, name='account'),  # edit player account
     path('players/<str:username>/set-availability/', views.set_availability,
          name='set_availability'),
     path('register/', views.register, name='register'),

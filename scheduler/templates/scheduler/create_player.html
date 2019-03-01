@@ -1,8 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <title>OWS - Register</title>
+    <style>
 
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'scheduler/create_player.css' %}">
-<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
-<div id="wrapper">
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-md sticky-top bg-dark navbar-dark" style="margin-top: 5%">
+        <a class="navbar-brand" href="#">OWS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'scheduler:home' %}">Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+</div>
+
+<div class="jumbotron" align="center">
     <h2>New User</h2>
     <!--- this form should eventually action url to home or to login page --->
     <form autocomplete="off" action="{% url 'scheduler:register' %}" method="post">
@@ -58,9 +86,26 @@
             {% endfor %}
         </table>
         <div id="form-submit-container">
-            <button type="submit" id="form-submit">Sign Up</button>
+            <button class="btn btn-primary" type="submit" id="form-submit">Sign Up</button>
         </div>
     </form>
 </div>
+<div class="jumbotron text-center" style="margin-top:7%">
+    <div class="row">
+        <div class = "col-sm-4">
+            <h3>Contact Us</h3>
+            <p>[Leave some way to contact us here]</p>
+        </div>
+        <div class = "col-sm-4">
+            <h3>[empty]</h3>
+            <p>[???]</p>
+        </div>
+        <div class = "col-sm-4">
+            <h3>Links</h3>
+            <p>[links to whatever we want]</p>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
