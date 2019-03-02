@@ -116,10 +116,24 @@
                     {% for timeslot in times %}
                         <tr>
                             <td>
-                                {{ timeslot.dayOfWeek }}
+                                {% if timeslot.dayOfWeek == 0 %}
+                                    Monday
+                                {% elif timeslot.dayOfWeek == 1 %}
+                                    Tuesday
+                                {% elif timeslot.dayOfWeek == 2 %}
+                                    Wednesday
+                                {% elif timeslot.dayOfWeek == 3 %}
+                                    Thursday
+                                {% elif timeslot.dayOfWeek == 4 %}
+                                    Friday
+                                {% elif timeslot.dayOfWeek == 5 %}
+                                    Saturday
+                                {% elif timeslot.dayOfWeek == 6 %}
+                                    Sunday
+                                {% endif %}
                             </td>
                             <td>
-                                {{ timeslot.hour }}
+                                {{ timeslot.hour }}:00
                             </td>
                         </tr>
                     {% endfor %}

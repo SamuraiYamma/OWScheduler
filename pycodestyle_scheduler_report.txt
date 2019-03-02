@@ -1,6 +1,9 @@
-/home/allison/OWScheduler/scheduler/models.py:101:61: E251 unexpected spaces around keyword / parameter equals
+/home/allison/OWScheduler/scheduler/models.py:102:61: E251 unexpected spaces around keyword / parameter equals
 /home/allison/OWScheduler/scheduler/tests.py:332:1: W293 blank line contains whitespace
-/OWScheduler/scheduler/tests.py:333:1: W391 blank line at end of file
+/home/allison/OWScheduler/scheduler/tests.py:333:1: W391 blank line at end of file
+/home/allison/OWScheduler/scheduler/views.py:343:80: E501 line too long (81 > 79 characters)
+/home/allison/OWScheduler/scheduler/views.py:347:1: W391 blank line at end of file
 1       E251 unexpected spaces around keyword / parameter equals
+1       E501 line too long (81 > 79 characters)
 1       W293 blank line contains whitespace
-1       W391 blank line at end of file
+2       W391 blank line at end of file

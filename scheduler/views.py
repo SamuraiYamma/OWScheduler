@@ -225,11 +225,12 @@ def team_profile(request, teamID):
     context['roster'] = Player.objects.filter(team_id=teamID)
 
     team_players = Player.objects.filter(team_id=teamID)
+    possible_times = TimeSlot.objects.filter(players_available=team_players[0])
+    for player in team_players:
+        possible_times = possible_times.filter(
+            players_available=player).order_by('dayOfWeek', 'hour')
     # filter so that times only contains that teams availability
-    times = TimeSlot.objects.filter(players_available__in=team_players)
-    for time in times:
-        print(time.hour)
-    context['times'] = times
+    context['times'] = possible_times
 
     return render(request, 'scheduler/team_profile.html', context)
 
@@ -275,16 +276,6 @@ def leave_team(request, username):
                                                       "team until you are  "
                                                       "logged in correctly.")
     return redirect('scheduler:teams')
-
-
-# """ Some Description Here """
-# def get_schedule(request, teamID):
-#     context = {}
-#     team_players = Player.objects.filter(team_id=teamID)
-#     # filter so that times only contains that teams availability
-#     times = TimeSlot.objects.filter(players_available=team_players)
-#     context['times'] = times
-#     return render(request,'scheduler/team_profile.html', context)
 
 
 """
