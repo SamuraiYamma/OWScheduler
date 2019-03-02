@@ -96,7 +96,7 @@ class CreateTeamForm(forms.ModelForm):
         if existing.count():
             raise ValidationError("A team with that ID already exists.")
 
-    class Meta(CreateTeamForm.Meta):
+    class Meta:
         model = Team
         fields = ('id', 'alias')
 
