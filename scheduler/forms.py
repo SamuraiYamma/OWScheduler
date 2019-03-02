@@ -65,11 +65,12 @@ class PlayerCreationForm(UserCreationForm):
 
 
 class PlayerChangeForm(UserChangeForm):
-    # team_autocomplete = forms.ModelChoiceField(
-    #     queryset=Team.objects.all(),
-    #     widget=autocomplete.ModelSelect2(url='team-autocomplete'),
-    #     label="Team", required=False
-    # )
+    team_autocomplete = forms.ModelChoiceField(
+        queryset=Team.objects.all(),
+        widget=autocomplete.ModelSelect2Multiple(
+            url='multiple-team-autocomplete'),
+        label="Team", required=False
+    )
 
     class Meta(UserChangeForm.Meta):
         model = Player
@@ -81,8 +82,12 @@ class PlayerChangeForm(UserChangeForm):
             'university',
             'role',
             'skillRating',
-            'team'
+            'team_autocomplete'
         )
+        widgets = {
+            'team_autocomplete': autocomplete.ModelSelect2Multiple(
+                url='multiple-team-autocomplete')
+        }
 
 
 class CreateTeamForm(forms.ModelForm):
@@ -113,41 +118,59 @@ class DetailedPlayerModelMultipleChoiceField(ModelMultipleChoiceField):
 """ A form used to manage teams in the admin page. """
 
 
-class AddToTeamForm(forms.ModelForm):
+class TeamAdminForm(forms.ModelForm):
 
-    players = DetailedPlayerModelMultipleChoiceField(
-        label='Players',
-        queryset=Player.objects.get_queryset(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False,
-
+    team_admin = forms.ModelChoiceField(
+        queryset=Player.objects.all(),
+        widget=autocomplete.ModelSelect2(url='player-autocomplete'),
+        label="Admin", required=False
     )
 
-    def __init__(self, *args, **kwargs):
-        super(AddToTeamForm, self).__init__(*args, **kwargs)
-        instance = getattr(self, 'instance', None)
-        if instance:
-            # set players on team to already be selected
-            self.fields['players'].initial = \
-                Player.objects.filter(team=instance.teamID)
+    player_autocomplete = forms.ModelMultipleChoiceField(
+        queryset=Player.objects.all(),
+        widget=autocomplete.ModelSelect2Multiple(
+            url='player-autocomplete'),
+        label="Players", required=False
+    )
 
-    def clean_players(self):
-        value = self.cleaned_data['players']
-        # if len(value) > 6:
-        #     raise forms.ValidationError('Only 6 players can be on a team!')
-        return value
+    # def save(self, commit=True):
+    #     players = self.cleaned_data.get('player_autocomplete')
+    #     team_id = self.cleaned_data.get('teamID')
+    #     Team.objects.get(teamID=team_id).players.clear()
+    #     Team.objects.get(teamID=team_id).players.add(players)
+    #     return super(TeamAdminForm, self).save(commit=commit)
 
-    def save(self, commit=True):
-        players = self.cleaned_data.get('players', None)
-        team_id = self.cleaned_data.get('id', None)
-
-        # make sure only the players selected are on the team
-        old_team = Player.objects.filter(team=team_id)
-        old_team.update(team=None)  # unselect all old players
-        players.update(team=team_id)  # reselect new players
-
-        return super(AddToTeamForm, self).save(commit=commit)
+    # def __init__(self, *args, **kwargs):
+    #     super(TeamAdminForm, self).__init__(*args, **kwargs)
+    #     instance = getattr(self, 'instance', None)
+    #     if instance:
+    #         # set players on team to already be selected
+    #         self.fields['players'].initial = \
+    #             Team.objects.get(teamID=instance.teamID)
+    #
+    # def clean_players(self):
+    #     value = self.cleaned_data['players']
+    #     # if len(value) > 6:
+    #     #     raise forms.ValidationError('Only 6 players can be on a team!')
+    #     return value
+    #
+    # def save(self, commit=True):
+    #     players = self.cleaned_data.get('players', None)
+    #     team_id = self.cleaned_data.get('id', None)
+    #
+    #     # make sure only the players selected are on the team
+    #     old_team = Team.objects.get(teamID=team_id).players
+    #     old_team.remove(team_id)  # unselect all old players
+    #     Team.objects.get(teamID=team_id).players.add(players)  # reselect new
+    #     # players
+    #
+    #     return super(TeamAdminForm, self).save(commit=commit)
 
     class Meta:
         model = Team
-        fields = ('teamAlias', 'teamID', 'players', 'is_active')
+        fields = ('teamAlias', 'teamID', 'team_admin', 'player_autocomplete',
+                  'is_active')
+        widgets = {'team_admin': autocomplete.ModelSelect2(
+            url='player-autocomplete'), 'players':
+            autocomplete.ModelSelect2Multiple(
+                url='player-autocomplete')}

@@ -130,6 +130,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'scheduler/static/'
 AUTH_USER_MODEL = 'scheduler.Player'
 LOGIN_REDIRECT_URL = 'scheduler:home'
 LOGOUT_REDIRECT_URL = 'scheduler:home'

@@ -17,6 +17,7 @@ class Team(models.Model):
     team_admin = models.ForeignKey('Player', blank=True, null=True,
                                    on_delete=models.SET_NULL,
                                    related_name='team_admin')
+    players = models.ManyToManyField('Player', blank=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
@@ -59,9 +60,6 @@ class Player(AbstractUser):
     # however, this may cause problems for urls
 
     skillRating = models.IntegerField("SR", null=True, blank=True)
-    team = models.ForeignKey('Team', blank=True, null=True,
-                             on_delete=models.SET_NULL,
-                             related_name='team_id')
 
     # overriding the default string for a player to their battletag
     def __str__(self):

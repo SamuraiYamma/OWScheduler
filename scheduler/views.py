@@ -35,12 +35,13 @@ def user_login(request):
                                     password=password)
                 if user is not None:
                     login(request, user)
-                    user_team = Player.objects.get(username=user.username). \
-                        team_id
-        return {'login_form': form, 'user': user, 'user_team': user_team}
+                    player = Player.objects.get(username=username)
+                    user_team = Team.objects.filter(players=player)
+        return {'login_form': form, 'user': user, 'user_teams': user_team}
     else:
-        user_team = Player.objects.get(username=request.user.username).team_id
-    return {'user_team': user_team}
+        player = Player.objects.get(username=request.user.username)
+        user_team = Team.objects.filter(players=player)
+    return {'user_teams': user_team}
 
 
 """ 
@@ -144,31 +145,6 @@ def account(request, username):
     return render(request, 'scheduler/access_denied.html')
 
 
-def set_availability(request, username):
-    context = user_login(request)
-    if request.user.is_authenticated:
-        player = get_object_or_404(Player, username=username)
-        timeslots = TimeSlot.objects.filter(players_available=player)
-        #  creating a list for each hour to fill a table row by row (hour by
-        #  hour)
-        hour_lists = {}
-        for i in range(24):
-            hour_lists['hour{0}'.format(i)] = TimeSlot.objects.filter(hour=i)
-        context['timeslots'] = timeslots
-        context['hour_lists'] = hour_lists
-        if request.method == 'POST':
-            #  remove previous availability
-            for slot in TimeSlot.objects.filter(players_available=player):
-                slot.players_available.remove(player)
-                print(slot.players_available)
-            #  restore with new availability
-            available_times = request.POST.getlist('availability')
-            for slot in available_times:
-                TimeSlot.objects.get(timeSlotID=slot).players_available.add(
-                    player)
-    return render(request, 'scheduler/set_availability.html', context)
-
-
 """ 
 displays the page that lists all the teams, sorted by their teamID. This 
 also implements searching for teams by their name or id.
@@ -190,29 +166,15 @@ def teams(request):
 
     context = user_login(request)
     context.update({'team_list': team_list})
+    print(context['user_teams'])
     return render(request, 'scheduler/teams.html', context)
 
 
-""" 
-Extends the autocomplete plugin. Creates the parameters used to search for 
-a team in PlayerChangeForm 
-team field, which is a drop down search.
-"""
-
-
-class TeamAutoComplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-
-        if not self.request.user.is_authenticated:
-            return Team.objects.none()
-
-        queryset = Team.objects.filter(is_active=True)
-
-        if self.q:
-            queryset = queryset.filter(
-                Q(teamAlias__icontains=self.q) | Q(teamID__exact=self.q))
-
-        return queryset
+def my_teams(request, username):
+    context = user_login(request)
+    if request.user.username == username or request.user.is_superuser:
+        return render(request, 'scheduler/my_teams.html', context)
+    return render(request, 'scheduler/access_denied.html', context)
 
 
 """ displays the profile page for a team """
@@ -222,11 +184,11 @@ def team_profile(request, teamID):
     team = get_object_or_404(Team, teamID=teamID)
     context = user_login(request)
     context['current_team'] = team
-    context['roster'] = Player.objects.filter(team_id=teamID)
+    roster = Team.objects.get(teamID=teamID).players.all()
+    context['roster'] = roster
 
-    team_players = Player.objects.filter(team_id=teamID)
-    possible_times = TimeSlot.objects.filter(players_available=team_players[0])
-    for player in team_players:
+    possible_times = TimeSlot.objects.filter(players_available=roster[0])
+    for player in roster:
         possible_times = possible_times.filter(
             players_available=player).order_by('dayOfWeek', 'hour')
     # filter so that times only contains that teams availability
@@ -248,8 +210,8 @@ def join_team(request, teamID, username):
     if request.user.is_authenticated and \
             (request.user.username == username or request.user.is_superuser):
         if request.method == 'GET':
-            player_set = Player.objects.filter(
-                username=username).update(team=teamID)
+            player = Player.objects.get(username=username)
+            Team.objects.get(teamID=teamID).players.add(player)
     else:
         messages.add_message(
             request, messages.ERROR, "You cannot join a team until you are "
@@ -265,12 +227,12 @@ their team. This can be used later to allow team leaders to remove players.
 """
 
 
-def leave_team(request, username):
+def leave_team(request, teamID, username):
     if request.user.is_authenticated and \
             (request.user.username == username or request.user.is_superuser):
         if request.method == 'GET':
-            player_set = Player.objects.filter(username=username). \
-                update(team=None)
+            player = Player.objects.get(username=username)
+            Team.objects.get(teamID=teamID).players.add(player)
     else:
         messages.add_message(request, messages.ERROR, "You cannot join a "
                                                       "team until you are  "
@@ -332,3 +294,35 @@ def handler403(request, exception, template_name="scheduler/access_denied.html")
     response.status_code = 403
     return response
 
+
+""" 
+Extends the autocomplete plugin. Creates the parameters used to search for 
+a team in PlayerChangeForm team field, which is a drop down search.
+"""
+
+
+class TeamAutoComplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return Team.objects.none()
+
+        queryset = Team.objects.filter(is_active=True)
+        if self.q:
+            if self.q.isdigit():
+                queryset = queryset.filter(teamID__exact=self.q)
+            else:
+                queryset = queryset.filter(teamAlias__icontains=self.q)
+
+        return queryset
+
+
+class PlayerAutoComplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return Player.objects.none()
+
+        queryset = Player.objects.filter(is_active=True)
+        if self.q:
+            queryset = queryset.filter(battlenetID__icontains=self.q)
+
+        return queryset

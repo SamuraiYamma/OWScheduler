@@ -11,14 +11,16 @@ from django.urls import path
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 
-from scheduler.views import TeamAutoComplete
+from scheduler.views import TeamAutoComplete, PlayerAutoComplete
 
 urlpatterns = [
     path('admin/', admin.site.urls),  # admin page
     path('', include('scheduler.urls')),  # everything else
     path('accounts/', include('django.contrib.auth.urls')),  # all user urls
     url(r'^team-autocomplete/$', TeamAutoComplete.as_view(),
-        name='team-autocomplete')
+        name='team-autocomplete'),
+    url(r'^player-autocomplete/$', PlayerAutoComplete.as_view(),
+        name='player-autocomplete'),
 ]
 
 handler404 = 'scheduler.views.handler404'

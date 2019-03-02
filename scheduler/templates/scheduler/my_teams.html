@@ -33,14 +33,14 @@
                 <a class="nav-link" href="{% url 'scheduler:home' %}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'scheduler:teams' %}">Teams</a>
+                <a class="nav-link" href="{% url 'scheduler:teams' %}">Teams</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'scheduler:players' %}">Players</a>
             </li>
 
             {% if user.is_authenticated and user_teams %}
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="
 {% url 'scheduler:my_teams' username=user.username %}">My Teams</a>
             </li>
@@ -102,7 +102,7 @@
     </form>
     <!--TODO: Team List-->
     <table class="table table-hover">
-        {% if team_list %}
+        {% if user_teams %}
                 <thead>
                 <tr>
                     <th>Team</th>
@@ -111,18 +111,11 @@
                 </tr>
                 </thead>
             <tbody>
-            {% for team in team_list %}
+            {% for team in user_teams %}
                 <tr onclick="location.href='{% url 'scheduler:team_profile' teamID=team.teamID %}'">
                     <td>{{ team.teamAlias }}</td>
                     <td>{{ team.teamID }}</td>
                     {% if user.is_authenticated %}
-                        {% if team not in user_teams %}
-                            <td><form method="get" action="{% url 'scheduler:join_team' teamID=team.teamID username=user.username %}">
-                                {% csrf_token %}
-                                <button class="btn btn-success" type="submit">
-                                    Join Team</button>
-                            </form></td>
-                        {% elif team in user_teams %}
                                 <td>
                                     <form method="get" action="
 {% url 'scheduler:leave_team' teamID=team.teamID username=user.username %}">
@@ -131,9 +124,6 @@
                                         Leave Team</button>
                                     </form>
                                 </td>
-                        {% endif %}
-                    {% else %}
-                        <td><button met class="btn btn-success" type="submit" disabled>Join Team</button></td>
                     {% endif %}
                 </tr>
             {% endfor %}
