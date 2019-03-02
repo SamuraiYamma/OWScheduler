@@ -85,6 +85,22 @@ class PlayerChangeForm(UserChangeForm):
         )
 
 
+class CreateTeamForm(forms.ModelForm):
+    id = forms.IntegerField(label="ID")
+    alias = forms.CharField(max_length=32, label="Name", help_text="Must be" 
+                            "less than 32 characters.")
+
+    def clean_id(self):
+        id = self.cleaned_data['id']
+        existing = Team.objects.filter(teamID=id)
+        if existing.count():
+            raise ValidationError("A team with that ID already exists.")
+
+    class Meta(CreateTeamForm.Meta):
+        model = Team
+        fields = ('id', 'alias')
+
+
 """ A class that extends django's ModelMultipleChoiceField 
 to display extra attributes in field """
 
