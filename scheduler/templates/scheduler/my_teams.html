@@ -91,47 +91,55 @@
 </nav>
 
 <div class="container" style="margin-top:30px">
+    <div class="row">
+        <div class="col-sm-5 jumbotron">
+            <h3>
+                My Teams
+            </h3>
+            <!--TODO: Search Bar-->
+            <form class="form-inline" method="get" action=".">
+                <input id="team_search" name="team_search" class="form-control mr-sm-2" type="text" placeholder="Search">
+                <button id="team_search_submit" class="btn btn-success" type="submit">Search</button>
+            </form>
+            <!--TODO: Team List-->
+            <table class="table table-hover">
+                {% if user_teams %}
+                        <thead>
+                        <tr>
+                            <th>Team</th>
+                            <th>ID</th>
+                            <th>Leave Team</th>
+                        </tr>
+                        </thead>
+                    <tbody>
+                    {% for team in user_teams %}
+                        <tr onclick="location.href='{% url 'scheduler:team_profile' teamID=team.teamID %}'">
+                            <td>{{ team.teamAlias }}</td>
+                            <td>{{ team.teamID }}</td>
+                            {% if user.is_authenticated %}
+                                        <td>
+                                            <form method="get" action="
+        {% url 'scheduler:leave_team' teamID=team.teamID username=user.username %}">
+                                                {% csrf_token %}
+                                            <button class="btn btn-warning" type="submit">
+                                                Leave Team</button>
+                                            </form>
+                                        </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                {% elif not user_teams %}
+                    <tbody>You have no teams!</tbody>
+                {% else %}
+                    <tbody>Sorry, your search returned nothing.</tbody>
+                {% endif %}
+            </table>
+        </div>
+        <div class="col-sm">
 
-    <h3>
-        Teams
-    </h3>
-    <!--TODO: Search Bar-->
-    <form class="form-inline" method="get" action=".">
-        <input id="team_search" name="team_search" class="form-control mr-sm-2" type="text" placeholder="Search">
-        <button id="team_search_submit" class="btn btn-success" type="submit">Search</button>
-    </form>
-    <!--TODO: Team List-->
-    <table class="table table-hover">
-        {% if user_teams %}
-                <thead>
-                <tr>
-                    <th>Team</th>
-                    <th>ID</th>
-                    <th>Join/Leave Team</th>
-                </tr>
-                </thead>
-            <tbody>
-            {% for team in user_teams %}
-                <tr onclick="location.href='{% url 'scheduler:team_profile' teamID=team.teamID %}'">
-                    <td>{{ team.teamAlias }}</td>
-                    <td>{{ team.teamID }}</td>
-                    {% if user.is_authenticated %}
-                                <td>
-                                    <form method="get" action="
-{% url 'scheduler:leave_team' teamID=team.teamID username=user.username %}">
-                                        {% csrf_token %}
-                                    <button class="btn btn-warning" type="submit">
-                                        Leave Team</button>
-                                    </form>
-                                </td>
-                    {% endif %}
-                </tr>
-            {% endfor %}
-            </tbody>
-        {% else %}
-            <tbody>Sorry, there's nothing that matches your search.</tbody>
-        {% endif %}
-    </table>
+        </div>
+    </div>
 </div>
 
 <!-- Footer in a non footer location. Huh?-->
