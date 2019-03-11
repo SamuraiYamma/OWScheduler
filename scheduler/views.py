@@ -144,6 +144,7 @@ def account(request, username):
         return render(request, 'scheduler/account.html', context)
     return render(request, 'scheduler/access_denied.html')
 
+""" sets the availability of a user based on thier input """
 
 """ 
 displays the page that lists all the teams, sorted by their teamID. This 
