@@ -37,9 +37,9 @@ battletag. It also restricts the roles to either damage, tank, or support.
 
 class Player(AbstractUser):
     # by making these variables, we can access them easier
-    DAMAGE = "DAMAGE"
-    TANK = "TANK"
-    SUPPORT = "SUPPORT"
+    DAMAGE = "Damage"
+    TANK = "Tank"
+    SUPPORT = "Support"
 
     ROLE_CHOICES = (
         (DAMAGE, 'Damage'),

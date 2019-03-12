@@ -110,15 +110,17 @@
                 SR:
                 {{ current_player.skillRating }}
             </h3>
-            {% if current_player.team  %}
+            {% if current_teams  %}
                 <h3>
-                Team:
-                {{ current_player.team }}
+                Teams:
+                    {% for team in current_teams %}
+                        {{ team }}<br>
+                    {% endfor %}
                 </h3>
             {% else %}
                 <h3>
                 Team:
-                Player is not apart of any team.
+                Player is not a part of any team.
                 </h3>
             {% endif %}
         </div>

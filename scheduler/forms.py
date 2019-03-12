@@ -9,7 +9,6 @@ from dal import autocomplete
 
 from .models import Player, Team
 
-
 """ The form used to create a new player/user """
 
 
@@ -92,8 +91,8 @@ class PlayerChangeForm(UserChangeForm):
 
 class CreateTeamForm(forms.ModelForm):
     id = forms.IntegerField(label="ID")
-    alias = forms.CharField(max_length=32, label="Name", help_text="Must be" 
-                            "less than 32 characters.")
+    alias = forms.CharField(max_length=32, label="Name", help_text="Must be"
+                                                                   "less than 32 characters.")
 
     def clean_id(self):
         id = self.cleaned_data['id']
@@ -115,11 +114,47 @@ class DetailedPlayerModelMultipleChoiceField(ModelMultipleChoiceField):
         return "%s | %s" % (obj.battlenetID, obj.university)
 
 
-""" A form used to manage teams in the admin page. """
+"""A form for a user to manage their teams"""
 
 
 class TeamAdminForm(forms.ModelForm):
+    team_alias = forms.CharField()
+    add_player = forms.ModelChoiceField(
+        queryset=Player.objects.all(),
+        widget=autocomplete.ModelSelect2(
+            url='player-autocomplete'),
+        label="Add a Player", required=False
+    )
+    change_admin = forms.ModelChoiceField(
+        queryset=Player.objects.all(),
+        widget=autocomplete.ModelSelect2(
+            url='player-autocomplete'),
+        label="Change Admin", required=False
+    )
 
+    #  keeps the team alias url safe
+    def clean_team_alias(self):
+        team_alias = self.cleaned_data['team_alias']
+        pattern = re.compile('^[0-9a-zA-Z\$_\.\+!\*\\\'(),-]*$')
+        if not pattern.match(team_alias):
+            raise ValidationError("Team name includes invalid characters")
+        return team_alias
+
+    class Meta:
+        model = Team
+        fields = ('team_alias', 'add_player', 'change_admin')
+        widgets = {'add_player': autocomplete.ModelSelect2(
+            url='player-autocomplete'), 'players':
+            autocomplete.ModelSelect2(url='player-autocomplete'),
+            'change_admin': autocomplete.ModelSelect2(
+            url='player-autocomplete'), 'players':
+            autocomplete.ModelSelect2(url='player-autocomplete')}
+
+
+""" A form used to manage teams in the admin page. """
+
+
+class TeamDjangoAdminForm(forms.ModelForm):
     team_admin = forms.ModelChoiceField(
         queryset=Player.objects.all(),
         widget=autocomplete.ModelSelect2(url='player-autocomplete'),

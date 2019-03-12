@@ -11,7 +11,7 @@ from django.contrib import messages
 from dal import autocomplete
 
 from .models import Player, Team, Match, TimeSlot
-from .forms import PlayerCreationForm, PlayerChangeForm
+from .forms import PlayerCreationForm, PlayerChangeForm, TeamAdminForm
 
 """ 
 view that handles logging in the current user and 
@@ -98,9 +98,12 @@ identify the player
 def player_profile(request, username):
     try:
         player = Player.objects.get(username=username)
+        player_teams = Team.objects.filter(players=player)
         times = TimeSlot.objects.filter(players_available=player)
         return render(request, 'scheduler/player_profile.html',
-                      {'current_player': player, 'availability': times})
+                      {'current_player': player,
+                       'current_teams': player_teams,
+                       'availability': times})
     except Player.DoesNotExist:
         raise Http404
 
@@ -144,6 +147,7 @@ def account(request, username):
         return render(request, 'scheduler/account.html', context)
     return render(request, 'scheduler/access_denied.html')
 
+
 """ sets the availability of a user based on thier input """
 
 """ 
@@ -178,6 +182,48 @@ def my_teams(request, username):
     return render(request, 'scheduler/access_denied.html', context)
 
 
+def team_admin(request, teamID):
+    context = user_login(request)
+    team = get_object_or_404(Team, teamID=teamID)
+    if request.user == team.team_admin or \
+            request.user.is_superuser:
+
+        #  there was a weird problem with setting initial data in the form
+        #  used someone else's fix
+        #  https://stackoverflow.com/questions/43091200/initial-not-working-on-form-inputs
+        if request.POST & TeamAdminForm.base_fields.keys():
+            form = TeamAdminForm(request.POST)
+        else:
+            form = TeamAdminForm(initial={'team_alias': team.teamAlias})
+
+        context.update(
+            {
+                'form': form,
+                'team': team,
+                'players': team.players.all(),
+             }
+        )
+        if form.is_valid():
+            if form.cleaned_data['team_alias']:
+                team.teamAlias = form.cleaned_data['team_alias']
+            if form.cleaned_data['add_player']:
+                new_player = form.cleaned_data['add_player']
+                if new_player not in team.players.all():
+                    team.players.add(new_player)
+            if form.cleaned_data['change_admin']:
+                team.team_admin = form.cleaned_data['change_admin']
+                team.save()
+                return redirect(reverse('scheduler:my_teams',
+                                        kwargs={
+                                            'username':
+                                                request.user.username}))
+            team.save()
+
+        return render(request, 'scheduler/team_admin.html', context)
+
+    return render(request, 'scheduler/access_denied.html')
+
+
 """ displays the profile page for a team """
 
 
@@ -188,12 +234,13 @@ def team_profile(request, teamID):
     roster = Team.objects.get(teamID=teamID).players.all()
     context['roster'] = roster
 
-    possible_times = TimeSlot.objects.filter(players_available=roster[0])
-    for player in roster:
-        possible_times = possible_times.filter(
-            players_available=player).order_by('dayOfWeek', 'hour')
-    # filter so that times only contains that teams availability
-    context['times'] = possible_times
+    if roster.count():
+        possible_times = TimeSlot.objects.filter(players_available=roster[0])
+        for player in roster:
+            possible_times = possible_times.filter(
+                players_available=player).order_by('dayOfWeek', 'hour')
+            # filter so that times only contains that teams availability
+            context['times'] = possible_times
 
     return render(request, 'scheduler/team_profile.html', context)
 
@@ -229,16 +276,39 @@ their team. This can be used later to allow team leaders to remove players.
 
 
 def leave_team(request, teamID, username):
-    if request.user.is_authenticated and \
-            (request.user.username == username or request.user.is_superuser):
-        if request.method == 'GET':
-            player = Player.objects.get(username=username)
-            Team.objects.get(teamID=teamID).players.add(player)
+    # verify player and team exists, otherwise 404
+    get_object_or_404(Team, teamID=teamID)
+    get_object_or_404(Player, username=username)
+
+    if request.user.is_authenticated:
+        if request.user.username == username or \
+             request.user.is_superuser:
+            if request.method == 'GET':
+                player = Player.objects.get(username=username)
+                Team.objects.get(teamID=teamID).players.remove(player)
+
+        if Player.objects.get(username=request.user.username) == \
+             Team.objects.get(teamID=teamID).team_admin:
+            if request.method == 'GET':
+                player = Player.objects.get(username=username)
+                Team.objects.get(teamID=teamID).players.remove(player)
+                return redirect(reverse('scheduler:team_admin', kwargs={
+                    'teamID': teamID}))
+
     else:
         messages.add_message(request, messages.ERROR, "You cannot join a "
                                                       "team until you are  "
                                                       "logged in correctly.")
     return redirect('scheduler:teams')
+
+
+def delete_team(request, teamID):
+    team = get_object_or_404(Team, teamID=teamID)
+    if Player.objects.get(username=request.user.username) == team.team_admin or \
+            request.user.is_superuser:
+        team.delete()
+        return redirect(reverse('scheduler:teams'))
+    return render(request, 'scheduler/access_denied.html')
 
 
 """

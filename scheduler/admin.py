@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .forms import TeamAdminForm
+from .forms import TeamDjangoAdminForm
 from .models import Player, Team
 
 """
@@ -49,7 +49,7 @@ class TeamAdmin(admin.ModelAdmin):
     # displays form to add players to a team
     def get_form(self, request, obj=None, change=False, **kwargs):
         if request.user.is_superuser:
-            return TeamAdminForm
+            return TeamDjangoAdminForm
 
 
 # this was in many other code examples I reviewed, but it doesn't seem to work.
