@@ -1,0 +1,36 @@
+How this works:
+Any bugs is entered here as request. Please utilize a number system, making your number request x+1,
+x being the last number in the list. This is to help assign tasks when needed. Format is as follows:
+
+T0D0: [x] description of problem - filename.
+(pro tip: use words like Fix, Add, Change, Remove, at the start of each request to make it easier to read)
+
+This log system should make error checking UI much easier. The log should keep the most recent additions
+on top.
+
+TODO: [26] Fix nav corners - teams.html
+TODO: [25] Fix footer margins - account.html
+TODO: [24] Add "My Team" option to nav - account.html
+TODO: [23] Fix nav, body and header margins and corners - account.html
+TODO: [22] Fix button placement - account.html
+TODO: [21] Add body - account.html
+TODO: [20] Add function to "Invite Player" - teams/teams.html
+TODO: [19] Change "Add Player" button to "Invite Player" - teams/team.html
+TODO: [18] Add new logo - all pages
+TODO: [17] Add header logo - register.html
+TODO: [16] Add alert for improper account setup (needs more info) - django framework
+TODO: [15] Add alerts for error and success feedback - all pages
+TODO: [14] Fix nav width - register.html
+TODO: [13] Fix body and nav spacing - register.html
+TODO: [12] Fix footer margins - teams.html
+TODO: [11] Fix body, nav, header - teams/team.html
+TODO: [10] Add body blocks - teams/team.html
+TODO: [9] Add "My Team" to nav - teams/team.html
+TODO: [8] Fix body and nav spacing - my-teams.html
+TODO: [7] Fix body and nav spacing - players.html
+TODO: [6] Fix nav bar css - register.html
+TODO: [5] Fix Should not be able to create account when logged in - django framework
+TODO: [4] Add to player page - team-profile.html
+TODO: [3] Add Process invites - account.html
+TODO: [2] Add "Invite Player" to team button - players.html
+TODO: [1] Add a useful footer - all pages
