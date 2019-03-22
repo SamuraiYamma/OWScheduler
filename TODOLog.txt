@@ -9,6 +9,9 @@ This log system should make error checking UI much easier. The log should keep t
 on top.
 
 Aly: [30] Fix users joining and leaving teams if they are/aren't already in it - views.py
+TODO: [29] Add "Invite Player" button - players.html
+TODO: [28] Fix "Invite Player" button - players.html, django framework
+TODO: [27] Add warning "Player is already in team" when invite is clicked - players.html
 TODO: [26] Fix nav corners - teams.html
 TODO: [25] Fix footer margins - account.html
 TODO: [24] Add "My Team" option to nav - account.html
@@ -18,18 +21,19 @@ TODO: [21] Add body - account.html
 TODO: [20] Add function to "Invite Player" - teams/teams.html
 TODO: [19] Change "Add Player" button to "Invite Player" - teams/team.html
 TODO: [18] Add new logo - all pages
-TODO: [17] Add header logo - register.html
+TODO: [17] Add header logo - create_player.html
 TODO: [16] Add alert for improper account setup (needs more info) - django framework
 TODO: [15] Add alerts for error and success feedback - all pages
-TODO: [14] Fix nav width - register.html
-TODO: [13] Fix body and nav spacing - register.html
+TODO: [14] Fix nav width - create_player.html
+TODO: [13] Fix body and nav spacing - create_player.html
 TODO: [12] Fix footer margins - teams.html
 TODO: [11] Fix body, nav, header - teams/team.html
 TODO: [10] Add body blocks - teams/team.html
 TODO: [9] Add "My Team" to nav - teams/team.html
-TODO: [8] Fix body and nav spacing - my-teams.html
-TODO: [7] Fix body and nav spacing - players.html
-TODO: [6] Fix nav bar css - register.html
+Ethan: [8] Fix body and nav spacing - my-teams.html
+Ethan: [7] Fix body and nav spacing - players.html
+Ethan: [6] Fix nav bar css - create_player.html
+Ethan: [5] Fix Should not be able to create account when logged in - html
 Aly: [5] Fix Should not be able to create account when logged in - django framework
 TODO: [4] Add to player page - team-profile.html
 TODO: [3] Create invite link functionality - players.html
