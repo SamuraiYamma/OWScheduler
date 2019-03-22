@@ -64,12 +64,6 @@ class PlayerCreationForm(UserCreationForm):
 
 
 class PlayerChangeForm(UserChangeForm):
-    team_autocomplete = forms.ModelChoiceField(
-        queryset=Team.objects.all(),
-        widget=autocomplete.ModelSelect2Multiple(
-            url='multiple-team-autocomplete'),
-        label="Team", required=False
-    )
 
     class Meta(UserChangeForm.Meta):
         model = Player
@@ -81,18 +75,14 @@ class PlayerChangeForm(UserChangeForm):
             'university',
             'role',
             'skillRating',
-            'team_autocomplete'
         )
-        widgets = {
-            'team_autocomplete': autocomplete.ModelSelect2Multiple(
-                url='multiple-team-autocomplete')
-        }
 
 
 class CreateTeamForm(forms.ModelForm):
     id = forms.IntegerField(label="ID")
-    alias = forms.CharField(max_length=32, label="Name", help_text="Must be"
-                                                                   "less than 32 characters.")
+    alias = forms.CharField(max_length=32,
+                            label="Name",
+                            help_text="Must be less than 32 characters.")
 
     def clean_id(self):
         id = self.cleaned_data['id']

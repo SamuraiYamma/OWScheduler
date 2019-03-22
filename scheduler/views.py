@@ -318,28 +318,32 @@ creation or shows form errors if the input was not valid.
 
 
 def register(request):
-    if request.method == 'POST':
-        form = PlayerCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            messages.add_message(request, messages.SUCCESS,
-                                 "Your account has been created successfully!")
-            return HttpResponseRedirect(reverse('scheduler:home'))
+    if not request.user.is_authenticated:
+        if request.method == 'POST':
+            form = PlayerCreationForm(request.POST)
+            if form.is_valid():
+                form.save()
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password1')
+                user = authenticate(username=username, password=password)
+                login(request, user)
+                messages.add_message(request, messages.SUCCESS,
+                                     "Your account has been created successfully!")
+                return HttpResponseRedirect(reverse('scheduler:home'))
+            else:
+                messages.add_message(request, messages.ERROR,
+                                     "There was a problem creating your account.")
         else:
-            messages.add_message(request, messages.ERROR,
-                                 "There was a problem creating your account.")
-    else:
-        form = PlayerCreationForm()
+            form = PlayerCreationForm()
 
-    context = {
-        'form': form
-    }
+        context = {
+            'form': form
+        }
 
-    return render(request, 'scheduler/create_player.html', context)
+        return render(request, 'scheduler/create_player.html', context)
+
+    # TODO: make a page to tell user to logout
+    return render(request, 'scheduler/access_denied.html')
 
 
 """

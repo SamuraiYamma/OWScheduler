@@ -88,11 +88,21 @@
     <div>
         <form action="" method="post">
             {% csrf_token %}
-            {{ form.as_p }}
+            {% for field in form %}
+                <p>{{ field.errors }}</p>
+                <p>{{ field.label_tag }} {{ field }}</p>
+                {% if field.help_text %}
+                    <p>{{ field.help_text|safe }}</p>
+                {% endif %}
+            {% endfor %}
+            {% if form.non_field_errors %}
+                    {{ form.non_field_errors }}
+            {% endif %}
             {{ form.media }}
             <input type="submit" class="btn btn-success"
                    value="Save Changes"/>
         </form>
+        <button type="button" class="btn btn-success">Change Password</button>
     </div>
     {% endblock %}
 </div>

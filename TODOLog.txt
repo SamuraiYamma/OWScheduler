@@ -29,7 +29,7 @@ TODO: [9] Add "My Team" to nav - teams/team.html
 TODO: [8] Fix body and nav spacing - my-teams.html
 TODO: [7] Fix body and nav spacing - players.html
 TODO: [6] Fix nav bar css - register.html
-TODO: [5] Fix Should not be able to create account when logged in - django framework
+DONE: [5] Fix Should not be able to create account when logged in - django framework
 TODO: [4] Add to player page - team-profile.html
 TODO: [3] Add Process invites - account.html
 TODO: [2] Add "Invite Player" to team button - players.html
