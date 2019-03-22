@@ -8,6 +8,7 @@ T0D0: [x] description of problem - filename.
 This log system should make error checking UI much easier. The log should keep the most recent additions
 on top.
 
+Aly: [30] Fix users joining and leaving teams if they are/aren't already in it - views.py
 TODO: [26] Fix nav corners - teams.html
 TODO: [25] Fix footer margins - account.html
 TODO: [24] Add "My Team" option to nav - account.html
