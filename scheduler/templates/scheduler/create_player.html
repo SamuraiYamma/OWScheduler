@@ -9,12 +9,35 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <title>OWS - Register</title>
     <style>
+        .toggle.android { border-radius: 0px;}
+        .toggle.android .toggle-handle { border-radius: 0px; }
+        .wrapper {margin-right: auto; margin-left: auto; max-width: 80%; padding-right: 4%; padding-left: 4%;   min-height: calc(100vh);}
+        #grad{
+            background-image: linear-gradient(to top right, #2b3199, rgb(63, 211, 207));
+            background-repeat: no-repeat;
+            height: 300%;
+        }
+        #header{
 
+        }
+        #footer{
+            margin-top: 3%;
+        }
+        #nav{
+            border-radius: 4px;
+        }
+        #body{
+            margin-top:30px
+        }
     </style>
 </head>
-<body>
-<div class="container-fluid">
-    <nav class="navbar navbar-expand-md sticky-top bg-dark navbar-dark" style="margin-top: 5%">
+<body id="grad">
+<div class="wrapper">
+    <div id="header" class=" text-center" >
+        <h1>OWScheduler</h1>
+        <p>Overwatch Matchmaking and Scrimmage</p>
+    </div>
+    <nav id="nav" class="navbar navbar-expand-md sticky-top bg-dark navbar-dark" >
         <a class="navbar-brand" href="#">OWS</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
@@ -28,9 +51,7 @@
         </div>
     </nav>
 
-</div>
-
-<div class="jumbotron" align="center">
+    <div id="body" class="jumbotron" align="center">
     <h2>New User</h2>
     <!--- this form should eventually action url to home or to login page --->
     <form autocomplete="off" action="{% url 'scheduler:register' %}" method="post">
@@ -90,7 +111,7 @@
         </div>
     </form>
 </div>
-<div class="jumbotron text-center" style="margin-top:7%">
+<div id="footer" class="jumbotron text-center" >
     <div class="row">
         <div class = "col-sm-4">
             <h3>Contact Us</h3>
@@ -106,6 +127,6 @@
         </div>
     </div>
 </div>
-
+</div>
 </body>
 </html>
