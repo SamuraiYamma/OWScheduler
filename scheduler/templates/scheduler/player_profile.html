@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>OWS - My Team</title>
+    <title>OWS - {{ current_player }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
@@ -9,17 +9,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <style>
+        .toggle.android { border-radius: 0px;}
+        .toggle.android .toggle-handle { border-radius: 0px; }
+        .wrapper {margin-right: auto; margin-left: auto; max-width: 80%; padding-right: 4%; padding-left: 4%;   min-height: calc(100vh);}
+        #grad{
+            background-image: linear-gradient(to top right, #2b3199, rgb(63, 211, 207));
+            background-repeat: no-repeat;
+            height: 300%;
+        }
+        #header{
 
+        }
+        #footer{
+            margin-top: 3%;
+        }
+        #nav{
+            border-radius: 4px;
+        }
+        #body{
+
+        }
     </style>
 </head>
-<body>
-
-<div class="jumbotron text-center" style="margin-bottom:0">
+<body id="grad">
+<div class="wrapper">
+<div id="header" class=" text-center" >
     <h1>OWScheduler</h1>
     <p>Overwatch Matchmaking and Scrimmage</p>
 </div>
 
-<nav class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
+<nav id="nav" class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
     <a class="navbar-brand" href="#">OWS</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
@@ -85,7 +104,7 @@
     </div>
 </nav>
 
-<div class="container" style="margin-top:30px">
+<div id="body" class="container" style="margin-top:30px; border-radius: 4px">
     <div class="row">
         <div class="col-sm-4">
             <nav class="navbar bg-dark navbar-dark">
@@ -128,7 +147,7 @@
 </div>
 
 <!-- Footer in a non footer location. Huh?-->
-<div class="jumbotron text-center" style="margin-bottom:0">
+<div id="footer" class="jumbotron text-center" style="margin-bottom:0">
     <div class="row">
         <div class = "col-sm-4">
             <h3>Contact Us</h3>
@@ -143,6 +162,7 @@
             <p>[links to whatever we want]</p>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>y>

@@ -259,14 +259,7 @@ def join_team(request, teamID, username):
             (request.user.username == username or request.user.is_superuser):
         if request.method == 'GET':
             player = Player.objects.get(username=username)
-            team = Team.objects.get(teamID=teamID)
-            if player not in team.players.all():
-                team.players.add(player)
-            else:
-                messages.add_message(request, messages.ERROR, "You cannot "
-                                                              "join a team "
-                                                              "you are "
-                                                              "already in.")
+            Team.objects.get(teamID=teamID).players.add(player)
     else:
         messages.add_message(
             request, messages.ERROR, "You cannot join a team until you are "
@@ -292,27 +285,15 @@ def leave_team(request, teamID, username):
              request.user.is_superuser:
             if request.method == 'GET':
                 player = Player.objects.get(username=username)
-                team = Team.objects.get(teamID=teamID)
-                if player in team.players.all():
-                    team.players.remove(player)
-                else:
-                    messages.add_message(request, messages.ERROR,
-                                         "You cannot leave a team you are "
-                                         "not in.")
+                Team.objects.get(teamID=teamID).players.remove(player)
 
         if Player.objects.get(username=request.user.username) == \
              Team.objects.get(teamID=teamID).team_admin:
             if request.method == 'GET':
                 player = Player.objects.get(username=username)
-                team = Team.objects.get(teamID=teamID)
-                if player in team.players.all():
-                    team.players.remove(player)
-                    return redirect(reverse('scheduler:team_admin', kwargs={
-                        'teamID': teamID}))
-                else:
-                    messages.add_message(request, messages.ERROR,
-                                         "You cannot leave a team you are "
-                                         "not in.")
+                Team.objects.get(teamID=teamID).players.remove(player)
+                return redirect(reverse('scheduler:team_admin', kwargs={
+                    'teamID': teamID}))
 
     else:
         messages.add_message(request, messages.ERROR, "You cannot join a "

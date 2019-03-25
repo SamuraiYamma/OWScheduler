@@ -11,20 +11,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <style>
-        .fakeimg {
-            height: 200px;
-            background: #aaa;
+        .toggle.android { border-radius: 0px;}
+        .toggle.android .toggle-handle { border-radius: 0px; }
+        .wrapper {margin-right: auto; margin-left: auto; max-width: 80%; padding-right: 4%; padding-left: 4%;   min-height: calc(100vh);}
+        #grad{
+            background-image: linear-gradient(to top right, #2b3199, rgb(63, 211, 207));
+            background-repeat: no-repeat;
+            height: 300%;
+        }
+        #footer{
+            margin-top: 3%;
+        }
+        #nav{
+            border-radius: 4px;
+        }
+        #body{
+
         }
     </style>
 </head>
-<body>
-
+<body id="grad">
+<div class="wrapper">
 <div class="jumbotron text-center" style="margin-bottom:0">
     <h1>OWScheduler</h1>
     <p>Overwatch Matchmaking and Scrimmage</p>
 </div>
 
-<nav class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
+<nav id="nav" class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
     <a class="navbar-brand" href="#">OWS</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
@@ -90,7 +103,7 @@
     </div>
 </nav>
 
-<div class="container jumbotron" style="margin-top:30px">
+<div id="body" class="container jumbotron" >
    <div class="row">
        <div class="col-lg-12">
            <h1>
@@ -106,7 +119,7 @@
 </div>
 
 <!-- Footer in a non footer location. Huh?-->
-<div class="jumbotron text-center" style="margin-bottom:0">
+<div id="footer" class="jumbotron text-center">
     <div class="row">
         <div class = "col-sm-4">
             <h3>Contact Us</h3>
@@ -121,6 +134,7 @@
             <p>[links to whatever we want]</p>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>
