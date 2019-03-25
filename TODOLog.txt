@@ -8,6 +8,7 @@ T0D0: [x] description of problem - filename.
 This log system should make error checking UI much easier. The log should keep the most recent additions
 on top.
 
+TODO: [31] Add messages to appear in html - html
 Aly: [30] Fix users joining and leaving teams if they are/aren't already in it - views.py
 TODO: [29] Add "Invite Player" button - players.html
 TODO: [28] Fix "Invite Player" button - players.html, django framework
