@@ -4,132 +4,239 @@
     <title>OWS - My Team</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <style>
-        .toggle.android { border-radius: 0px;}
-        .toggle.android .toggle-handle { border-radius: 0px; }
-        .wrapper {margin-right: auto; margin-left: auto; max-width: 80%; padding-right: 4%; padding-left: 4%;   min-height: calc(100vh);}
-        #grad{
+        .toggle.android {
+            border-radius: 0px;
+        }
+
+        .toggle.android .toggle-handle {
+            border-radius: 0px;
+        }
+
+        .wrapper {
+            margin-right: auto;
+            margin-left: auto;
+            max-width: 80%;
+            padding-right: 4%;
+            padding-left: 4%;
+            min-height: calc(100vh);
+        }
+
+        #grad {
             background-image: linear-gradient(to top right, #2b3199, rgb(63, 211, 207));
             background-repeat: no-repeat;
             height: 300%;
         }
-        #header{
+
+        #header {
 
         }
-        #footer{
+
+        #footer {
             margin-top: 3%;
         }
-        #nav{
+
+        #nav {
             border-radius: 4px;
         }
-        #body{
-            margin-top:30px
+
+        #body {
+            margin-top: 30px
         }
     </style>
 </head>
 <body id="grad">
 <div class="wrapper">
-<div id="header" class=text-center" style="margin-bottom:0">
-    <h1>OWScheduler</h1>
-    <p>Overwatch Matchmaking and Scrimmage</p>
-</div>
-
-<nav id="nav" class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
-    <a class="navbar-brand" href="#">OWS</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'scheduler:home' %}">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'scheduler:teams' %}">Teams</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'scheduler:players' %}">Players</a>
-            </li>
-            {% if user.is_authenticated and user_team %}
-            <li class="nav-item">
-                <a class="nav-link active" href="{% url 'scheduler:team_profile' teamID=user_team %}">My Team</a>
-            </li>
-            {% endif %}
-
-        </ul>
-        <!-- Align Right from Here-->
-        <ul class="navbar-nav">
-            {% if not user.is_authenticated %}
-            <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
-                Login
-            </button>
-            <div class="dropdown-menu dropdown-menu-right">
-                <form method="post" action=".">
-                    {% csrf_token %}
-                    <table>
-
-                        <tr>
-                            <td>{{ login_form.username.label_tag }}</td>
-                            <td>{{ login_form.username }}</td>
-                        </tr>
-                        <tr>
-                            <td>{{ login_form.password.label_tag }}</td>
-                            <td>{{ login_form.password }}</td>
-                        </tr>
-                    </table>
-                    <input type="submit" class="btn btn-primary" value="Login">
-                </form>
-                {% if form.errors or form.non_field_errors %}
-                    <p>Something went wrong here.</p>
-                {% endif %}
-            </div>
-
-            <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'scheduler:register' %}'">
-                Register
-            </button>
-        {% elif user.is_authenticated %}
-            <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
-            Hi, {{ user.username }}
-            </button>
-            <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="{% url 'scheduler:account' username=user.username %}">Account</a>
-                <button type="button" class = "btn btn-primary" onclick="location.href='{% url 'scheduler:user_logout' %}'">Logout</button>
-            </div>
-        {% endif %}
-        </ul>
+    <div id="header" class=text-center" style="margin-bottom:0">
+        <h1>OWScheduler</h1>
+        <p>Overwatch Matchmaking and Scrimmage</p>
     </div>
-</nav>
+
+    <nav id="nav"
+         class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">OWS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'scheduler:home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'scheduler:teams' %}">Teams</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'scheduler:players' %}">Players</a>
+                </li>
+                {% if user.is_authenticated and user_team %}
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                           href="{% url 'scheduler:team_profile' teamID=user_team %}">My
+                            Team</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+            <!-- Align Right from Here-->
+            <ul class="navbar-nav">
+                {% if not user.is_authenticated %}
+                    <button type="button"
+                            class="btn btn-outline-light dropdown-toggle"
+                            data-toggle="dropdown">
+                        Login
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <form method="post" action=".">
+                            {% csrf_token %}
+                            <table>
+
+                                <tr>
+                                    <td>{{ login_form.username.label_tag }}</td>
+                                    <td>{{ login_form.username }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ login_form.password.label_tag }}</td>
+                                    <td>{{ login_form.password }}</td>
+                                </tr>
+                            </table>
+                            <input type="submit" class="btn btn-primary"
+                                   value="Login">
+                        </form>
+                        {% if form.errors or form.non_field_errors %}
+                            <p>Something went wrong here.</p>
+                        {% endif %}
+                    </div>
+
+                    <button type="button" class="btn btn-outline-light"
+                            onclick="location.href='{% url 'scheduler:register' %}'">
+                        Register
+                    </button>
+                {% elif user.is_authenticated %}
+                    <button type="button"
+                            class="btn btn-outline-light dropdown-toggle"
+                            data-toggle="dropdown">
+                        Hi, {{ user.username }}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item"
+                           href="{% url 'scheduler:account' username=user.username %}">Account</a>
+                        <button type="button" class="btn btn-primary"
+                                onclick="location.href='{% url 'scheduler:user_logout' %}'">
+                            Logout
+                        </button>
+                    </div>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
 
 
-<div id="body" class="container" >
-    <div class="row">
-        <div class="col-sm-5">
-            <h3>
-                {{ current_team.teamAlias }}
-            </h3>
-            <h6>
-                #{{ current_team.teamID }}
-            </h6>
-            <div class="jumbotron">
-                <p>
-                    Team Description <br>
-                    Team Admin: {{ current_team.team_admin }}
-                </p>
+    <div id="body" class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="jumbotron">
+                    <h3>
+                        {{ current_team.teamAlias }}
+                    </h3>
+                    <h4>
+                        #{{ current_team.teamID }}
+                    </h4>
+                    <h10>
+                        Team Admin: {{ current_team.team_admin }}
+                    </h10>
+                </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-4" style="padding-top:15px;max-height:300px;
+                                        overflow-y: auto; border-radius: 8px;
+                                        background-image: linear-gradient(rgba(29, 30, 100, 0.7), rgba(0,0,0,0) 95%);
+                                        color:white;">
+                <form method="post" id="filter-player-availability">
+                    {% csrf_token %}
+                    <div class="row form-group">
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-primary"
+                                    id="uncheck-all">Uncheck
+                                All
+                            </button>
+                        </div>
+                        <div class="col-sm-4 offset-1">
+                            <button type="button" class="btn btn-primary"
+                                    id="check-all">Check
+                                All
+                            </button>
+                        </div>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
 
-            <table class="table">
-                <thead>
+                                //uncheck all players
+                                $('#uncheck-all').click(function () {
+                                    $("input:checkbox").prop('checked', false);
+                                });
+
+                                //check all players
+                                $('#check-all').click(function () {
+                                    $("input:checkbox").prop('checked', true);
+                                });
+
+                            });
+                        </script>
+                    </div>
+                    <div class="custom-control custom-checkbox form-group">
+                        <h6>Players</h6>
+                        {% for player in roster %}
+                            <div class="form-check">
+                                <input type="checkbox"
+                                       class="custom-control-input"
+                                       name="selected_user"
+                                       id="{{ player }}_checkbox"
+                                       value="{{ player }}">
+                                <label class="custom-control-label"
+                                       for="{{ player }}_checkbox">{{ player }}</label>
+                            </div>
+                        {% endfor %}
+                        <script type="text/javascript">
+                            {% if selected_players %}
+                                {% for player in selected_players %}
+                                    document.getElementById("{{ player }}_checkbox").checked = true;
+                                {% endfor %}
+                            {% endif %}
+                        </script>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="display:
+            block;">Filter Schedule
+                    </button>
+                </form>
+            </div>
+            <div class="col-7 offset-1" style="padding-top:15px;
+                                                border-radius: 8px;
+                                                max-height:300px;
+                                                overflow-y:auto;
+                                                background-image: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,0));
+                                                color: #1D1F64;">
+                <table class="table table-borderless" id="time_table">
+                    <style>
+                        td {
+                            border-bottom: solid #1D1F64 1px !important;
+                        }
+                    </style>
+                    <thead style="font-weight: bold;">
                     <tr>
                         <td>Day</td>
                         <td>Time</td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for timeslot in times %}
+                    </thead>
+                    <tbody>
+                    {% for timeslot in selected_times %}
                         <tr>
                             <td>
                                 {% if timeslot.dayOfWeek == 0 %}
@@ -153,59 +260,58 @@
                             </td>
                         </tr>
                     {% endfor %}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="col-sm-2">
-            <!--NOTHING GOES HERE-->
-        </div>
-        <div class="col-sm-5">
-            <h3>
-                Roster
-            </h3>
-            <table class="table ">
-                <thead>
-                    <tr>
-                        <th>Battlenet ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for items in roster %}
-                    <tr>
-                        <td>{{ items.battlenetID }}</td>
-                    </tr>
-                    {% endfor %}
-                    <tr>
-                        <td>
-                            <button class="btn btn-success" type="button" disabled>
+{#        <div class="row">#}
+{#            <div class="col-sm-5">#}
+{#                <h3>#}
+{#                    Roster#}
+{#                </h3>#}
+{#                <table class="table table-hover">#}
+{#                    <thead>#}
+{#                    <tr>#}
+{#                        <th>Battlenet ID</th>#}
+{#                    </tr>#}
+{#                    </thead>#}
+{#                    <tbody>#}
+{#                    {% for items in roster %}#}
+{#                        <tr>#}
+{#                            <td>{{ items.battlenetID }}</td>#}
+{#                        </tr>#}
+{#                    {% endfor %}#}
+{#                    <tr>#}
+{#                        <td>#}
+{#                            <button class="btn btn-success" type="button"#}
+{#                                    disabled>#}
+{#                                Add Player#}
+{#                            </button>#}
+{#                        </td>#}
+{#                    </tr>#}
+{#                    </tbody>#}
+{#                </table>#}
+{#            </div>#}
+{#        </div>#}
+    </div>
 
-                                Add Player
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <!-- Footer in a non footer location. Huh?-->
+    <div id="footer" class="jumbotron text-center">
+        <div class="row">
+            <div class="col-sm-4">
+                <h3>Contact Us</h3>
+                <p>[Leave some way to contact us here]</p>
+            </div>
+            <div class="col-sm-4">
+                <h3>[empty]</h3>
+                <p>[???]</p>
+            </div>
+            <div class="col-sm-4">
+                <h3>Links</h3>
+                <p>[links to whatever we want]</p>
+            </div>
         </div>
     </div>
-</div>
-
-<!-- Footer in a non footer location. Huh?-->
-<div id="footer" class="jumbotron text-center" >
-    <div class="row">
-        <div class = "col-sm-4">
-            <h3>Contact Us</h3>
-            <p>[Leave some way to contact us here]</p>
-        </div>
-        <div class = "col-sm-4">
-            <h3>[empty]</h3>
-            <p>[???]</p>
-        </div>
-        <div class = "col-sm-4">
-            <h3>Links</h3>
-            <p>[links to whatever we want]</p>
-        </div>
-    </div>
-</div>
 </div>
 </body>
 </html>

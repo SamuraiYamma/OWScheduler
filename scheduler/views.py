@@ -96,16 +96,13 @@ identify the player
 
 
 def player_profile(request, username):
-    try:
-        player = Player.objects.get(username=username)
-        player_teams = Team.objects.filter(players=player)
-        times = TimeSlot.objects.filter(players_available=player)
-        return render(request, 'scheduler/player_profile.html',
-                      {'current_player': player,
-                       'current_teams': player_teams,
-                       'availability': times})
-    except Player.DoesNotExist:
-        raise Http404
+    player = get_object_or_404(Player, username=username)
+    player_teams = Team.objects.filter(players=player)
+    times = TimeSlot.objects.filter(players_available=player)
+    return render(request, 'scheduler/player_profile.html',
+                  {'current_player': player,
+                   'current_teams': player_teams,
+                   'availability': times})
 
 
 """
@@ -141,6 +138,10 @@ def account(request, username):
             for slot in available_times:
                 TimeSlot.objects.get(timeSlotID=slot).players_available.add(
                     player)
+            messages.add_message(request, messages.SUCCESS, "Availability "
+                                                            "saved "
+                                                            "successfully.")
+            context['messages'] = messages
 
         context['form'] = form
         context['player'] = player
@@ -171,7 +172,6 @@ def teams(request):
 
     context = user_login(request)
     context.update({'team_list': team_list})
-    print(context['user_teams'])
     return render(request, 'scheduler/teams.html', context)
 
 
@@ -201,7 +201,7 @@ def team_admin(request, teamID):
                 'form': form,
                 'team': team,
                 'players': team.players.all(),
-             }
+            }
         )
         if form.is_valid():
             if form.cleaned_data['team_alias']:
@@ -218,7 +218,15 @@ def team_admin(request, teamID):
                                             'username':
                                                 request.user.username}))
             team.save()
-
+            messages.add_message(request, messages.SUCCESS, "Your changes "
+                                                            "have been saved "
+                                                            "successfully.")
+            context['messages'] = messages
+        else:
+            messages.add_message(request, messages.ERROR, "There was a "
+                                                          "problem saving "
+                                                          "your changes.")
+            context['messages'] = messages
         return render(request, 'scheduler/team_admin.html', context)
 
     return render(request, 'scheduler/access_denied.html')
@@ -234,13 +242,37 @@ def team_profile(request, teamID):
     roster = Team.objects.get(teamID=teamID).players.all()
     context['roster'] = roster
 
-    if roster.count():
-        possible_times = TimeSlot.objects.filter(players_available=roster[0])
+    if roster:
+        all_times = TimeSlot.objects.filter(
+            players_available=roster[0])
         for player in roster:
-            possible_times = possible_times.filter(
+            all_times = all_times.filter(
                 players_available=player).order_by('dayOfWeek', 'hour')
             # filter so that times only contains that teams availability
-            context['times'] = possible_times
+
+        context['selected_times'] = all_times
+        context['selected_players'] = roster
+
+    if request.method == 'POST':
+        selected_roster = request.POST.getlist('selected_user')
+        if len(selected_roster) == len(roster):
+            context['selected_times'] = all_times
+            context['selected_players'] = roster
+        elif selected_roster and roster:
+            selected_players = []
+            for player in selected_roster:
+                selected_players.append(Player.objects.get(battlenetID=player))
+            selected_times = TimeSlot.objects.filter(
+                players_available=selected_players[0])
+            for player in selected_players:
+                selected_times.filter(players_available=player).order_by(
+                    'dayOfWeek', 'hour')
+            context['selected_times'] = selected_times
+            context['selected_players'] = selected_players
+        else:
+
+            context['selected_times'] = []
+            context['selected_players'] = []
 
     return render(request, 'scheduler/team_profile.html', context)
 
@@ -262,8 +294,9 @@ def join_team(request, teamID, username):
             Team.objects.get(teamID=teamID).players.add(player)
     else:
         messages.add_message(
-            request, messages.ERROR, "You cannot join a team until you are "
-                                     "logged in correctly.")
+            request, messages.ERROR, "Join team failed. Please check your "
+                                     "login credentials.")
+        context['messages'] = messages
     return redirect('scheduler:teams')
 
 
@@ -282,23 +315,32 @@ def leave_team(request, teamID, username):
 
     if request.user.is_authenticated:
         if request.user.username == username or \
-             request.user.is_superuser:
+                request.user.is_superuser:
             if request.method == 'GET':
                 player = Player.objects.get(username=username)
                 Team.objects.get(teamID=teamID).players.remove(player)
+                messages.add_message(request, messages.SUCCESS, "Left team "
+                                                                "successfully."
+                                     )
+                context['messages'] = messages
 
         if Player.objects.get(username=request.user.username) == \
-             Team.objects.get(teamID=teamID).team_admin:
+                Team.objects.get(teamID=teamID).team_admin:
             if request.method == 'GET':
                 player = Player.objects.get(username=username)
                 Team.objects.get(teamID=teamID).players.remove(player)
+                messages.add_message(request, messages.SUCCESS, "Removed "
+                                                                "player "
+                                                                "successfully."
+                                     )
                 return redirect(reverse('scheduler:team_admin', kwargs={
-                    'teamID': teamID}))
+                    'teamID': teamID, 'messages': messages}))
 
     else:
-        messages.add_message(request, messages.ERROR, "You cannot join a "
-                                                      "team until you are  "
-                                                      "logged in correctly.")
+        messages.add_message(request, messages.ERROR, "Leave team failed. "
+                                                      "Please check your "
+                                                      "login credentials.")
+        context['messages'] = messages
     return redirect('scheduler:teams')
 
 
@@ -307,7 +349,10 @@ def delete_team(request, teamID):
     if Player.objects.get(username=request.user.username) == team.team_admin or \
             request.user.is_superuser:
         team.delete()
-        return redirect(reverse('scheduler:teams'))
+        messages.add_message(request, messages.SUCCESS, "Deleted team "
+                                                        "successfully.")
+        return redirect(reverse('scheduler:teams', kwargs={'messages':
+                                                               messages}))
     return render(request, 'scheduler/access_denied.html')
 
 
@@ -328,11 +373,18 @@ def register(request):
                 user = authenticate(username=username, password=password)
                 login(request, user)
                 messages.add_message(request, messages.SUCCESS,
-                                     "Your account has been created successfully!")
-                return HttpResponseRedirect(reverse('scheduler:home'))
+                                     "Your account has been created "
+                                     "successfully! Make sure to add "
+                                     "information to your profile using the "
+                                     "account page.")
+                return HttpResponseRedirect(reverse('scheduler:home',
+                                                    kwargs={'messages':
+                                                                messages}))
             else:
                 messages.add_message(request, messages.ERROR,
-                                     "There was a problem creating your account.")
+                                     "There was a problem creating your "
+                                     "account.")
+                context['messages'] = messages
         else:
             form = PlayerCreationForm()
 
@@ -364,7 +416,8 @@ def handler500(request, exception, template_name="scheduler/500.html"):
     return response
 
 
-def handler403(request, exception, template_name="scheduler/access_denied.html"):
+def handler403(request, exception,
+               template_name="scheduler/access_denied.html"):
     response = render_to_response("scheduler/access_denied.html")
     response.status_code = 403
     return response
