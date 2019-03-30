@@ -24,6 +24,7 @@ def user_login(request):
         user = None
         form = AuthenticationForm()
         user_team = None
+        admin_team = None
         if request.method == 'POST':
             form = AuthenticationForm(data=request.POST)
             if form.is_valid():
@@ -37,11 +38,14 @@ def user_login(request):
                     login(request, user)
                     player = Player.objects.get(username=username)
                     user_team = Team.objects.filter(players=player)
-        return {'login_form': form, 'user': user, 'user_teams': user_team}
+                    admin_team = Team.objects.filter(team_admin=player)
+        return {'login_form': form, 'user': user, 'user_teams': user_team,
+                'admin_teams': admin_team}
     else:
         player = Player.objects.get(username=request.user.username)
         user_team = Team.objects.filter(players=player)
-    return {'user_teams': user_team}
+        admin_team = Team.objects.filter(team_admin=player)
+    return {'user_teams': user_team, 'admin_teams': admin_team}
 
 
 """ 

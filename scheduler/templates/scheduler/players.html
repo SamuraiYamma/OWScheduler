@@ -38,132 +38,206 @@
         <p>Overwatch Matchmaking and Scrimmage</p>
     </div>
 
-<nav id="nav" class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
-    <a class="navbar-brand" href="#">OWS</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'scheduler:home' %}">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="{% url 'scheduler:teams' %}">Teams</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="{% url 'scheduler:players' %}">Players</a>
-            </li>
+    <nav id="nav" class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">OWS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'scheduler:home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{% url 'scheduler:teams' %}">Teams</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'scheduler:players' %}">Players</a>
+                </li>
 
-            {% if user.is_authenticated and user_teams %}
-            <li class="nav-item">
-                <a class="nav-link" href="
-{% url 'scheduler:my_teams' username=user.username %}">My Teams</a>
-            </li>
-            {% endif %}
-
-        </ul>
-        <!-- Align Right from Here-->
-        <ul class="navbar-nav">
-            {% if not user.is_authenticated %}
-            <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
-                Login
-            </button>
-            <div class="dropdown-menu dropdown-menu-right">
-                <form method="post" action=".">
-                    {% csrf_token %}
-                    <table>
-
-                        <tr>
-                            <td>{{ login_form.username.label_tag }}</td>
-                            <td>{{ login_form.username }}</td>
-                        </tr>
-                        <tr>
-                            <td>{{ login_form.password.label_tag }}</td>
-                            <td>{{ login_form.password }}</td>
-                        </tr>
-                    </table>
-                    <input type="submit" class="btn btn-primary" value="Login">
-                </form>
-                {% if form.errors or form.non_field_errors %}
-                    <p>Something went wrong here.</p>
-                {% endif %}
-            </div>
-
-            <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'scheduler:register' %}'">
-                Register
-            </button>
-        {% elif user.is_authenticated %}
-            <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
-            Hi, {{ user.username }}
-            </button>
-            <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="{% url 'scheduler:account' username=user.username %}">Account</a>
-                <button type="button" onclick="location.href='{% url 'scheduler:user_logout' %}?next={{ request.path }}'">Logout</button>
-            </div>
-        {% endif %}
-        </ul>
-    </div>
-</nav>
-
-<div id="body" class="container jumbotron" >
-
-    <h3>
-        Players
-    </h3>
-    <form method="get" class="form-inline" action=".">
-        <input id="player_search" name="player_search" class="form-control mr-sm-2" type="text" placeholder="Search">
-        <button class="btn btn-success" type="submit">Search</button>
-    </form>
-    <table class="table table-hover">
-        {% if player_list %}
-            <thead>
-            <tr>
-                <th>BattleTag</th>
-                <th>Team</th>
-                <th>University</th>
-                <th>Role</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for player in player_list %}
-            <tr onclick="location.href='{% url 'scheduler:player_profile' username=player.username %}'">
-                <td>{{ player.battlenetID }}</td>
-                <td>{{ player.team }}</td>
-                <td>{{ player.university }}</td>
-                <td>{{ player.role }}</td>
                 {% if user.is_authenticated and user_teams %}
-                    {% if player.team not in user_teams %}
-                        <td> <button class="btn btn-primary"> Invite to Team </button> </td>
-                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="
+{% url 'scheduler:my_teams' username=user.username %}">My Teams</a>
+                    </li>
                 {% endif %}
-            </tr>
-            {% endfor %}
-            </tbody>
 
-        {% else %}
-            <tbody>Sorry, your search didn't return anything.</tbody>
-        {% endif %}
-    </table>
-</div>
+            </ul>
+            <!-- Align Right from Here-->
+            <ul class="navbar-nav">
+                {% if not user.is_authenticated %}
+                    <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
+                        Login
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <form method="post" action=".">
+                            {% csrf_token %}
+                            <table>
 
-<!-- Footer in a non footer location. Huh?-->
-<div id="footer" class="jumbotron text-center">
-    <div class="row">
-        <div class = "col-sm-4">
-            <h3>Contact Us</h3>
-            <p>[Leave some way to contact us here]</p>
+                                <tr>
+                                    <td>{{ login_form.username.label_tag }}</td>
+                                    <td>{{ login_form.username }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ login_form.password.label_tag }}</td>
+                                    <td>{{ login_form.password }}</td>
+                                </tr>
+                            </table>
+                            <input type="submit" class="btn btn-primary" value="Login">
+                        </form>
+                        {% if form.errors or form.non_field_errors %}
+                            <p>Something went wrong here.</p>
+                        {% endif %}
+                    </div>
+
+                    <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'scheduler:register' %}'">
+                        Register
+                    </button>
+                {% elif user.is_authenticated %}
+                    <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
+                        Hi, {{ user.username }}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="{% url 'scheduler:account' username=user.username %}">Account</a>
+                        <button type="button" onclick="location.href='{% url 'scheduler:user_logout' %}?next={{ request.path }}'">Logout</button>
+                    </div>
+                {% endif %}
+            </ul>
         </div>
-        <div class = "col-sm-4">
-            <h3>[empty]</h3>
-            <p>[???]</p>
-        </div>
-        <div class = "col-sm-4">
-            <h3>Links</h3>
-            <p>[links to whatever we want]</p>
+    </nav>
+
+    <div id="body" class="container jumbotron" >
+
+        <h3>
+            Players
+        </h3>
+        <form method="get" class="form-inline" action="." style="margin-bottom:
+    1em;">
+            <input id="player_search" name="player_search" class="form-control mr-sm-2" type="text" placeholder="Search">
+            <button class="btn btn-success" type="submit">Search</button>
+        </form>
+        <table class="table table-hover">
+            {% if player_list %}
+                <thead>
+                <tr>
+                    <th>BattleTag</th>
+                    <th>Role</th>
+                    <th>SR</th>
+                    <th>University</th>
+                    <th>Invite to Team</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for player in player_list %}
+                    <tr>
+                        <td  onclick="location.href='{% url 'scheduler:player_profile' username=player.username %}'">{{ player.battlenetID }}</td>
+                        <td  onclick="location.href='{% url 'scheduler:player_profile' username=player.username %}'">{{ player.role }}</td>
+                        <td  onclick="location.href='{% url 'scheduler:player_profile' username=player.username %}'">{{ player.skillRating }}</td>
+                        <td  onclick="location.href='{% url 'scheduler:player_profile' username=player.username %}'">{{ player.university }}</td>
+                        {% if user_teams or admin_teams %}
+                            <form method="post">
+                                {% csrf_token %}
+                                <td>
+                                    <select class="form-control"
+                                            id="team-select">
+                                        {% for team in user_teams %}
+                                            <option value="{{ team.teamID }}">{{ team }}</option>
+                                        {% endfor %}
+                                        {% for team in admin_teams %}
+                                            {% if team not in user_teams %}
+                                                <option value="{{ team.teamID }}">{{ team }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <div class="modal fade" id="{{ player.username }}teamLinkModal" tabindex="-1" role="dialog" aria-labelledby="teamLinkModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="teamLinkModalLabel">Get Invite Link</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="text" readonly
+                                                       id="{{ player.username }}-invite-link"
+                                                       class="form-control-plaintext">
+                                                <script type="text/javascript">
+                                                    var select = document.getElementById("team-select");
+                                                    var teamID = select.options[select.selectedIndex].value;
+                                                    var url = location.protocol.toString() + location.host.toString() + "/join_team/" + teamID + "/{{ player.username }}/";
+                                                    document.getElementById("{{ player.username }}-invite-link").value = url;
+
+                                                    function copyText(username) {
+                                                         var copyText = document.querySelector("#"+username+"-invite-link");
+                                                          copyText.select();
+                                                          document.execCommand("copy");
+                                                    }
+                                                </script>
+                                                <button type="button"
+                                                        onclick="copyText('{{ player.username }}')"
+                                                        class="btn btn-primary">Copy Link
+                                                </button>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <td>
+                                        <button class="btn btn-primary" type="button"
+                                                data-toggle="modal"
+                                                data-target="#{{ player.username }}teamLinkModal">
+                                            Get Invite Link</button>
+                                    </td>
+                            </form>
+                        {% elif user.is_authenticated %}
+                            <td>
+                                <button class="btn btn-primary disabled"
+                                        data-toggle="tooltip" data-placement="top"
+                                        title="Join a team to invite a player to your
+                                team!">Get
+                                    Invite Link</button>
+                            </td>
+                        {% else %}
+                            <td>
+                                <button class="btn btn-primary disabled"
+                                        data-toggle="tooltip" data-placement="top"
+                                        title="Log in to invite a player to your
+                                team!">Get
+                                    Invite Link</button>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            {% else %}
+                <tbody>Sorry, your search didn't return anything.</tbody>
+            {% endif %}
+        </table>
+    </div>
+
+    <!-- Footer in a non footer location. Huh?-->
+    <div id="footer" class="jumbotron text-center">
+        <div class="row">
+            <div class = "col-sm-4">
+                <h3>Contact Us</h3>
+                <p>[Leave some way to contact us here]</p>
+            </div>
+            <div class = "col-sm-4">
+                <h3>[empty]</h3>
+                <p>[???]</p>
+            </div>
+            <div class = "col-sm-4">
+                <h3>Links</h3>
+                <p>[links to whatever we want]</p>
+            </div>
         </div>
     </div>
-</div>
 </div>
 </body>
 </html>
