@@ -290,6 +290,15 @@ def join_team(request, teamID, username):
     if request.user.is_authenticated and \
             (request.user.username == username or request.user.is_superuser):
         if request.method == 'GET':
+            if len(Team.objects.get(teamID=teamID).players.all()) >= 50:
+                messages.add_message(
+                    request, messages.ERROR, "Join team failed. Only 50 "
+                                             "players can be on a team."
+                )
+                context['messages'] = messages
+                return redirect('scheduler:teams')
+            #  TODO: test this !
+            print(len(Team.objects.get(teamID=teamID).players.all()))
             player = Player.objects.get(username=username)
             Team.objects.get(teamID=teamID).players.add(player)
     else:

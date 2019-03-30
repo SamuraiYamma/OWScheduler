@@ -156,12 +156,20 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-4" style="padding-top:15px;max-height:300px;
-                                        overflow-y: auto; border-radius: 8px;
-                                        background-image: linear-gradient(rgba(29, 30, 100, 0.7), rgba(0,0,0,0) 95%);
-                                        color:white;">
-                <form method="post" id="filter-player-availability">
+            <div class="col-4"  id="filter-player-availability">
+                <style>
+                    #filter-player-availability {
+                        padding-top:1em;
+                        max-height:300px;
+                        overflow-y: auto;
+                        border-radius: 8px;
+                        background-image: linear-gradient(rgba(29, 30, 100, 0.7), rgba(0,0,0,0) 95%);
+                        color:white;
+                    }
+                </style>
+                <form method="post">
                     {% csrf_token %}
+                    <div class="container-fluid">
                     <div class="row form-group">
                         <div class="col-sm-4">
                             <button type="button" class="btn btn-primary"
@@ -169,7 +177,7 @@
                                 All
                             </button>
                         </div>
-                        <div class="col-sm-4 offset-1">
+                        <div class="col-sm-4 offset-1" style="margin: 0;">
                             <button type="button" class="btn btn-primary"
                                     id="check-all">Check
                                 All
@@ -215,24 +223,28 @@
                     <button type="submit" class="btn btn-primary" style="display:
             block;">Filter Schedule
                     </button>
+                    </div>
                 </form>
             </div>
-            <div class="col-7 offset-1" style="padding-top:15px;
-                                                border-radius: 8px;
-                                                max-height:300px;
-                                                overflow-y:auto;
-                                                background-image: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,0));
-                                                color: #1D1F64;">
-                <table class="table table-borderless" id="time_table">
-                    <style>
-                        td {
+            <div class="col-7 offset-1" id="availability-table">
+                <style>
+                        #availability-table {
+                            padding-top:1em;
+                            border-radius: 8px;
+                            max-height:300px;
+                            overflow-y:auto;
+                            background-image: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,0));
+                            color: #1D1F64;
+                        }
+                        #availability-table td, #availability-table th {
                             border-bottom: solid #1D1F64 1px !important;
                         }
-                    </style>
-                    <thead style="font-weight: bold;">
+                </style>
+                <table class="table table-borderless">
+                    <thead>
                     <tr>
-                        <td>Day</td>
-                        <td>Time</td>
+                        <th>Day</th>
+                        <th>Time</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -264,35 +276,46 @@
                 </table>
             </div>
         </div>
-{#        <div class="row">#}
-{#            <div class="col-sm-5">#}
-{#                <h3>#}
-{#                    Roster#}
-{#                </h3>#}
-{#                <table class="table table-hover">#}
-{#                    <thead>#}
-{#                    <tr>#}
-{#                        <th>Battlenet ID</th>#}
-{#                    </tr>#}
-{#                    </thead>#}
-{#                    <tbody>#}
-{#                    {% for items in roster %}#}
-{#                        <tr>#}
-{#                            <td>{{ items.battlenetID }}</td>#}
-{#                        </tr>#}
-{#                    {% endfor %}#}
-{#                    <tr>#}
-{#                        <td>#}
-{#                            <button class="btn btn-success" type="button"#}
-{#                                    disabled>#}
-{#                                Add Player#}
-{#                            </button>#}
-{#                        </td>#}
-{#                    </tr>#}
-{#                    </tbody>#}
-{#                </table>#}
-{#            </div>#}
-{#        </div>#}
+        <div class="row">
+            <div class="col-12" id="roster-table">
+                <style>
+                    #roster-table {
+                        margin-top: 2em;
+                        padding-top: 1em;
+                        max-height: 500px;
+                        overflow-y: auto;
+                        background-image: linear-gradient(rgba(25, 25, 25, 0.5), rgba(255,255,255,0));
+                        border-radius: 8px;
+                        color: rgba(255,255,255, 0.85);
+                    }
+
+                    #roster-table td, #roster-table th {
+                        border-bottom: solid rgba(255,255,255, 0.85) 1px
+                        !important;
+                    }
+                </style>
+                <table class="table table-hover table-borderless">
+                    <thead>
+                    <tr>
+                        <th>Battlenet ID</th>
+                        <th>Role</th>
+                        <th>SR</th>
+                        <th>University</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for player in roster %}
+                        <tr onclick="location.href='{% url 'scheduler:player_profile' username=player.username %}'">
+                            <td>{{ player.battlenetID }}</td>
+                            <td>{{ player.role }}</td>
+                            <td>{{ player.skillRating }}</td>
+                            <td>{{ player.university }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <!-- Footer in a non footer location. Huh?-->
