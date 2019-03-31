@@ -56,12 +56,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'scheduler:players' %}">Players</a>
                     </li>
-
                     {% if user.is_authenticated and user_teams %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="
-        {% url 'scheduler:my_teams' username=user.username %}">My Teams</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'scheduler:my_teams' username=user.username %}">My Teams</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item"  data-toggle="tooltip" data-placement="top" title="Log in and join a team to view this page!">
+                            <a class="nav-link disabled">My Teams</a>
+                        </li>
                     {% endif %}
 
                 </ul>
@@ -109,7 +111,7 @@
         </nav>
 
         
-        <div id="body" class="container jumbotron">
+        <div id="body" class="container-fluid jumbotron">
            <div class="row">
                 <div class="col-sm-6">
                     <h3> About </h3>

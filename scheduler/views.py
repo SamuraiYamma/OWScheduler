@@ -291,9 +291,15 @@ player to a team without going through the admin page.
 
 
 def join_team(request, teamID, username):
+    #  user must be logged in and
+    #  user is joining a team themselves or is superuser or is team admin
     if request.user.is_authenticated and \
-            (request.user.username == username or request.user.is_superuser):
+            (request.user.username == username or
+             request.user.is_superuser or
+             Player.objects.get(username=request.user.username) ==
+             Team.objects.get(teamID=teamID).team_admin):
         if request.method == 'GET':
+            #  a team can have 50 players
             if len(Team.objects.get(teamID=teamID).players.all()) >= 50:
                 messages.add_message(
                     request, messages.ERROR, "Join team failed. Only 50 "
@@ -304,7 +310,14 @@ def join_team(request, teamID, username):
             #  TODO: test this !
             print(len(Team.objects.get(teamID=teamID).players.all()))
             player = Player.objects.get(username=username)
-            Team.objects.get(teamID=teamID).players.add(player)
+            team = Team.objects.get(teamID=teamID)
+            if player not in team.players.all():
+                team.players.add(player)
+            else:
+                messages.add_message(request, messages.ERROR, "You cannot "
+                                                              "join a team "
+                                                              "you are "
+                                                              "already in.")
     else:
         messages.add_message(
             request, messages.ERROR, "Join team failed. Please check your "
@@ -327,25 +340,38 @@ def leave_team(request, teamID, username):
     get_object_or_404(Player, username=username)
 
     if request.user.is_authenticated:
+        #  user is superuser or trying to remove themselves from a team
         if request.user.username == username or \
                 request.user.is_superuser:
             if request.method == 'GET':
                 player = Player.objects.get(username=username)
-                Team.objects.get(teamID=teamID).players.remove(player)
-                messages.add_message(request, messages.SUCCESS, "Left team "
-                                                                "successfully."
-                                     )
+                team = Team.objects.get(teamID=teamID)
+                if player in team.players.all():
+                    team.players.remove(player)
+                    messages.add_message(request, messages.SUCCESS,
+                                         "Left team successfully.")
+                else:
+                    messages.add_message(request, messages.ERROR,
+                                         "You cannot leave a team you are "
+                                         "not in.")
                 context['messages'] = messages
 
+        #  team admin kicking a player from a team
         if Player.objects.get(username=request.user.username) == \
                 Team.objects.get(teamID=teamID).team_admin:
             if request.method == 'GET':
                 player = Player.objects.get(username=username)
-                Team.objects.get(teamID=teamID).players.remove(player)
-                messages.add_message(request, messages.SUCCESS, "Removed "
-                                                                "player "
-                                                                "successfully."
-                                     )
+                team = Team.objects.get(teamID=teamID)
+                if player in team.players.all():
+                    team.players.remove(player)
+                    messages.add_message(request,
+                                         messages.SUCCESS,
+                                         "Removed player successfully.")
+                else:
+                    messages.add_message(request,
+                                         messages.ERROR,
+                                         "Cannot remove player because they "
+                                         "were not in this team.")
                 return redirect(reverse('scheduler:team_admin', kwargs={
                     'teamID': teamID, 'messages': messages}))
 
@@ -364,8 +390,8 @@ def delete_team(request, teamID):
         team.delete()
         messages.add_message(request, messages.SUCCESS, "Deleted team "
                                                         "successfully.")
-        return redirect(reverse('scheduler:teams', kwargs={'messages':
-                                                               messages}))
+        return redirect(reverse('scheduler:teams', kwargs={'messages': messages
+                                                           }))
     return render(request, 'scheduler/access_denied.html')
 
 
