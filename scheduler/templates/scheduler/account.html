@@ -77,7 +77,7 @@
                 {% endif %}
             </div>
 
-            <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'scheduler:register' %}'">
+            <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'register' %}'">
                 Register
             </button>
         {% elif user.is_authenticated %}
@@ -86,7 +86,7 @@
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{% url 'scheduler:account' username=user.username %}">Account</a>
-                <button type="button" class = "btn btn-primary" onclick="location.href='{% url 'scheduler:user_logout' %}'">Logout</button>
+                <button type="button" class = "btn btn-primary" onclick="location.href='{% url 'user_logout' %}'">Logout</button>
             </div>
         {% endif %}
         </ul>
@@ -112,7 +112,7 @@
             <input type="submit" class="btn btn-success"
                    value="Save Changes"/>
         </form>
-        <button type="button" class="btn btn-success">Change Password</button>
+        <button type="button" class="btn btn-success" onclick="location.href='{% url 'change_password' %}'">Change Password</button>
     </div>
     {% endblock %}
 </div>

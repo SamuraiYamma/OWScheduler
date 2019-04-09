@@ -1,12 +1,16 @@
-from django.contrib.auth import authenticate, login, logout
+
 from django.shortcuts import get_object_or_404, render, render_to_response, \
     redirect, reverse
-from django.db.models import Q
-from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect, HttpResponse, Http404
-from django.views.generic import TemplateView, View
+
+from django.db.models import Q
+
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm
+
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.messages import get_messages
 
 from dal import autocomplete
 
@@ -60,6 +64,35 @@ def user_logout(request):
     return HttpResponseRedirect(next)  # temporary redirect
 
 
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request,
+                             'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'registration/change_password.html', {
+        'form': form
+    })
+
+
+def reset_password(request):
+    if request.method == 'POST':
+        form = PasswordResetForm(None, request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('scheduler:home'))
+    else:
+        form = PasswordResetForm()
+    return render(request, 'registration/reset_password.html', {'form': form})
+
+
 """ Home page """
 
 
@@ -76,12 +109,6 @@ uses the player search bar to generate the list of players matching the search.
 
 def players(request):
     player_list = Player.objects.order_by('-battlenetID')
-    if request.method == "GET":
-        search_query = request.GET.get(
-            'player_search', None)  # get text from search
-        if search_query:
-            player_list = Player.objects.filter(
-                battlenetID__icontains=search_query)
 
     context = user_login(request)
     context.update({
@@ -102,11 +129,16 @@ identify the player
 def player_profile(request, username):
     player = get_object_or_404(Player, username=username)
     player_teams = Team.objects.filter(players=player)
+    admin_teams = Team.objects.filter(team_admin=player)
     times = TimeSlot.objects.filter(players_available=player)
-    return render(request, 'scheduler/player_profile.html',
-                  {'current_player': player,
-                   'current_teams': player_teams,
-                   'availability': times})
+    context = user_login(request)
+    context.update({
+        'current_player': player,
+        'current_teams': player_teams,
+        'current_admin_teams': admin_teams,
+        'availability': times
+    })
+    return render(request, 'scheduler/player_profile.html', context)
 
 
 """
@@ -142,10 +174,11 @@ def account(request, username):
             for slot in available_times:
                 TimeSlot.objects.get(timeSlotID=slot).players_available.add(
                     player)
+
+            messages.get_messages(request).used = True
             messages.add_message(request, messages.SUCCESS, "Availability "
                                                             "saved "
                                                             "successfully.")
-            context['messages'] = messages
 
         context['form'] = form
         context['player'] = player
@@ -179,6 +212,11 @@ def teams(request):
     return render(request, 'scheduler/teams.html', context)
 
 
+def create_team(request):
+    context = user_login(request)
+    return render(request, 'scheduler/create_team.html', context)
+
+
 def my_teams(request, username):
     context = user_login(request)
     if request.user.username == username or request.user.is_superuser:
@@ -205,34 +243,57 @@ def team_admin(request, teamID):
                 'form': form,
                 'team': team,
                 'players': team.players.all(),
+                'all_players': Player.objects.order_by('-battlenetID'),
             }
         )
-        if form.is_valid():
-            if form.cleaned_data['team_alias']:
-                team.teamAlias = form.cleaned_data['team_alias']
-            if form.cleaned_data['add_player']:
-                new_player = form.cleaned_data['add_player']
-                if new_player not in team.players.all():
-                    team.players.add(new_player)
-            if form.cleaned_data['change_admin']:
-                team.team_admin = form.cleaned_data['change_admin']
-                team.save()
-                return redirect(reverse('scheduler:my_teams',
-                                        kwargs={
-                                            'username':
-                                                request.user.username}))
-            team.save()
-            messages.add_message(request, messages.SUCCESS, "Your changes "
-                                                            "have been saved "
-                                                            "successfully.")
-            context['messages'] = messages
-        else:
-            messages.add_message(request, messages.ERROR, "There was a "
-                                                          "problem saving "
-                                                          "your changes.")
-            context['messages'] = messages
-        return render(request, 'scheduler/team_admin.html', context)
 
+        if request.method == 'POST':
+            players_to_add = request.POST.get('players-to-add', None)
+            if players_to_add:
+                players_to_add = players_to_add.split(',')
+                for new_player in players_to_add:
+                    if new_player not in team.players.all():
+                        team.players.add(Player.objects.get(
+                            username=new_player))
+                    else:
+                        messages.get_messages(request).used = True
+                        messages.add_message(request, messages.ERROR,
+                                             Player.objects.get(
+                                                 username=new_player).
+                                             battlenetID + "is already "
+                                             "on your team!")
+                        context['form'] = TeamAdminForm(
+                            initial={'team_alias': team.teamAlias})
+                        return render(request, 'scheduler/team_admin.html',
+                                      context)
+
+            new_admin = request.POST.get('new-admin', None)
+            if new_admin:
+                admin = Player.objects.get(username=new_admin)
+                # make sure team admin is a different player
+                if admin != team.team_admin:
+                    team.team_admin = admin
+                    team.save()
+                    return redirect(reverse('scheduler:my_teams',
+                                            kwargs={
+                                                'username':
+                                                    request.user.username}))
+                else:
+                    messages.get_messages(request).used = True
+                    messages.add_message(request, messages.ERROR,
+                                         "You are already the admin. "
+                                         "What are you trying to do?")
+                    return render(request, 'scheduler/team_admin.html',
+                                  context)
+
+            if form.is_valid():
+                if form.cleaned_data['team_alias']:
+                    team.teamAlias = form.cleaned_data['team_alias']
+                    context['form'] = TeamAdminForm(
+                        initial={'team_alias': team.teamAlias})
+                else:
+                    print("alias failed")
+        return render(request, 'scheduler/team_admin.html', context)
     return render(request, 'scheduler/access_denied.html')
 
 
@@ -254,29 +315,32 @@ def team_profile(request, teamID):
                 players_available=player).order_by('dayOfWeek', 'hour')
             # filter so that times only contains that teams availability
 
-        context['selected_times'] = all_times
         context['selected_players'] = roster
+        context['selected_times'] = all_times
 
     if request.method == 'POST':
         selected_roster = request.POST.getlist('selected_user')
+        #  don't filter through every player if we already have it stored
         if len(selected_roster) == len(roster):
             context['selected_times'] = all_times
             context['selected_players'] = roster
+        #  filter list by availability for all selected team members
         elif selected_roster and roster:
-            selected_players = []
-            for player in selected_roster:
-                selected_players.append(Player.objects.get(battlenetID=player))
+            #  filter by the first player
+            player1 = Player.objects.get(battlenetID=selected_roster[0])
             selected_times = TimeSlot.objects.filter(
-                players_available=selected_players[0])
-            for player in selected_players:
-                selected_times.filter(players_available=player).order_by(
-                    'dayOfWeek', 'hour')
-            context['selected_times'] = selected_times
-            context['selected_players'] = selected_players
-        else:
+                players_available=player1)
+            #  filter by everyone else
+            for player in selected_roster:
+                selected_times = selected_times.filter(players_available=
+                                      Player.objects.get(battlenetID=player))\
+                    .order_by('dayOfWeek', 'hour')
 
-            context['selected_times'] = []
+            context['selected_players'] = selected_roster
+            context['selected_times'] = selected_times
+        else:
             context['selected_players'] = []
+            context['selected_times'] = []
 
     return render(request, 'scheduler/team_profile.html', context)
 
@@ -301,11 +365,11 @@ def join_team(request, teamID, username):
         if request.method == 'GET':
             #  a team can have 50 players
             if len(Team.objects.get(teamID=teamID).players.all()) >= 50:
+                messages.get_messages(request).used = True
                 messages.add_message(
                     request, messages.ERROR, "Join team failed. Only 50 "
                                              "players can be on a team."
                 )
-                context['messages'] = messages
                 return redirect('scheduler:teams')
             #  TODO: test this !
             print(len(Team.objects.get(teamID=teamID).players.all()))
@@ -314,15 +378,16 @@ def join_team(request, teamID, username):
             if player not in team.players.all():
                 team.players.add(player)
             else:
+                messages.get_messages(request).used = True
                 messages.add_message(request, messages.ERROR, "You cannot "
                                                               "join a team "
                                                               "you are "
                                                               "already in.")
     else:
+        messages.get_messages(request).used = True
         messages.add_message(
             request, messages.ERROR, "Join team failed. Please check your "
                                      "login credentials.")
-        context['messages'] = messages
     return redirect('scheduler:teams')
 
 
@@ -348,13 +413,14 @@ def leave_team(request, teamID, username):
                 team = Team.objects.get(teamID=teamID)
                 if player in team.players.all():
                     team.players.remove(player)
+                    messages.get_messages(request).used = True
                     messages.add_message(request, messages.SUCCESS,
                                          "Left team successfully.")
                 else:
+                    messages.get_messages(request).used = True
                     messages.add_message(request, messages.ERROR,
                                          "You cannot leave a team you are "
                                          "not in.")
-                context['messages'] = messages
 
         #  team admin kicking a player from a team
         if Player.objects.get(username=request.user.username) == \
@@ -364,22 +430,24 @@ def leave_team(request, teamID, username):
                 team = Team.objects.get(teamID=teamID)
                 if player in team.players.all():
                     team.players.remove(player)
+                    messages.get_messages(request).used = True
                     messages.add_message(request,
                                          messages.SUCCESS,
                                          "Removed player successfully.")
                 else:
+                    messages.get_messages(request).used = True
                     messages.add_message(request,
                                          messages.ERROR,
                                          "Cannot remove player because they "
                                          "were not in this team.")
                 return redirect(reverse('scheduler:team_admin', kwargs={
-                    'teamID': teamID, 'messages': messages}))
+                    'teamID': teamID}))
 
     else:
+        messages.get_messages(request).used = True
         messages.add_message(request, messages.ERROR, "Leave team failed. "
                                                       "Please check your "
                                                       "login credentials.")
-        context['messages'] = messages
     return redirect('scheduler:teams')
 
 
@@ -388,10 +456,10 @@ def delete_team(request, teamID):
     if Player.objects.get(username=request.user.username) == team.team_admin or \
             request.user.is_superuser:
         team.delete()
+        messages.get_messages(request).used = True
         messages.add_message(request, messages.SUCCESS, "Deleted team "
                                                         "successfully.")
-        return redirect(reverse('scheduler:teams', kwargs={'messages': messages
-                                                           }))
+        return redirect(reverse('scheduler:teams'))
     return render(request, 'scheduler/access_denied.html')
 
 
@@ -411,19 +479,18 @@ def register(request):
                 password = form.cleaned_data.get('password1')
                 user = authenticate(username=username, password=password)
                 login(request, user)
+                messages.get_messages(request).used = True
                 messages.add_message(request, messages.SUCCESS,
                                      "Your account has been created "
                                      "successfully! Make sure to add "
                                      "information to your profile using the "
                                      "account page.")
-                return HttpResponseRedirect(reverse('scheduler:home',
-                                                    kwargs={'messages':
-                                                                messages}))
+                return HttpResponseRedirect(reverse('scheduler:home'))
             else:
+                messages.get_messages(request).used = True
                 messages.add_message(request, messages.ERROR,
                                      "There was a problem creating your "
                                      "account.")
-                context['messages'] = messages
         else:
             form = PlayerCreationForm()
 

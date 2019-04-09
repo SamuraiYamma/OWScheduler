@@ -108,7 +108,7 @@ class DetailedPlayerModelMultipleChoiceField(ModelMultipleChoiceField):
 
 
 class TeamAdminForm(forms.ModelForm):
-    team_alias = forms.CharField()
+    team_alias = forms.CharField(required=False)
     add_player = forms.ModelChoiceField(
         queryset=Player.objects.all(),
         widget=autocomplete.ModelSelect2(

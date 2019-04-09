@@ -1,35 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <title>OWS - Teams</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.css"/>
+    <link rel="stylesheet" href="{% static 'scheduler/default.css' %}">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-    <style>
-        .toggle.android { border-radius: 0px;}
-        .toggle.android .toggle-handle { border-radius: 0px; }
-        .wrapper {margin-right: auto; margin-left: auto; max-width: 80%; padding-right: 4%; padding-left: 4%;   min-height: calc(100vh);}
-        #grad{
-            background-image: linear-gradient(to top right, #2b3199, rgb(63, 211, 207));
-            background-repeat: no-repeat;
-            height: 300%;
-        }
-        #header{
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.js"></script>
 
-        }
-        #footer{
-            margin-top: 3%;
-        }
-        #nav{
-            border-radius: 4px;
-        }
-        #body{
-
-        }
-    </style>
 </head>
 <body id="grad">
 <div class="wrapper">
@@ -93,7 +77,7 @@
                 {% endif %}
             </div>
 
-            <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'scheduler:register' %}'">
+            <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'register' %}'">
                 Register
             </button>
         {% elif user.is_authenticated %}
@@ -102,23 +86,25 @@
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{% url 'scheduler:account' username=user.username %}">Account</a>
-                <button type="button" onclick="location.href='{% url 'scheduler:user_logout' %}?next={{ request.path }}'">Logout</button>
+                <button type="button" onclick="location.href='{% url 'user_logout' %}?next={{ request.path }}'">Logout</button>
             </div>
         {% endif %}
         </ul>
     </div>
 </nav>
 
-<div id="body" class="container jumbotron" style="margin-top:30px">
-
-    <h3>
-        Teams
-    </h3>
-    <form class="form-inline" method="get" action=".">
-        <input id="team_search" name="team_search" class="form-control mr-sm-2" type="text" placeholder="Search">
-        <button id="team_search_submit" class="btn btn-success" type="submit">Search</button>
-    </form>
-    <table class="table table-hover">
+<div id="body" class="container-fluid" style="margin-top:30px">
+    <h1>Teams</h1>
+    <div class="row">
+        <div class="col" style="margin-bottom: 1em;">
+            {% if user.is_authenticated %}
+            <button class="btn btn-primary" onclick="location.href='{% url 'scheduler:create_team' %}'">Create Team</button>
+            {% else %}
+                <button class="btn btn-primary disabled">Create Team</button>
+            {% endif %}
+        </div>
+    </div>
+    <table id="team-table" class="table table-hover" style="margin: 1em;">
         {% if team_list %}
                 <thead>
                 <tr>
@@ -144,13 +130,15 @@
                                     <form method="get" action="
 {% url 'scheduler:leave_team' teamID=team.teamID username=user.username %}">
                                         {% csrf_token %}
-                                    <button class="btn btn-warning" type="submit">
+                                    <button class="btn btn-dark" type="submit">
                                         Leave Team</button>
                                     </form>
                                 </td>
+                        {% elif team.players.all|length >= 50 %}
+                            <td><button met class="btn btn-primary" type="submit" disabled>Team Full</button></td>
                         {% endif %}
                     {% else %}
-                        <td><button met class="btn btn-success" type="submit" disabled>Join Team</button></td>
+                        <td><button met class="btn btn-primary" type="submit" disabled>Join Team</button></td>
                     {% endif %}
                 </tr>
             {% endfor %}
@@ -159,6 +147,17 @@
             <tbody>Sorry, there's nothing that matches your search.</tbody>
         {% endif %}
     </table>
+     <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#team-table').DataTable({
+                        "columns": [
+                            {"name": "Team", "orderable": true},
+                            {"name": "ID", "orderable": true},
+                            {"name": "Join/Leave Team", "orderable": false},
+                        ]
+                    });
+                })
+            </script>
 </div>
 
 <!-- Footer in a non footer location. Huh?-->

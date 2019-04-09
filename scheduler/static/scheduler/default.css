@@ -1,0 +1,31 @@
+.toggle.android {
+    border-radius: 0px;
+}
+.toggle.android .toggle-handle {
+    border-radius: 0px;
+}
+.wrapper {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 80%;
+    padding-right: 4%;
+    padding-left: 4%;
+    min-height: calc(100vh);
+}
+#grad{
+    background-image: linear-gradient(to top right, #2b3199, rgb(63, 211, 207));
+    background-repeat: no-repeat;
+    height: 300%;
+}
+#header{
+
+}
+#footer{
+    margin-top: 3%;
+}
+#nav{
+    border-radius: 4px;
+}
+#body {
+    margin-top: 30px;
+}

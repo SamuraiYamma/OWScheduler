@@ -114,8 +114,69 @@
             <nav class="navbar bg-dark navbar-dark">
                 <ul class="navbar-nav">
                     <a class="navbar-brand" href="#">{{ current_player }}</a>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">About</a>
+                    <li class="nav-item input-group">
+                        <select id="team-select" class="custom-select">
+                            {% if user_teams or admin_teams %}
+                                {% for team in user_teams %}
+                                    {% if team not in current_teams %}
+                                        <option value="{{ team.teamID }}">{{ team }}</option>
+                                    {% else %}
+                                        <option disabled>{{ team }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for team in admin_teams %}
+                                    {% if team not in user_teams and team not in current_teams and team not in current_admin_teams %}
+                                        <option value="{{ team.teamID }}">{{ team }}</option>
+                                    {% elif team not in user_teams %}
+                                        <option disabled>{{ team }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#teamLinkModal">Get Invite Link</button>
+                    </div>
+                    <div class="modal fade" id="teamLinkModal" tabindex="-1" role="dialog" aria-labelledby="teamLinkModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="teamLinkModalLabel">Get Invite Link</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body" id="invite-modal-body">
+                                                        <p>Send this invite link to {{ current_player }} or your team admin so they can join your team! Keep in mind a team can only have 50 players.</p>
+                                                        <input type="text" readonly id="invite-link" class="form-control-plaintext">
+                                                        <button type="button" id="copy-button" onclick="copyText()" class="btn btn-primary">
+                                                            Copy Link
+                                                        </button>
+                                                        <script type="text/javascript">
+                                                            var select = document.getElementById("team-select");
+                                                            if(!$('#team-select').val()) {
+                                                                document.getElementById('invite-modal-body').innerHTML = "{{ current_player }} cannot be invited to any of your teams.";
+                                                                var copyButton = document.getElementById("copy-button")
+                                                                copyButton.getParentNode().removeChild(copyButton)
+                                                            } else {
+                                                                var teamID = document.getElementById("team-select").value;
+                                                                var url = location.protocol.toString() + location.host.toString() + "/join_team/" + teamID + "/{{ current_player.username }}/";
+                                                                document.getElementById("invite-link").value = url;
+                                                            }
+
+                                                            function copyText() {
+                                                                var copyText = document.querySelector("#invite-link");
+                                                                copyText.select();
+                                                                document.execCommand("copy");
+                                                            }
+                                                        </script>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                     </li>
                 </ul>
             </nav>
@@ -145,6 +206,16 @@
                 Team:
                 Player is not a part of any team.
                 </h3>
+            {% endif %}
+            {% if admin_teams %}
+                <h3>
+                    Admins:
+                    {% for team in admin_teams %}
+                        {{ team }}
+                    {% endfor %}
+                </h3>
+            {% else %}
+                Admin: Player is not an admin for any team.
             {% endif %}
         </div>
     </div>

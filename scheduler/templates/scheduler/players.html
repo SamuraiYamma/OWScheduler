@@ -5,9 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.css"/>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.js"></script>
+
     <style>
         .toggle.android { border-radius: 0px;}
         .toggle.android .toggle-handle { border-radius: 0px; }
@@ -92,7 +96,7 @@
                         {% endif %}
                     </div>
 
-                    <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'scheduler:register' %}'">
+                    <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'register' %}'">
                         Register
                     </button>
                 {% elif user.is_authenticated %}
@@ -101,7 +105,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="{% url 'scheduler:account' username=user.username %}">Account</a>
-                        <button type="button" onclick="location.href='{% url 'scheduler:user_logout' %}?next={{ request.path }}'">Logout</button>
+                        <button type="button" onclick="location.href='{% url 'user_logout' %}?next={{ request.path }}'">Logout</button>
                     </div>
                 {% endif %}
             </ul>
@@ -122,13 +126,9 @@
                         border-top: solid black 1px !important;
                     }
                 </style>
-                <h3>
+                <h1 style="margin-bottom: 1em;">
                     Players
-                </h3>
-                <form method="get" class="form-inline" action="." style="margin-bottom: 1em;">
-                    <input id="player_search" name="player_search" class="form-control mr-sm-2" type="text" placeholder="Search">
-                    <button class="btn btn-success" type="submit">Search</button>
-                </form>
+                </h1>
                 <table class="table table-hover table-borderless" id="players-table">
                     {% if player_list %}
                         <thead>
@@ -137,8 +137,6 @@
                             <th>Role</th>
                             <th>SR</th>
                             <th>University</th>
-                            <th>Invite to Team</th>
-                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -148,82 +146,6 @@
                                 <td  onclick="location.href='{% url 'scheduler:player_profile' username=player.username %}'">{{ player.role }}</td>
                                 <td  onclick="location.href='{% url 'scheduler:player_profile' username=player.username %}'">{{ player.skillRating }}</td>
                                 <td  onclick="location.href='{% url 'scheduler:player_profile' username=player.username %}'">{{ player.university }}</td>
-                                {% if user_teams or admin_teams %}
-                                    <form method="post">
-                                        {% csrf_token %}
-                                        <td>
-                                            <select class="form-control"
-                                                    id="team-select">
-                                                {% for team in user_teams %}
-                                                    <option value="{{ team.teamID }}">{{ team }}</option>
-                                                {% endfor %}
-                                                {% for team in admin_teams %}
-                                                    {% if team not in user_teams %}
-                                                        <option value="{{ team.teamID }}">{{ team }}</option>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </select>
-                                        </td>
-                                        <div class="modal fade" id="{{ player.username }}teamLinkModal" tabindex="-1" role="dialog" aria-labelledby="teamLinkModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="teamLinkModalLabel">Get Invite Link</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <input type="text" readonly
-                                                               id="{{ player.username }}-invite-link"
-                                                               class="form-control-plaintext">
-                                                        <script type="text/javascript">
-                                                            var select = document.getElementById("team-select");
-                                                            var teamID = select.options[select.selectedIndex].value;
-                                                            var url = location.protocol.toString() + location.host.toString() + "/join_team/" + teamID + "/{{ player.username }}/";
-                                                            document.getElementById("{{ player.username }}-invite-link").value = url;
-
-                                                            function copyText(username) {
-                                                                var copyText = document.querySelector("#"+username+"-invite-link");
-                                                                copyText.select();
-                                                                document.execCommand("copy");
-                                                            }
-                                                        </script>
-                                                        <button type="button"
-                                                                onclick="copyText('{{ player.username }}')"
-                                                                class="btn btn-primary">Copy Link
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <td>
-                                            <button class="btn btn-primary" type="button"
-                                                    data-toggle="modal"
-                                                    data-target="#{{ player.username }}teamLinkModal">
-                                                Get Invite Link</button>
-                                        </td>
-                                    </form>
-                                {% elif user.is_authenticated %}
-                                    <td>
-                                        <button class="btn btn-primary disabled"
-                                                data-toggle="tooltip" data-placement="top"
-                                                title="Join a team to invite a player to your
-                                team!">Get
-                                            Invite Link</button>
-                                    </td>
-                                {% else %}
-                                    <td>
-                                        <button class="btn btn-primary disabled"
-                                                data-toggle="tooltip" data-placement="top"
-                                                title="Log in to invite a player to your
-                                team!">Get
-                                            Invite Link</button>
-                                    </td>
-                                {% endif %}
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -232,6 +154,11 @@
                         <tbody>Sorry, your search didn't return anything.</tbody>
                     {% endif %}
                 </table>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#players-table').DataTable();
+                })
+            </script>
             </div>
         </div>
     </div>
