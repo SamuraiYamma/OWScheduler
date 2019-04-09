@@ -64,6 +64,7 @@ class PlayerCreationForm(UserCreationForm):
 
 
 class PlayerChangeForm(UserChangeForm):
+    password = None
 
     class Meta(UserChangeForm.Meta):
         model = Player

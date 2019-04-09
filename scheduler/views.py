@@ -154,7 +154,6 @@ def account(request, username):
     context = user_login(request)
 
     if player == request.user or request.user.is_superuser:
-        form = PlayerChangeForm(instance=player)
         timeslots = TimeSlot.objects.filter(players_available=player)
 
         #  creating a list for each hour to fill a table row by row (hour by
@@ -166,19 +165,34 @@ def account(request, username):
         context['hour_lists'] = hour_lists
 
         if request.method == 'POST':
-            #  remove previous availability
-            for slot in TimeSlot.objects.filter(players_available=player):
-                slot.players_available.remove(player)
-            #  restore with new availability
-            available_times = request.POST.getlist('availability')
-            for slot in available_times:
-                TimeSlot.objects.get(timeSlotID=slot).players_available.add(
-                    player)
+            form = PlayerChangeForm(request.POST, instance=player)
+            if 'set-profile' in request.POST:
+                if form.is_valid():
+                    form.save()
+                    messages.get_messages(request).used = True
+                    messages.add_message(request, messages.SUCCESS,
+                                         "Information has been updated.")
+                else:
+                    messages.get_messages(request).used = True
+                    messages.add_message(request, messages.ERROR,
+                                         "Failed to save information.")
 
-            messages.get_messages(request).used = True
-            messages.add_message(request, messages.SUCCESS, "Availability "
-                                                            "saved "
-                                                            "successfully.")
+            if 'set-availability' in request.POST:
+                #  remove previous availability
+                for slot in TimeSlot.objects.filter(players_available=player):
+                    slot.players_available.remove(player)
+                #  restore with new availability
+                available_times = request.POST.getlist('availability')
+                for slot in available_times:
+                    TimeSlot.objects.get(timeSlotID=slot).players_available.add(
+                        player)
+
+                messages.get_messages(request).used = True
+                messages.add_message(request, messages.SUCCESS, "Availability "
+                                                                "saved "
+                                                                "successfully.")
+        else:
+            form = PlayerChangeForm(instance=player)
 
         context['form'] = form
         context['player'] = player
@@ -197,15 +211,6 @@ also implements searching for teams by their name or id.
 def teams(request):
     user = request.user
     team_list = Team.objects.order_by('-teamID')
-    if request.method == 'GET':
-        search_query = request.GET.get('team_search', None)
-        if search_query:
-            if search_query.isdigit():
-                team_list = Team.objects.filter(
-                    teamID__exact=int(search_query))
-            else:
-                team_list = Team.objects.filter(
-                    teamAlias__icontains=search_query)
 
     context = user_login(request)
     context.update({'team_list': team_list})
