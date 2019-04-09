@@ -1,39 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <title>OWS - Players</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.css"/>
+    <link rel="stylesheet" href="{% static 'scheduler/default.css' %}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.js"></script>
-
-    <style>
-        .toggle.android { border-radius: 0px;}
-        .toggle.android .toggle-handle { border-radius: 0px; }
-        .wrapper {margin-right: auto; margin-left: auto; max-width: 80%; padding-right: 4%; padding-left: 4%;   min-height: calc(100vh);}
-        #grad{
-            background-image: linear-gradient(to top right, #2b3199, rgb(63, 211, 207));
-            background-repeat: no-repeat;
-            height: 300%;
-        }
-        #header{
-
-        }
-        #footer{
-            margin-top: 3%;
-        }
-        #nav{
-            border-radius: 4px;
-        }
-        #body{
-            margin-top: 30px;
-        }
-    </style>
 </head>
 <body id="grad">
 <div class="wrapper">
@@ -151,7 +130,7 @@
                         </tbody>
 
                     {% else %}
-                        <tbody>Sorry, your search didn't return anything.</tbody>
+                        <tbody>There are currently no players.</tbody>
                     {% endif %}
                 </table>
             <script type="text/javascript">

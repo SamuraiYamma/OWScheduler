@@ -1,35 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <<meta charset="utf-8">
+    {% load static %}
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'scheduler/default.css' %}">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <title>OWS - Register</title>
-    <style>
-        .toggle.android { border-radius: 0px;}
-        .toggle.android .toggle-handle { border-radius: 0px; }
-        .wrapper {margin-right: auto; margin-left: auto; max-width: 80%; padding-right: 4%; padding-left: 4%;   min-height: calc(100vh);}
-        #grad{
-            background-image: linear-gradient(to top right, #2b3199, rgb(63, 211, 207));
-            background-repeat: no-repeat;
-            height: 300%;
-        }
-        #header{
-
-        }
-        #footer{
-            margin-top: 3%;
-        }
-        #nav{
-            border-radius: 4px;
-        }
-        #body{
-            margin-top:30px
-        }
-    </style>
 </head>
 <body id="grad">
 <div class="wrapper">
@@ -51,10 +32,10 @@
         </div>
     </nav>
 
-    <div id="body" class="jumbotron" align="center">
+    <div id="body" class="container-fluid jumbotron">
     <h2>New User</h2>
     <!--- this form should eventually action url to home or to login page --->
-    <form autocomplete="off" action="{% url 'scheduler:register' %}" method="post">
+    <form autocomplete="off" action="{% url 'register' %}" method="post">
         {%  csrf_token %}
         <table>
              <tr>
