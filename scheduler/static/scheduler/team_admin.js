@@ -5,7 +5,8 @@ $("document").ready(function () {
             {"name": "Role", "orderable": true},
             {"name": "Skill Rating", "orderable": true},
             {"name": "Remove from Team", "orderable": false},
-        ]
+        ],
+        "scrollX": true
     });
 
     var add_player_table = $("#add-player-table").DataTable({
@@ -14,7 +15,8 @@ $("document").ready(function () {
                 "targets": [4],
                 "visible": false
             }
-        ]
+        ],
+        "scrollX": true
     });
 
     $('#add-player-table tbody').on( 'click', 'tr', function () {
@@ -27,7 +29,8 @@ $("document").ready(function () {
                 "targets": [4],
                 "visible": false
             }
-        ]
+        ],
+        "scrollX": true
     });
     $('#change-admin-table tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {

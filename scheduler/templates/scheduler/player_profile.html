@@ -1,35 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <title>OWS - {{ current_player }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'scheduler/default.css' %}">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-    <style>
-        .toggle.android { border-radius: 0px;}
-        .toggle.android .toggle-handle { border-radius: 0px; }
-        .wrapper {margin-right: auto; margin-left: auto; max-width: 80%; padding-right: 4%; padding-left: 4%;   min-height: calc(100vh);}
-        #grad{
-            background-image: linear-gradient(to top right, #2b3199, rgb(63, 211, 207));
-            background-repeat: no-repeat;
-            height: 300%;
-        }
-        #header{
 
-        }
-        #footer{
-            margin-top: 3%;
-        }
-        #nav{
-            border-radius: 4px;
-        }
-        #body{
-
-        }
-    </style>
 </head>
 <body id="grad">
 <div class="wrapper">
@@ -92,7 +74,7 @@
                 {% endif %}
             </div>
 
-            <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'scheduler:register' %}'">
+            <button type="button" class="btn btn-outline-light" onclick="location.href='{% url 'register' %}'">
                 Register
             </button>
         {% elif user.is_authenticated %}
@@ -101,7 +83,7 @@
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{% url 'scheduler:account' username=user.username %}">Account</a>
-                <button type="button" class = "btn btn-primary" onclick="location.href='{% url 'scheduler:user_logout' %}'">Logout</button>
+                <button type="button" class = "btn btn-primary" onclick="location.href='{% url 'user_logout' %}'">Logout</button>
             </div>
         {% endif %}
         </ul>

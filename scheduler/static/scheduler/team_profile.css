@@ -1,0 +1,35 @@
+#filter-player-availability {
+    padding-top:1em;
+    max-height:300px;
+    overflow-y: auto;
+    border-radius: 8px;
+    background-image: linear-gradient(rgba(29, 30, 100, 0.7), rgba(0,0,0,0) 95%);
+    color:white;
+}
+
+#availability-table {
+    padding-top:1em;
+    border-radius: 8px;
+    max-height:300px;
+    overflow-y:auto;
+    background-image: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,0));
+    color: #1D1F64;
+}
+#availability-table td, #availability-table th {
+    border-bottom: solid #1D1F64 1px !important;
+}
+
+#roster-table {
+    margin-top: 2em;
+    padding-top: 1em;
+    max-height: 500px;
+    overflow-y: auto;
+    background-image: linear-gradient(rgba(25, 25, 25, 0.5), rgba(255,255,255,0));
+    border-radius: 8px;
+    color: rgba(255,255,255, 0.85);
+}
+
+#roster-table td {
+    border-top: solid rgba(255,255,255, 0.85) 1px
+    !important;
+}

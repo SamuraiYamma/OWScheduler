@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
-# Create your models here based on ER
-# Each model is a "table" in the schema
+from django.utils import timezone
 
 """
 The Team model identifies an ID and Alias as identifiers. 
@@ -18,6 +16,7 @@ class Team(models.Model):
                                    on_delete=models.SET_NULL,
                                    related_name='team_admin')
     players = models.ManyToManyField('Player', blank=True)
+    organization = models.CharField(max_length=50, blank=True, null=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
@@ -37,6 +36,7 @@ battletag. It also restricts the roles to either damage, tank, or support.
 
 class Player(AbstractUser):
     # by making these variables, we can access them easier
+    # ROLES
     DAMAGE = "Damage"
     TANK = "Tank"
     SUPPORT = "Support"
@@ -47,7 +47,15 @@ class Player(AbstractUser):
         (SUPPORT, 'Support'),
     )
 
-    university = models.CharField(max_length=100, blank=True, null=True)
+    # UNIVERSITIES
+    GVSU = 'Grand Valley State University'
+
+    UNIVERSITY_CHOICES = (
+        (GVSU, 'Grand Valley State University'),
+    )
+
+    university = models.CharField(max_length=100, choices=UNIVERSITY_CHOICES,
+                                  blank=True, null=True)
 
     # damage, tank, or support
     role = models.CharField(max_length=7, choices=ROLE_CHOICES,
@@ -96,9 +104,8 @@ class TimeSlot(models.Model):
     timeSlotID = models.AutoField(primary_key=True)
     dayOfWeek = models.IntegerField(choices=DAYS_OF_WEEK)
     hour = models.IntegerField(default=0)
-    players_available = models.ManyToManyField(Player,
-                                               related_name=
-                                               "player_availabilities")
+    players_available = models.ManyToManyField(Player, related_name=
+                                                    "player_availabilities")
 
 
 """ Model to store match information. """
@@ -106,19 +113,68 @@ class TimeSlot(models.Model):
 
 class Match(models.Model):
     matchID = models.AutoField(primary_key=True)
-    matchMap = models.CharField(max_length=32)
-    match_time = models.ForeignKey('TimeSlot', null=True,
-                                   on_delete=models.SET_NULL,
-                                   db_column='match_time_id')
-    captureTeam = models.ForeignKey('Team', on_delete=models.CASCADE,
-                                    db_column='capture_id',
-                                    related_name='capture_id')
-    defenseTeam = models.ForeignKey('Team', on_delete=models.CASCADE,
-                                    db_column='defense_id',
-                                    related_name='defense_id')
-    winner = models.ForeignKey('Team', on_delete=models.CASCADE,
-                               db_column='winner_id',
-                               related_name='winner_id')
-    loser = models.ForeignKey('Team', on_delete=models.CASCADE,
-                              db_column='loser_id',
-                              related_name='loser_id')
+
+    CG = "Château Guillard"
+    DOR = "Dorado"
+    EICH = "Eichenwalde"
+    HANA = "Hanamura"
+    HOL = "Hollywood"
+    HLC = "Horizon Lunar Colony"
+    ILI = "Ilios"
+    KR = "King's Row"
+    LT = "Lijang Tower"
+    NEP = "Nepal"
+    NUM = "Numbani"
+    OAS = "Oasis"
+    R66 = "Route 66"
+    TA = "Temple of Anubis"
+    VI = "Volskaya Industries"
+    WG = "Watchpoint: Gibraltar"
+
+    MAP_CHOICES = (
+        (CG, "Château Guillard"),
+        (DOR, "Dorado"),
+        (EICH, "Eichenwalde"),
+        (HANA, "Hanamura"),
+        (HOL, "Hollywood"),
+        (HLC, "Horizon Lunar Colony"),
+        (ILI, "Ilios"),
+        (KR, "King's Row"),
+        (LT, "Lijang Tower"),
+        (NEP, "Nepal"),
+        (NUM, "Numbani"),
+        (OAS, "Oasis"),
+        (R66, "Route 66"),
+        (TA, "Temple of Anubis"),
+        (VI, "Volskaya Industries"),
+        (WG, "Watchpoint: Gibraltar"),
+    )
+
+    matchMap = models.CharField(max_length=50, choices=MAP_CHOICES, blank=True, null=True)
+
+    # time match is scheduled
+    time = models.DateTimeField(default=timezone.now())
+
+    # first team
+    # players is distinguished from teams
+    # since teams can have more than 6 players
+    player_set_1 = models.ManyToManyField('Player',
+                                          related_name="player_set_1")
+    team_1 = models.ForeignKey('Team', related_name="team_1",
+                               on_delete=models.SET_NULL, null=True)
+
+    # second team
+    player_set_2 = models.ManyToManyField('Player',
+                                          related_name="player_set_2")
+    team_2 = models.ForeignKey('Team', related_name="team_2",
+                               on_delete=models.SET_NULL, null=True)
+
+    # winner is either team 1 or team 2
+    TEAM_1 = 1
+    TEAM_2 = 2
+
+    TEAMS = (
+        (TEAM_1, 'Team 1'),
+        (TEAM_2, 'Team 2'),
+    )
+    winner = models.IntegerField(choices=TEAMS, blank=True, null=True)

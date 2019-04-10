@@ -6,48 +6,51 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.css"/>
     <link rel="stylesheet" href="{% static 'scheduler/my_teams.css' %}">
     <link rel="stylesheet" href="{% static 'scheduler/default.css' %}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.js"></script>
+    <script type="text/javascript" src="{% static 'scheduler/my_teams.js' %}"></script>
 </head>
 
 <body id="grad">
-    <div class="wrapper">
-        <div id="header" class="text-center" >
-            <h1>OWScheduler</h1>
-            <p>Overwatch Matchmaking and Scrimmage</p>
-        </div>
+<div class="wrapper">
+    <div id="header" class="text-center" >
+        <h1>OWScheduler</h1>
+        <p>Overwatch Matchmaking and Scrimmage</p>
+    </div>
 
-        <nav id="nav" class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
-            <a class="navbar-brand" href="#">OWS</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'scheduler:home' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'scheduler:teams' %}">Teams</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'scheduler:players' %}">Players</a>
-                    </li>
+    <nav id="nav" class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">OWS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'scheduler:home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'scheduler:teams' %}">Teams</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'scheduler:players' %}">Players</a>
+                </li>
 
-                    {% if user.is_authenticated and user_teams %}
+                {% if user.is_authenticated and user_teams %}
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'scheduler:my_teams' username=user.username %}">My Teams</a>
                     </li>
-                    {% endif %}
+                {% endif %}
 
-                </ul>
-                <!-- Align Right from Here-->
-                <ul class="navbar-nav">
-                    {% if not user.is_authenticated %}
+            </ul>
+            <!-- Align Right from Here-->
+            <ul class="navbar-nav">
+                {% if not user.is_authenticated %}
                     <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
                         Login
                     </button>
@@ -77,57 +80,58 @@
                     </button>
                 {% elif user.is_authenticated %}
                     <button type="button" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
-                    Hi, {{ user.username }}
+                        Hi, {{ user.username }}
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="{% url 'scheduler:account' username=user.username %}">Account</a>
                         <button type="button" onclick="location.href='{% url 'user_logout' %}?next={{ request.path }}'">Logout</button>
                     </div>
                 {% endif %}
-                </ul>
-            </div>
-        </nav>
+            </ul>
+        </div>
+    </nav>
 
-        <div id="body" class="container-fluid">
-            <h1 style="margin-bottom: 1em;">My Teams</h1>
-            <div class="row">
-                <div class="col">
+    <div id="body" class="container-fluid">
+        <h1 style="margin-bottom: 1em;">My Teams</h1>
+        <div class="row">
+            <div class="col">
                 <h5>Teams I'm In</h5>
-                    <table class="table table-hover table-borderless">
+                <div>
+                    <table id="player-teams" class="table table-hover table-borderless" style="width: 100%;">
                         {% if user_teams %}
-                                <thead>
-                                <tr>
-                                    <th>Team</th>
-                                    <th>ID</th>
-                                    <th>Leave Team</th>
-                                </tr>
-                                </thead>
+                            <thead>
+                            <tr>
+                                <th>Team</th>
+                                <th>ID</th>
+                                <th>Leave Team</th>
+                            </tr>
+                            </thead>
                             <tbody>
                             {% for team in user_teams %}
                                 <tr onclick="location.href='{% url 'scheduler:team_profile' teamID=team.teamID %}'">
                                     <td>{{ team.teamAlias }}</td>
                                     <td>{{ team.teamID }}</td>
                                     {% if user.is_authenticated %}
-                                                <td>
-                                                    <form method="get" action="{% url 'scheduler:leave_team' teamID=team.teamID username=user.username %}">
-                                                        {% csrf_token %}
-                                                    <button class="btn btn-warning" type="submit">Leave Team</button>
-                                                    </form>
-                                                </td>
+                                        <td>
+                                            <form method="get" action="{% url 'scheduler:leave_team' teamID=team.teamID username=user.username %}">
+                                                {% csrf_token %}
+                                                <button class="btn btn-warning" type="submit">Leave Team</button>
+                                            </form>
+                                        </td>
                                     {% endif %}
                                 </tr>
                             {% endfor %}
                             </tbody>
-                        {% elif not user_teams %}
-                            <tbody>You have no teams!</tbody>
                         {% else %}
-                            <tbody>Sorry, your search returned nothing.</tbody>
+                            You are not part of any team.
                         {% endif %}
                     </table>
                 </div>
-                <div class="col">
-                    <h5>Teams I Admin</h5>
-                    <table class="table table-hover table-borderless">
+            </div>
+            <div class="col">
+                <h5>Teams I Admin</h5>
+                <div>
+                    <table id="admin-teams" class="table table-hover table-borderless" style="width: 100%;">
                         {% if admin_teams %}
                             <thead>
                             <tr>
@@ -137,39 +141,42 @@
                             </tr>
                             </thead>
                             <tbody>
-                                {% for team in admin_teams %}
-                                    <tr onclick="location.href='{% url 'scheduler:team_admin' teamID=team.teamID %}'">
-                                        <td>{{ team.teamAlias }}</td>
-                                        <td>{{ team.teamID }}</td>
-                                        <td>{{ team.players.all|length }}</td>
-                                    </tr>
-                                {% empty %}
-                                    You are not the admin of any teams.
-                                {% endfor %}
+                            {% for team in admin_teams %}
+                                <tr onclick="location.href='{% url 'scheduler:team_admin' teamID=team.teamID %}'">
+                                    <td>{{ team.teamAlias }}</td>
+                                    <td>{{ team.teamID }}</td>
+                                    <td>{{ team.players.all|length }}</td>
+                                </tr>
+
+                            {% endfor %}
+
                             </tbody>
+                        {% else %}
+                                You are not the admin of any teams.
                         {% endif %}
                     </table>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Footer in a non footer location. Huh?-->
-        <div id="footer" class="jumbotron text-center" style="">
-            <div class="row">
-                <div class = "col-sm-4">
-                    <h3>Contact Us</h3>
-                    <p>[Leave some way to contact us here]</p>
-                </div>
-                <div class = "col-sm-4">
-                    <h3>[empty]</h3>
-                    <p>[???]</p>
-                </div>
-                <div class = "col-sm-4">
-                    <h3>Links</h3>
-                    <p>[links to whatever we want]</p>
-                </div>
+    <!-- Footer in a non footer location. Huh?-->
+    <div id="footer" class="jumbotron text-center" style="">
+        <div class="row">
+            <div class = "col-sm-4">
+                <h3>Contact Us</h3>
+                <p>[Leave some way to contact us here]</p>
+            </div>
+            <div class = "col-sm-4">
+                <h3>[empty]</h3>
+                <p>[???]</p>
+            </div>
+            <div class = "col-sm-4">
+                <h3>Links</h3>
+                <p>[links to whatever we want]</p>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

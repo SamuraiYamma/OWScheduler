@@ -149,7 +149,7 @@
         <form method="post">
             {% csrf_token %}
             <div class="row" style="margin-bottom: 10px;">
-                <div class="col-2">
+                <div class="col-4">
                     {{ form.team_alias }}
                     <script type="text/javascript">
                         $(document).ready(function () {
@@ -173,7 +173,7 @@
         <!--- ADD PLAYER --->
         <div class="row">
             <div class="col">
-                <button type="button" class="btn btn-dark" style="margin-bottom: 1em;"
+                <button type="button" class="btn btn-primary" style="margin-bottom: 1em;"
                         data-toggle="modal" data-target="#addPlayerModal">Add Player</button>
             </div>
         </div>
@@ -226,7 +226,7 @@
         </div>
         <div class="row">
             <div class="col" style="width: 100%">
-                <table id="team-table" class="table table-hover table-borderless table-striped">
+                <table id="team-table" class="table table-hover table-borderless table-striped" style="width: 100%;">
                     <thead>
                     <th>
                         BattleTag
@@ -266,7 +266,7 @@
         <div class="row">
             <!--- CHANGE ADMIN --->
             <div class="col text-left">
-                <button type="button" class="btn btn-dark" style="margin-bottom: 1em;"
+                <button type="button" class="btn btn-primary" style="margin-bottom: 1em;"
                         data-toggle="modal" data-target="#changeAdminModal">Change Admin</button>
 
             <!--- change admin modal --->

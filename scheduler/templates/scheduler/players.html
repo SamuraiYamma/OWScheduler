@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.css"/>
     <link rel="stylesheet" href="{% static 'scheduler/default.css' %}">
+    <link rel="stylesheet" href="{% static 'scheduler/players.css' %}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -94,21 +95,10 @@
     <div id="body" class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <style>
-                    #body {
-                        padding-top: 1em;
-                        background-image: linear-gradient(rgba(255,255,255, 0.8), rgba(255,255,255,0) 120%);
-                        border-radius: 8px;
-                    }
-
-                    #players-table td {
-                        border-top: solid black 1px !important;
-                    }
-                </style>
                 <h1 style="margin-bottom: 1em;">
                     Players
                 </h1>
-                <table class="table table-hover table-borderless" id="players-table">
+                <table class="table table-hover table-borderless" id="players-table" style="width: 100%;">
                     {% if player_list %}
                         <thead>
                         <tr>
@@ -135,7 +125,9 @@
                 </table>
             <script type="text/javascript">
                 $(document).ready(function () {
-                    $('#players-table').DataTable();
+                    $('#players-table').DataTable({
+                        "scrollX": true
+                    });
                 })
             </script>
             </div>

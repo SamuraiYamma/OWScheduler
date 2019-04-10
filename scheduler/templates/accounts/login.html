@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <title>OWS - Teams</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'scheduler/default.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/change_password.css' %}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+</head>
+
+
+<body id="grad">
+<div class="wrapper">
+    <div id="header" class="text-center" >
+        <h1>OWScheduler</h1>
+        <p>Overwatch Matchmaking and Scrimmage</p>
+    </div>
+
+    <nav id="nav" class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">OWS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'scheduler:home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'scheduler:teams' %}">Teams</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'scheduler:players' %}">Players</a>
+                </li>
+                {% if user.is_authenticated and user_teams %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'scheduler:my_teams' username=user.username %}">My Teams</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item"  data-toggle="tooltip" data-placement="top" title="Log in and join a team to view this page!">
+                        <a class="nav-link disabled">My Teams</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </nav>
+
+    <div id="body" class="container" style="width: 30%;">
+        <h1 class="text-center" style="margin-bottom: 1em;">Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            <!-- FORM AND STYLING -->
+            <div>
+                {{ form.as_p }}
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('input[type=text]').addClass('form-control');
+                        $('input[type=password]').addClass('form-control');
+                    });
+                </script>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </div>
+            <div class="text-center">
+                <a class="btn btn-link" href="{% url 'password_reset' %}">Forgot your password?</a>
+            </div>
+            <!-- ERROR STYLING -->
+            {#            {% if form %}#}
+            {#                <style>#}
+            {#                    #id_email {#}
+            {#                        border: 1px solid red;#}
+            {#                    }#}
+            {#                </style>#}
+            {#            {% endif %}#}
+            <!-- SUBMIT -->
+
+
+        </form>
+    </div>
+</div>

@@ -7,11 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.css"/>
     <link rel="stylesheet" href="{% static 'scheduler/default.css' %}">
+    <link rel="stylesheet" href="{% static 'scheduler/team_profile.css' %}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.js"></script>
 
 </head>
 <body id="grad">
@@ -107,8 +110,8 @@
 
     <div id="body" class="container-fluid">
         <div class="row jumbotron">
-            <div class="col-12">
-                <div class="">
+            <div class="col">
+                <div>
                     <h3>
                         {{ current_team.teamAlias }}
                     </h3>
@@ -120,19 +123,13 @@
                     </h10>
                 </div>
             </div>
+            <div class="col">
+                Players: {{ current_team.players.all|length }}<br>
+                Average SR: {{ avg_sr }}<br>
+            </div>
         </div>
         <div class="row">
             <div class="col-4"  id="filter-player-availability">
-                <style>
-                    #filter-player-availability {
-                        padding-top:1em;
-                        max-height:300px;
-                        overflow-y: auto;
-                        border-radius: 8px;
-                        background-image: linear-gradient(rgba(29, 30, 100, 0.7), rgba(0,0,0,0) 95%);
-                        color:white;
-                    }
-                </style>
                 <form method="post">
                     {% csrf_token %}
                     <div class="container-fluid">
@@ -193,19 +190,6 @@
                 </form>
             </div>
             <div class="col-7 offset-1" id="availability-table">
-                <style>
-                        #availability-table {
-                            padding-top:1em;
-                            border-radius: 8px;
-                            max-height:300px;
-                            overflow-y:auto;
-                            background-image: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,0));
-                            color: #1D1F64;
-                        }
-                        #availability-table td, #availability-table th {
-                            border-bottom: solid #1D1F64 1px !important;
-                        }
-                </style>
                 <table class="table table-borderless">
                     <thead>
                     <tr>
@@ -244,30 +228,12 @@
         </div>
         <div class="row">
             <div class="col-12" id="roster-table">
-                <style>
-                    #roster-table {
-                        margin-top: 2em;
-                        padding-top: 1em;
-                        max-height: 500px;
-                        overflow-y: auto;
-                        background-image: linear-gradient(rgba(25, 25, 25, 0.5), rgba(255,255,255,0));
-                        border-radius: 8px;
-                        color: rgba(255,255,255, 0.85);
-                    }
-
-                    #roster-table td, #roster-table th {
-                        border-bottom: solid rgba(255,255,255, 0.85) 1px
-                        !important;
-                    }
-                </style>
-                <table class="table table-hover table-borderless">
+                <table id="team-players" class="table table-hover table-borderless" style="width: 100%;">
                     <thead>
-                    <tr>
                         <th>Battlenet ID</th>
                         <th>Role</th>
                         <th>SR</th>
                         <th>University</th>
-                    </tr>
                     </thead>
                     <tbody>
                     {% for player in roster %}
@@ -280,6 +246,13 @@
                     {% endfor %}
                     </tbody>
                 </table>
+                <script>
+                    $(document).ready(function () {
+                        $('#team-players').DataTable({
+                            "scrollX": true
+                        });
+                    })
+                </script>
             </div>
         </div>
     </div>
