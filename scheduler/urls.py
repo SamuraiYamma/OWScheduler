@@ -10,7 +10,7 @@ urlpatterns = [
     path('players/<str:username>/account/',
          views.account, name='account'),  # edit player account
     path('teams/', views.teams, name='teams'),  # search for teams
-    path('players/<str:username>/my-teams', views.my_teams, name='my_teams'),
+    path('players/<str:username>/my-teams/', views.my_teams, name='my_teams'),
     path('teams/<int:teamID>/', views.team_profile,
          name='team_profile'),  # team profile page
     path('teams/<int:teamID>/admin/', views.team_admin, name='team_admin'),

@@ -153,7 +153,7 @@ class Match(models.Model):
     matchMap = models.CharField(max_length=50, choices=MAP_CHOICES, blank=True, null=True)
 
     # time match is scheduled
-    time = models.DateTimeField(default=timezone.now())
+    time = models.DateTimeField(default=timezone.now)
 
     # first team
     # players is distinguished from teams

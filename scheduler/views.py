@@ -1,12 +1,13 @@
-
 from django.shortcuts import get_object_or_404, render, render_to_response, \
     redirect, reverse
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 
 from django.db.models import Q, Avg
 
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm
+from django.contrib.auth import authenticate, login, logout, \
+    update_session_auth_hash
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, \
+    PasswordResetForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from django.conf import settings
@@ -19,7 +20,6 @@ from scheduler.models import Player, Team, Match, TimeSlot
 from scheduler.forms import PlayerCreationForm, PlayerChangeForm, TeamAdminForm
 from scheduler.decorators import is_team_admin_or_superuser, \
     is_user_or_superuser
-
 
 """ 
 view that handles logging in the current user and returning the context
@@ -86,7 +86,8 @@ uses the player search bar to generate the list of players matching the search.
 
 
 def players(request):
-    player_list = Player.objects.order_by('-battlenetID')
+    player_list = Player.objects.filter(is_active=True). \
+        order_by('-battlenetID')
 
     context = login_context(request)
     context.update({
@@ -186,7 +187,6 @@ also implements searching for teams by their name or id.
 
 
 def teams(request):
-    user = request.user
     team_list = Team.objects.order_by('-teamID')
 
     context = login_context(request)
@@ -197,6 +197,7 @@ def teams(request):
 """
 handles creating a team
 """
+
 
 @login_required
 def create_team(request):
@@ -246,7 +247,8 @@ def team_admin(request, teamID):
             'form': form,
             'team': team,
             'players': team.players.all(),
-            'all_players': Player.objects.order_by('-battlenetID'),
+            'all_players': Player.objects.filter(is_active=True).
+                order_by('-battlenetID'),
         }
     )
 
@@ -255,7 +257,8 @@ def team_admin(request, teamID):
         if players_to_add:
             players_to_add = players_to_add.split(',')
             for new_player in players_to_add:
-                if new_player not in team.players.all():
+                if Player.objects.get(username=new_player) \
+                        not in team.players.all():
                     team.players.add(Player.objects.get(
                         username=new_player))
                 else:
@@ -263,8 +266,8 @@ def team_admin(request, teamID):
                     messages.add_message(request, messages.ERROR,
                                          Player.objects.get(
                                              username=new_player).
-                                         battlenetID + "is already "
-                                         "on your team!")
+                                         battlenetID + " is already "
+                                                       "on your team!")
                     context['form'] = TeamAdminForm(
                         initial={'team_alias': team.teamAlias})
                     return render(request, 'scheduler/team_admin.html',
@@ -292,10 +295,9 @@ def team_admin(request, teamID):
         if form.is_valid():
             if form.cleaned_data['team_alias']:
                 team.teamAlias = form.cleaned_data['team_alias']
+                team.save()
                 context['form'] = TeamAdminForm(
                     initial={'team_alias': team.teamAlias})
-            else:
-                print("alias failed")
     return render(request, 'scheduler/team_admin.html', context)
 
 
@@ -317,8 +319,11 @@ def team_profile(request, teamID):
     context['roster'] = roster
 
     # avg player skill rating
-    context['avg_sr'] = int(
-        roster.aggregate(avg_sr=Avg('skillRating'))['avg_sr'])
+    if roster.aggregate(avg_sr=Avg('skillRating'))['avg_sr']:
+        context['avg_sr'] = int(
+            roster.aggregate(avg_sr=Avg('skillRating'))['avg_sr'])
+    else:
+        context['avg_sr'] = None
 
     # get available times for all players
     if roster:
@@ -348,7 +353,8 @@ def team_profile(request, teamID):
             #  filter by everyone else
             for player in selected_roster:
                 selected_times = selected_times.filter(players_available=
-                                      Player.objects.get(battlenetID=player))\
+                Player.objects.get(
+                    battlenetID=player)) \
                     .order_by('dayOfWeek', 'hour')
 
             context['selected_players'] = selected_roster
@@ -374,8 +380,8 @@ def join_team(request, teamID, username):
     #  user must be logged in and
     #  user is joining a team themselves or is superuser or is team admin
     if (request.user.username == username or
-        request.user.is_superuser or
-        Player.objects.get(username=request.user.username) ==
+            request.user.is_superuser or
+            Player.objects.get(username=request.user.username) ==
             Team.objects.get(teamID=teamID).team_admin):
         if request.method == 'GET':
             #  a team can have 50 players
@@ -385,13 +391,13 @@ def join_team(request, teamID, username):
                     request, messages.ERROR, "Join team failed. Only 50 "
                                              "players can be on a team."
                 )
-                return redirect('scheduler:teams')
-            #  TODO: test this !
-            print(len(Team.objects.get(teamID=teamID).players.all()))
+                return redirect('scheduler:my_teams',
+                                username=request.user.username)
             player = Player.objects.get(username=username)
             team = Team.objects.get(teamID=teamID)
             if player not in team.players.all():
                 team.players.add(player)
+                messages.success(request, "Joined team successfully.")
             else:
                 messages.get_messages(request).used = True
                 messages.add_message(request, messages.ERROR, "You cannot "
@@ -403,7 +409,7 @@ def join_team(request, teamID, username):
         messages.add_message(
             request, messages.ERROR, "Join team failed. Please check your "
                                      "login credentials.")
-    return redirect('scheduler:teams')
+    return redirect('scheduler:my_teams', username=request.user.username)
 
 
 """
@@ -436,9 +442,8 @@ def leave_team(request, teamID, username):
                 messages.add_message(request, messages.ERROR,
                                      "You cannot leave a team you are "
                                      "not in.")
-
     #  team admin kicking a player from a team
-    if Player.objects.get(username=request.user.username) == \
+    elif Player.objects.get(username=request.user.username) == \
             Team.objects.get(teamID=teamID).team_admin:
         if request.method == 'GET':
             player = Player.objects.get(username=username)
@@ -454,9 +459,15 @@ def leave_team(request, teamID, username):
                 messages.add_message(request,
                                      messages.ERROR,
                                      "Cannot remove player because they "
-                                     "were not in this team.")
+                                     "are not in this team.")
             return redirect(reverse('scheduler:team_admin', kwargs={
                 'teamID': teamID}))
+    else:
+        messages.get_messages(request).used = True
+        messages.add_message(
+            request, messages.ERROR, "Leave team failed. Please check your "
+                                     "login credentials.")
+    return redirect('scheduler:my_teams', username=request.user.username)
 
 
 """
@@ -524,19 +535,19 @@ using code adapted from https://stackoverflow.com/questions/17662928
 """
 
 
-def handler404(request, exception, template_name="scheduler/404.html"):
+def handler404(request, exception=None, template_name="scheduler/404.html"):
     response = render_to_response("scheduler/404.html")
     response.status_code = 404
     return response
 
 
-def handler500(request, exception, template_name="scheduler/500.html"):
-    response = render_to_response("scheduler/500")
+def handler500(request, exception=None, template_name="scheduler/500.html"):
+    response = render_to_response("scheduler/500.html")
     response.status_code = 500
     return response
 
 
-def handler403(request, exception,
+def handler403(request, exception=None,
                template_name="scheduler/access_denied.html"):
     response = render_to_response("scheduler/access_denied.html")
     response.status_code = 403

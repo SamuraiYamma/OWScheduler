@@ -139,6 +139,6 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_USER = 'ows'
 EMAIL_HOST_PASSWORD = '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'
 EMAIL_USE_TLS = True
