@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <title>OWS - Teams</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.css"/>
+    <link rel="stylesheet" href="{% static 'scheduler/default.css' %}">
+    <link rel="stylesheet" href="{% static 'scheduler/create_match.css' %}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.js"></script>
+    <script type="text/javascript" src="{% static 'scheduler/create_match_next.js' %}"></script>
+
+</head>
+<body id="grad">
+<div class="wrapper">
+    <div id="header" class="text-center" >
+        <h1>OWScheduler</h1>
+        <p>Overwatch Matchmaking and Scrimmage</p>
+    </div>
+    <div id="body" class="container-fluid jumbotron">
+    <!--- ALERTS: error and success messages ---->
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p>{{ message }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <p>{{ message }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% else %}
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    <p>{{ message }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+        <h1 class="text-center">Match Details</h1>
+        <h6 class="text-secondary text-center">Feel free to leave these fields blank.</h6>
+        <form method="post">
+            {% csrf_token %}
+            <!--- MATCH MAP --->
+            <div class="form-group row">
+                <label for="id_matchMap" class="col-2 col-form-label">
+                    Map
+                </label>
+                <div class="col">
+                    {{ match_form.matchMap }}
+                    <script>
+                        $('#id_matchMap').addClass('form-control')
+                    </script>
+                </div>
+            </div>
+            <!--- FRIENDLY TEAM PLAYERS --->
+            <div class="form-group row">
+                <label for="players-1" class="col-2 col-form-label">
+                    My Players
+                </label>
+
+                <div class="col">
+                    <button id="players-1" name="players-1"
+                            data-toggle="modal" data-target="#myPlayersModal"
+                            type="button" class="btn btn-primary">
+                        Choose My Players</button>
+                </div>
+                <div class="col">
+                    {% if my_players %}
+                    <p id="my-players-label" name="my-players">{{ my_players }}</p>
+                    {% else %}
+                    <p id="my-players-label" name="my-players">No players selected</p>
+                    {% endif %}
+                </div>
+            </div>
+            <!--- FRIENDLY TEAM MODAL --->
+            <div class="modal fade" id="myPlayersModal" tabindex="-1" role="dialog" aria-labelledby="myPlayersModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myPlayersModalLabel">Select Players</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <u><h6 class="text-secondary">Only 6 players can be selected.</h6></u>
+                                <table id="my-players-table" class="table table-hover" style="width: 100%;">
+                                    <thead>
+                                    <th>BattleTag</th>
+                                    <th>Role</th>
+                                    <th>SR</th>
+                                    <th>University</th>
+                                    <th>Username</th>
+                                    </thead>
+                                    <tbody>
+                                    {% for player in match.team_1.players.all %}
+                                        {% if player in match.player_set_1.all %}
+                                            <tr class="selected">
+                                        {% else %}
+                                            <tr>
+                                        {% endif %}
+                                            <td>{{ player.battlenetID }}</td>
+                                            <td>{{ player.role }}</td>
+                                            <td>{{ player.skillRating }}</td>
+                                            <td>{{ player.university }}</td>
+                                            <td>{{ player.username }}</td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr>There are no players.</tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <input type="hidden" id="my-players" name="my-players" value="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" onclick="chooseMyPlayers();" class="btn btn-primary">Add to Team</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--- ENEMY TEAM PLAYERS --->
+            <div class="form-group row">
+                <label for="players-2" class="col-2 col-form-label">
+                    Their Players
+                </label>
+                <div class="col">
+                    <button id="players-2" name="players-2"
+                            data-toggle="modal" data-target="#opponentPlayersModal"
+                            type="button" class="btn btn-primary">
+                        Choose Their Players</button>
+                </div>
+                <div class="col">
+                    {% if opponent_players %}
+                    <p id="opponent-players-label" name="opponent-players">{{ opponent_players }}</p>
+                    {% else %}
+                    <p id="opponent-players-label" name="opponent-players">No players selected</p>
+                    {% endif %}
+                </div>
+            </div>
+            <!--- ENEMY TEAM MODAL --->
+            <div class="modal fade" id="opponentPlayersModal" tabindex="-1" role="dialog" aria-labelledby="opponentPlayersModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="opponentPlayersModalLabel">Select Opponent Players</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <u><h6 class="text-secondary">Only 6 players can be selected.</h6></u>
+                                <table id="opponent-players-table" class="table table-hover" style="width: 100%;">
+                                    <thead>
+                                    <th>BattleTag</th>
+                                    <th>Role</th>
+                                    <th>SR</th>
+                                    <th>University</th>
+                                    <th>Username</th>
+                                    </thead>
+                                    <tbody>
+                                    {% for player in match.team_2.players.all %}
+                                        {% if player in match.player_set_2.all %}
+                                            <tr id="{{ player.username }}" class="selected">
+                                        {% else %}
+                                            <tr id="{{ player.username }}">
+                                        {% endif %}
+                                            <td>{{ player.battlenetID }}</td>
+                                            <td>{{ player.role }}</td>
+                                            <td>{{ player.skillRating }}</td>
+                                            <td>{{ player.university }}</td>
+                                            <td>{{ player.username }}</td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr>There are no players.</tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <input type="hidden" id="opponent-players" name="opponent-players" value="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" onclick="chooseOpponentPlayers();" class="btn btn-primary">Select Players</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="match-winner" class="col-2 col-form-label">
+                    Winner
+                </label>
+                <div class="col">
+                    <select id="match-winner" name="match-winner" class="form-control">
+                        <option value="" selected>Not Played Yet</option>
+                        <option value="1">1: {{ match.team_1 }}</option>
+                        <option value="2">2: {{ match.team_2 }}</option>
+                    </select>
+                    {% if match.winner %}
+                        <script type="text/javascript">
+                            $('#match-winner').val({{ match.winner }})
+                        </script>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <button type="submit" name="finalize-match" class="btn btn-primary">Create Match!</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -5,4 +5,6 @@ $(document).ready(function () {
     $('#admin-teams').DataTable({
         "scrollX": true
     });
-})
+
+
+});

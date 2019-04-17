@@ -1,14 +1,18 @@
+"""
+This module holds all the custom decorators for views that use it.
+This includes ensuring a user has the correct permissions to access certain
+views.
+"""
 from django.core.exceptions import PermissionDenied
 
 from scheduler.models import Player, Team
 
-"""
-:returns True if user is the admin of the 
-team from function param or a superuser
-"""
-
 
 def is_team_admin_or_superuser(function):
+    """
+    :returns True if user is the admin of the
+    team from function param or a superuser
+    """
     def wrap(request, *args, **kwargs):
         player = Player.objects.get(username=request.user.username)
         team = Team.objects.get(pk=kwargs['teamID'])
@@ -21,13 +25,11 @@ def is_team_admin_or_superuser(function):
     return wrap
 
 
-"""
-:returns True if the user is the same specified in function 
-params or a superuser
-"""
-
-
 def is_user_or_superuser(function):
+    """
+    :returns True if the user is the same specified in function
+    params or a superuser
+    """
     def wrap(request, *args, **kwargs):
         if request.user.username == kwargs['username'] or \
                 request.user.is_superuser:

@@ -1,6 +1,10 @@
-from django.urls import path, re_path
+"""
+Includes all the definitions for urls related to the scheduler app
+"""
+from django.urls import path
 
-from . import views
+from scheduler import views
+
 app_name = 'scheduler'
 urlpatterns = [
     path('', views.home, name='home'),  # home page
@@ -15,7 +19,10 @@ urlpatterns = [
          name='team_profile'),  # team profile page
     path('teams/<int:teamID>/admin/', views.team_admin, name='team_admin'),
     path('teams/create-team/', views.create_team, name='create_team'),
-
+    path('create-match/', views.create_match, name='create_match'),
+    path('edit-match/<int:match_id>/', views.edit_match, name='edit_match'),
+    path('create-match/next/<int:match_id>/', views.create_match_next,
+         name='create_match_next'),
     path('join_team/<int:teamID>/<str:username>/', views.join_team,
          name='join_team'),
     path('leave_team/<int:teamID>/<str:username>/', views.leave_team,

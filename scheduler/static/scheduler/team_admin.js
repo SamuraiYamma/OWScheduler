@@ -52,8 +52,6 @@ function getNewPlayers() {
             new_players.push(value[4]);
         });
         $('#players-to-add').val(new_players);
-        console.log(new_players);
-        console.log($('#players-to-add').val());
         $('#add-players-form').submit();
     } else {
         $('#addPlayerModal').modal('toggle');

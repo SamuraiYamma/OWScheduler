@@ -10,11 +10,28 @@
     <link rel="stylesheet" href="{% static 'scheduler/my_teams.css' %}">
     <link rel="stylesheet" href="{% static 'scheduler/default.css' %}">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+            integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+            crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"/>
     <script type="text/javascript" src="{% static 'scheduler/my_teams.js' %}"></script>
+
+    <link href='{% static 'fullcalendar-4.0.2/packages/core/main.css' %}' rel='stylesheet' />
+    <link href='{% static 'fullcalendar-4.0.2/packages/daygrid/main.css' %}' rel='stylesheet' />
+    <link href='{% static 'fullcalendar-4.0.2/packages/bootstrap/main.css' %}' rel='stylesheet' />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+          crossorigin="anonymous">
+
+    <script src='{% static 'fullcalendar-4.0.2/packages/core/main.js' %}'></script>
+    <script src='{% static 'fullcalendar-4.0.2/packages/daygrid/main.js' %}'></script>
+    <script src='{% static 'fullcalendar-4.0.2/packages/bootstrap/main.js' %}'></script>
+
+
+
 </head>
 
 <body id="grad">
@@ -95,6 +112,14 @@
         <h1 style="margin-bottom: 1em;">My Teams</h1>
         <div class="row">
             <div class="col">
+                <button class="btn btn-primary"
+                        onclick="location.href='{% url 'scheduler:create_match' %}'">
+                    Setup Match
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
                 <h5>Teams I'm In</h5>
                 <div>
                     <table id="player-teams" class="table table-hover table-borderless" style="width: 100%;">
@@ -128,6 +153,8 @@
                     </table>
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col">
                 <h5>Teams I Admin</h5>
                 <div>
@@ -156,6 +183,36 @@
                         {% endif %}
                     </table>
                 </div>
+            </div>
+        </div>
+    <div class="row">
+            <div class="col">
+                <div id="match-calendar"></div>
+                <script type="text/javascript">
+                    document.addEventListener('DOMContentLoaded', function() {
+                        var calendarEl = document.getElementById('match-calendar');
+                        var calendar = new FullCalendar.Calendar(calendarEl, {
+                            plugins: [ 'dayGrid', 'bootstrap' ],
+                            defaultView: 'dayGridMonth',
+                            themeSystem: 'bootstrap',
+                            editable: false,
+                            events: {{ matches_playing_json|safe }},
+                            eventRender: function (info) {
+                                $(info.el).tooltip({
+                                    title: 'hello',
+                                    placement: 'top',
+                                    trigger: 'hover',
+                                    container: 'body'
+                                })
+                                var tooltip = new Tooltip(info.el, {
+
+                                });
+                            }
+                        });
+
+                        calendar.render();
+                      });
+                </script>
             </div>
         </div>
     </div>

@@ -1,35 +1,42 @@
+"""
+This file handles the connections between the server and client. The views
+provide information for the html files and handle redirection and rendering
+of templates. The views also ensure access protection for users, and require
+authentication on certain pages.
+
+Allison Bickford
+4/11/2019
+"""
 from django.shortcuts import get_object_or_404, render, render_to_response, \
     redirect, reverse
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.http import HttpResponseRedirect
 
 from django.db.models import Q, Avg
 
-from django.contrib.auth import authenticate, login, logout, \
-    update_session_auth_hash
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, \
-    PasswordResetForm
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.messages import get_messages
 
 from dal import autocomplete
 
 from scheduler.models import Player, Team, Match, TimeSlot
-from scheduler.forms import PlayerCreationForm, PlayerChangeForm, TeamAdminForm
+from scheduler.forms import PlayerCreationForm, PlayerChangeForm, \
+    TeamAdminForm, MatchCreationForm
 from scheduler.decorators import is_team_admin_or_superuser, \
     is_user_or_superuser
 
-""" 
-view that handles logging in the current user and returning the context
-
-:returns dict containing login form, authenticated user, 
-    teams, and teams user admins
-"""
-
 
 def login_context(request):
+    """
+    view that handles logging in the current user and returning the context
+
+    :param request: network request info, such as user
+    :returns dict containing login form, authenticated user,
+        teams, and teams user admins
+    """
     if not request.user.is_authenticated:
         user = None
         form = AuthenticationForm()
@@ -58,34 +65,37 @@ def login_context(request):
     return {'user_teams': user_team, 'admin_teams': admin_team}
 
 
-""" 
-view that handles logging out the current user. 
-Redirects to previous page after, or home if it can't. 
-"""
-
-
 @login_required
 def user_logout(request):
+    """
+    view that handles logging out the current user.
+    Redirects to previous page after, or home if it can't.
+    """
     next = request.GET.get('next', '/')  # stores previous page, otherwise home
     logout(request)
     return HttpResponseRedirect(next)  # temporary redirect
 
 
-""" Home page """
-
-
 def home(request):
+    """
+    Home page
+
+    :param request: network request info
+    :return: template and variables to pass into it
+    """
     context = login_context(request)  # has user, user_team, and login_form
     return render(request, 'scheduler/default.html', context)
 
 
-"""
-Goes to the players page using the list of players sorted by battletags and 
-uses the player search bar to generate the list of players matching the search.
-"""
-
-
 def players(request):
+    """
+    Goes to the players page using the list of players sorted by battletags and
+    uses the player search bar to generate the list of players matching the
+    search.
+
+    :param request: network request info
+    :return: login context and list of all players
+    """
     player_list = Player.objects.filter(is_active=True). \
         order_by('-battlenetID')
 
@@ -96,16 +106,15 @@ def players(request):
     return render(request, 'scheduler/players.html', context)
 
 
-""" 
-displays the profile page for a player by username 
-the battletag doesn't work in url so the username is another key we can use to 
-identify the player
-
-:param the username of the profile to view
-"""
-
-
 def player_profile(request, username):
+    """
+    displays the profile page for a player by username
+    the battletag doesn't work in url so the username is another key we can use to
+    identify the player
+
+    :param request: network request info
+    :param username: username of the players whose profile to view
+    """
     player = get_object_or_404(Player, username=username)
     player_teams = Team.objects.filter(players=player)
     admin_teams = Team.objects.filter(team_admin=player)
@@ -120,17 +129,19 @@ def player_profile(request, username):
     return render(request, 'scheduler/player_profile.html', context)
 
 
-"""
-displays the player account info that allows the user to change their 
-password, add information to their profile, and set their availability
-
-:param the username of the account to edit
-"""
-
-
 @login_required
 @is_user_or_superuser
 def account(request, username):
+    """
+    displays the player account info that allows the user to change their
+    password, add information to their profile, and set their availability.
+    This is only available to the user themselves, or a superuser.
+
+    :param request: network session info
+    :param username: username of user whose the account to edit
+    :returns template with context to change user info, or access denied
+    template if user is not verified
+    """
     player = get_object_or_404(Player, username=username)
     context = login_context(request)
 
@@ -180,13 +191,14 @@ def account(request, username):
     return render(request, 'scheduler/account.html', context)
 
 
-""" 
-displays the page that lists all the teams, sorted by their teamID. This 
-also implements searching for teams by their name or id.
-"""
-
-
 def teams(request):
+    """
+    displays the page that lists all the teams, sorted by their teamID. This
+    also implements searching for teams by their name or id.
+
+    :param request: HttpRequest with network info
+    :return: template for teams with login context and list of all teams
+    """
     team_list = Team.objects.order_by('-teamID')
 
     context = login_context(request)
@@ -194,43 +206,108 @@ def teams(request):
     return render(request, 'scheduler/teams.html', context)
 
 
-"""
-handles creating a team
-"""
-
-
 @login_required
 def create_team(request):
+    """
+    handles creating a team
+
+    :param request: network session info
+    :return: template with login context to create a team
+    """
     context = login_context(request)
     return render(request, 'scheduler/create_team.html', context)
-
-
-"""
-handles view for accessing teams user is a part of and 
-teams the user is the admin of
-
-:param username of player's teams to view
-"""
 
 
 @login_required
 @is_user_or_superuser
 def my_teams(request, username):
+    """
+    handles view for accessing teams user is a part of and
+    teams the user is the admin of
+
+
+    :param request: network session info
+    :param username: username of player's teams to view
+    :return: template with relevant matches and teams in context
+    """
     context = login_context(request)
+    player = Player.objects.get(username=username)
+
+    # matches a player's team is playing
+    teams_playing = Team.objects.filter(players=player)
+    user_matches = Match.objects.filter(
+        Q(team_1__in=teams_playing) | Q(team_2__in=teams_playing))\
+        .distinct()
+
+    # all matches a player is playing in
+    playing_matches = Match.objects.filter(
+        Q(player_set_1=player) | Q(player_set_2=player)).distinct()
+
+    # all matches for the team they admin
+    admin_teams = Team.objects.filter(team_admin=player)
+    team_matches = Match.objects.filter(
+        Q(team_1__in=admin_teams) | Q(team_2__in=admin_teams)).distinct()
+
+    match_events = []
+    for match in playing_matches:
+        match_events.append({
+            'id': match.matchID,
+            'title': str(match.team_1) + ' vs. ' + str(match.team_2),
+            'start': str(match.time.year) + '-' +
+                     str(match.time.month) + '-' +
+                     str(match.time.day),
+            'backgroundColor': '#ffb135',
+            'participation': 'You are playing in this match!',
+            'players_1': list(match.player_set_1.values_list(
+                'battlenetID', flat=True)),
+            'players_2': list(match.player_set_2.values_list(
+                'battlenetID', flat=True)),
+        })
+    for match in user_matches:
+        if match not in playing_matches and match not in team_matches:
+            match_events.append({
+                'id': match.matchID,
+                'title': str(match.team_1) + ' vs. ' + str(match.team_2),
+                'start': str(match.time.year) + '-' +
+                         str(match.time.month) + '-' +
+                         str(match.time.day),
+                'backgroundColor': '#007bff',
+                'participation': 'Your team is playing this match!',
+                'players_1': list(match.player_set_1.values_list(
+                    'battlenetID', flat=True)),
+                'players_2': list(match.player_set_2.values_list(
+                    'battlenetID', flat=True)),
+            })
+    for match in team_matches:
+        if match not in playing_matches:
+            match_events.append({
+                'id': match.matchID,
+                'title': str(match.team_1) + ' vs. ' + str(match.team_2),
+                'start': str(match.time.year) + '-' +
+                         str(match.time.month) + '-' +
+                         str(match.time.day),
+                'backgroundColor': '#a0ffa3',
+                'participation': 'You admin a team in this match!',
+                'players_1': list(match.player_set_1.values_list(
+                    'battlenetID', flat=True)),
+                'players_2': list(match.player_set_2.values_list(
+                    'battlenetID', flat=True)),
+            })
+    context['matches_playing_json'] = match_events
     return render(request, 'scheduler/my_teams.html', context)
-
-
-"""
-handles view to manage team
-including players, name, etc.
-
-:param teamID of team to manage
-"""
 
 
 @login_required
 @is_team_admin_or_superuser
 def team_admin(request, teamID):
+    """
+    handles view to manage team including players, name, etc. This is only
+    available to the team manager/admin and superusers.
+
+    :param request: network session info
+    :param teamID: primary key of team to manage
+    :return: template with
+    """
     context = login_context(request)
     team = get_object_or_404(Team, teamID=teamID)
 
@@ -248,7 +325,7 @@ def team_admin(request, teamID):
             'team': team,
             'players': team.players.all(),
             'all_players': Player.objects.filter(is_active=True).
-                order_by('-battlenetID'),
+                           order_by('-battlenetID'),
         }
     )
 
@@ -284,13 +361,12 @@ def team_admin(request, teamID):
                                         kwargs={
                                             'username':
                                                 request.user.username}))
-            else:
-                messages.get_messages(request).used = True
-                messages.add_message(request, messages.ERROR,
-                                     "You are already the admin. "
-                                     "What are you trying to do?")
-                return render(request, 'scheduler/team_admin.html',
-                              context)
+
+            messages.get_messages(request).used = True
+            messages.add_message(request, messages.ERROR,
+                                 "You are already the admin. "
+                                 "What are you trying to do?")
+            return render(request, 'scheduler/team_admin.html', context)
 
         if form.is_valid():
             if form.cleaned_data['team_alias']:
@@ -301,14 +377,14 @@ def team_admin(request, teamID):
     return render(request, 'scheduler/team_admin.html', context)
 
 
-""" 
-displays the profile page for a team and their relevant information
-
-:param teamID of team to view profile for
-"""
-
-
 def team_profile(request, teamID):
+    """
+    displays the profile page for a team and their relevant information
+
+    :param request: network session info
+    :param teamID: primary key of team to view profile of
+    :return: template with information about the requested team
+    """
     team = get_object_or_404(Team, teamID=teamID)
     context = login_context(request)
     # team currently viewing
@@ -353,9 +429,9 @@ def team_profile(request, teamID):
             #  filter by everyone else
             for player in selected_roster:
                 selected_times = selected_times.filter(players_available=
-                Player.objects.get(
-                    battlenetID=player)) \
-                    .order_by('dayOfWeek', 'hour')
+                                                Player.objects.get(
+                                                battlenetID=player)) \
+                                                .order_by('dayOfWeek', 'hour')
 
             context['selected_players'] = selected_roster
             context['selected_times'] = selected_times
@@ -366,17 +442,17 @@ def team_profile(request, teamID):
     return render(request, 'scheduler/team_profile.html', context)
 
 
-"""
-Allows a user to join a team. Also provides a way for a superuser to add a 
-player to a team without going through the admin page.
-
-:param the teamID of the team to join
-:param the username of the player to add to a team
-"""
-
-
 @login_required
 def join_team(request, teamID, username):
+    """
+    Allows a user to join a team. Also provides a way for a superuser to add a
+    player to a team without going through the admin page.
+
+    :param request: network session info
+    :param teamID: primary key of team to join
+    :param username: username of player requesting to join team
+    :return: redirect to my teams view
+    """
     #  user must be logged in and
     #  user is joining a team themselves or is superuser or is team admin
     if (request.user.username == username or
@@ -412,16 +488,18 @@ def join_team(request, teamID, username):
     return redirect('scheduler:my_teams', username=request.user.username)
 
 
-"""
-Allows a user to leave a team. Allows a superuser to remove a player from 
-their team. This can be used later to allow team leaders to remove players.
-
-:param the username of the player to remove from a team
-"""
-
-
 @login_required
 def leave_team(request, teamID, username):
+    """
+    Allows a user to leave a team. Allows a superuser to remove a player from
+    their team. This can be used later to allow team leaders to remove players.
+
+    :param request: network session info
+    :param teamID: primary key of team to get removed from
+    :param username: username of the player to remove from team
+    :return: redirects to team page for users and superusers, while admins are
+    redirected to their admin page
+    """
     # verify player and team exists, otherwise 404
     get_object_or_404(Team, teamID=teamID)
     get_object_or_404(Player, username=username)
@@ -470,16 +548,17 @@ def leave_team(request, teamID, username):
     return redirect('scheduler:my_teams', username=request.user.username)
 
 
-"""
-handles deleting a team
-
-:param teamID of team to delete
-"""
-
-
 @login_required
 @is_team_admin_or_superuser
 def delete_team(request, teamID):
+    """
+    handles deleting a team instance. Requires team admin or superuser
+    permissions
+
+    :param request: network session info
+    :param teamID: primary key of team to delete
+    :return: redirect to all teams view
+    """
     team = get_object_or_404(Team, teamID=teamID)
     team.delete()
     messages.get_messages(request).used = True
@@ -488,13 +567,15 @@ def delete_team(request, teamID):
     return redirect(reverse('scheduler:teams'))
 
 
-"""
-view to add a new user and log them in. Redirects on successful user 
-creation or shows form errors if the input was not valid.
-"""
-
-
 def register(request):
+    """
+    view to add a new user and log them in. Redirects on successful user
+    creation or shows form errors if the input was not valid.
+
+    :param request: network session info
+    :return: access denied if user is logged in, otherwise the register
+    template
+    """
     if not request.user.is_authenticated:
         if request.method == 'POST':
             form = PlayerCreationForm(request.POST)
@@ -529,19 +610,182 @@ def register(request):
     return render(request, 'scheduler/access_denied.html')
 
 
-"""
-using code adapted from https://stackoverflow.com/questions/17662928
-/django-creating-a-custom-500-404-error-page 
-"""
+@login_required
+def create_match(request):
+    """
+    handles creating a match between teams.
+
+    :param request: network session info
+    :return: redirects to next step in creating a match, or access denied if
+    a user does not manage/admin any teams
+    """
+    context = login_context(request)
+    if Team.objects.filter(team_admin=
+                           Player.objects.get(username=request.user.username)):
+        context['all_teams'] = Team.objects.all()
+        context['my_team'] = None
+        context['opponent_team'] = None
+        my_team = None
+        opp_team = None
+        if request.method == 'POST':
+            if request.POST.get('my-team') and \
+                    request.POST.get('opponent-team'):
+                my_team = Team.objects.get(
+                    teamID=request.POST.get('my-team'))
+                context['my_team'] = my_team
+                opp_team = Team.objects.get(
+                    teamID=request.POST.get('opponent-team'))
+                context['opponent_team'] = opp_team
+                new_match = Match.objects.create(
+                    time=request.POST.get('match-time'),
+                    team_1=my_team,
+                    team_2=opp_team
+                )
+                return redirect(reverse('scheduler:create_match_next',
+                                        kwargs={
+                                            'match_id': new_match.matchID}
+                                        ))
+
+            messages.get_messages(request).used = True
+            messages.add_message(request, messages.ERROR, "Cannot continue. "
+                                                          "Please "
+                                                          "make sure "
+                                                          "all fields are "
+                                                          "filled.")
+
+        return render(request, 'scheduler/create_match.html', context)
+    return render(request, 'scheduler/access_denied.html')
+
+
+@login_required
+def edit_match(request, match_id):
+    """
+    Handles changing a match's teams and times. The user must be an admin
+    of either team.
+
+    :param request: network session info
+    :param match_id: primary key of match to edit
+    :return: redirects to create_match_next, or access denied if not an admin
+    """
+    context = login_context(request)
+    match = get_object_or_404(Match, matchID=match_id)
+
+    if (match.team_1.team_admin ==
+            Player.objects.get(username=request.user.username) or
+            match.team_2.team_admin ==
+            Player.objects.get(username=request.user.username)):
+        context['is_team_1'] = False
+        if match.team_1.team_admin == \
+                Player.objects.get(username=request.user.username):
+            context['is_team_1'] = True
+        context['match'] = match
+        context['all_teams'] = Team.objects.all()
+        if request.method == 'POST':
+            if request.POST.get('my-team'):
+                my_team = Team.objects.get(
+                    teamID=request.POST.get('my-team'))
+                match.team_1 = my_team
+            if request.POST.get('opponent-team'):
+                opp_team = Team.objects.get(
+                    teamID=request.POST.get('opponent-team'))
+                match.team_2 = opp_team
+            match.time = request.POST.get('match-time')
+            match.save()
+            return redirect(reverse('scheduler:create_match_next',
+                                    kwargs={'match_id': match.matchID}))
+
+        return render(request, 'scheduler/edit_match.html', context)
+    return render(request, 'scheduler/access_denied.html')
+
+
+@login_required
+def create_match_next(request, match_id):
+    """
+    Handles creating/editing optional details for a match. User must be an
+    admin of either team.
+
+    :param request: network session info
+    :param match_id: primary key of match to change
+    :return: redirects to my teams on successful change, access denied if user
+    is not an admin, otherwise returns the create_match_next template
+    """
+    context = login_context(request)
+    match = get_object_or_404(Match, matchID=match_id)
+
+    if (match.team_1.team_admin ==
+            Player.objects.get(username=request.user.username) or
+            match.team_2.team_admin ==
+            Player.objects.get(username=request.user.username)):
+        match_form = MatchCreationForm(initial={'matchMap': match.matchMap})
+        context['match_form'] = match_form
+        context['match'] = match
+
+        players_str = ''
+        for player in match.player_set_1.all():
+            players_str += str(player) + ','
+        context['my_players'] = players_str[:-1]
+
+        opponents = ''
+        for player in match.player_set_2.all():
+            opponents += str(player) + ','
+
+        context['opponent_players'] = opponents[:-1]
+
+        if request.method == 'POST':
+            match_form = MatchCreationForm(request.POST)
+            my_players = request.POST.get('my-players')
+            opp_players = request.POST.get('opponent-players')
+            if my_players:
+                my_players = my_players.split(',')
+                allies = []
+                for player in my_players:
+                    allies.append(Player.objects.get(username=player))
+                match.player_set_1.set(allies)
+
+            if opp_players:
+                opp_players = opp_players.split(',')
+                enemies = []
+                for player in opp_players:
+                    enemies.append(Player.objects.get(username=player))
+                match.player_set_2.set(enemies)
+
+            if match_form.is_valid():
+                map = match_form.cleaned_data['matchMap']
+                match.matchMap = map
+
+            if request.POST.get('match-winner'):
+                match.winner = request.POST.get('match-winner')
+            match.save()
+            messages.get_messages(request).used = True
+            messages.add_message(request, messages.SUCCESS,
+                                 "Created match successfully.")
+            return redirect(reverse('scheduler:my_teams',
+                                    kwargs={
+                                        'username': request.user.username}))
+
+        messages.get_messages(request).used = True
+        messages.add_message(request, messages.ERROR,
+                             "Failed to create match.")
+
+        return render(request, 'scheduler/create_match_next.html', context)
+    return render(request, 'scheduler/access_denied.html')
 
 
 def handler404(request, exception=None, template_name="scheduler/404.html"):
+    """
+    using code adapted from https://stackoverflow.com/questions/17662928
+    /django-creating-a-custom-500-404-error-page
+    """
     response = render_to_response("scheduler/404.html")
     response.status_code = 404
     return response
 
 
 def handler500(request, exception=None, template_name="scheduler/500.html"):
+    """
+    using code adapted from https://stackoverflow.com/questions/17662928
+    /django-creating-a-custom-500-404-error-page
+    """
     response = render_to_response("scheduler/500.html")
     response.status_code = 500
     return response
@@ -549,18 +793,21 @@ def handler500(request, exception=None, template_name="scheduler/500.html"):
 
 def handler403(request, exception=None,
                template_name="scheduler/access_denied.html"):
+    """
+    using code adapted from https://stackoverflow.com/questions/17662928
+    /django-creating-a-custom-500-404-error-page
+    """
     response = render_to_response("scheduler/access_denied.html")
     response.status_code = 403
     return response
 
 
-""" 
-Extends the autocomplete plugin. Creates the parameters used to search for 
-a team in PlayerChangeForm team field, which is a drop down search.
-"""
-
-
 class TeamAutoComplete(autocomplete.Select2QuerySetView):
+    """
+    Extends the autocomplete plugin. Creates the parameters used to search for
+    a team in PlayerChangeForm team field, which is a drop down search.
+    """
+
     def get_queryset(self):
         if not self.request.user.is_authenticated:
             return Team.objects.none()
@@ -575,12 +822,11 @@ class TeamAutoComplete(autocomplete.Select2QuerySetView):
         return queryset
 
 
-"""
-handles autocomplete for players
-"""
-
-
 class PlayerAutoComplete(autocomplete.Select2QuerySetView):
+    """
+    handles autocomplete for players
+    """
+
     def get_queryset(self):
         if not self.request.user.is_authenticated:
             return Player.objects.none()

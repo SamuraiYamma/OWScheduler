@@ -131,14 +131,20 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = 'scheduler/static/'
+
+# User Management
 AUTH_USER_MODEL = 'scheduler.Player'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'scheduler:home'
 LOGOUT_REDIRECT_URL = 'scheduler:home'
+
+# Messges/Alerts
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
-EMAIL_HOST = 'smtp.sendgrid.net'
+
+# Email setup
+EMAIL_HOST = ''
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'ows'
-EMAIL_HOST_PASSWORD = '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'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <title>OWS - Teams</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <!-- datatables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.css"/>
+    <!-- datetimepicker tempus dominus -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <!-- scheduler files -->
+    <link rel="stylesheet" href="{% static 'scheduler/default.css' %}">
+    <link rel="stylesheet" href="{% static 'scheduler/create_match.css' %}">
+
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <!-- bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <!-- moment (for datetimepicker) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
+    <!-- tether (for datetimepicker) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <!-- datetimepicker tempus dominus -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- datatables -->
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/fh-3.1.4/sc-2.0.0/datatables.min.js"></script>
+    <script type="text/javascript" src="{% static 'scheduler/create_match.js' %}"></script>
+</head>
+<body id="grad">
+<div class="wrapper">
+    <div id="header" class="text-center" >
+        <h1>OWScheduler</h1>
+        <p>Overwatch Matchmaking and Scrimmage</p>
+    </div>
+    <div id="body" class="container-fluid jumbotron">
+    <!--- ALERTS: error and success messages ---->
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p>{{ message }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <p>{{ message }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% else %}
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    <p>{{ message }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+        <h1 class="text-center">Setup Match</h1>
+        <form method="post" id="simple-match-form">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label for="match-time" class="col-2 col-form-label">
+                    Date and Time</label>
+                <div class="col-10">
+                    <div id="match-time-picker"></div>
+                    <input type="hidden" id="match-time" name="match-time">
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#match-time-picker').datetimepicker({
+                                inline: true,
+                                sideBySide: true,
+                                minDate: '2010-01-01T00:00:00',
+                                maxDate: '2030-12-31T11:59:59',
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="team-1" class="col-2 col-form-label">
+                    My Team
+                </label>
+
+                <div class="col">
+                    <button id="team-1" name="team-1"
+                            data-toggle="modal" data-target="#myTeamModal"
+                            type="button" class="btn btn-primary">
+                        Choose My Team</button>
+                </div>
+                <div class="col">
+                    <p id="my-selected-team">No team selected</p>
+                </div>
+            </div>
+            <!-- CHOOSE MY TEAM MODAL --->
+            <div class="modal fade" id="myTeamModal" tabindex="-1" role="dialog" aria-labelledby="myTeamModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myTeamModalLabel">Choose My Team</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="my-team-table" class="table table-hover" style="width: 100%;">
+                                <thead>
+                                <th>Team Alias</th>
+                                <th>ID</th>
+                                <th>Size</th>
+                                </thead>
+                                <tbody>
+                                {% for team in admin_teams %}
+                                        <tr>
+                                            <td>{{ team.teamAlias }}</td>
+                                            <td>{{ team.teamID }}</td>
+                                            <td>{{ team.players.all|length }}</td>
+                                        </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <input type="hidden" id="my-team" name="my-team">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" id="change-admin-button" class="btn btn-primary"
+                                    onclick="chooseMyTeam();">Choose Team</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="team-2" class="col-2 col-form-label">
+                    Opposing Team
+                </label>
+
+                <div class="col">
+                    <button id="team-2" name="team-2"
+                            data-toggle="modal" data-target="#opponentTeamModal"
+                            type="button" class="btn btn-primary">
+                        Choose Opposing Team</button>
+                </div>
+                <div class="col">
+                    <p id="opponent-selected-team">No team selected</p>
+                </div>
+            </div>
+            <!-- CHOOSE THEIR TEAM MODAL --->
+            <div class="modal fade" id="opponentTeamModal" tabindex="-1" role="dialog" aria-labelledby="opponentTeamModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">=
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="opponentTeamModalLabel">Choose Opponent Team</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="opponent-team-table" class="table table-hover" style="width: 100%;">
+                                <thead>
+                                <th>Team Alias</th>
+                                <th>ID</th>
+                                <th>Size</th>
+                                </thead>
+                                <tbody>
+                                {% for team in all_teams %}
+                                    <tr>
+                                        <td>{{ team.teamAlias }}</td>
+                                        <td>{{ team.teamID }}</td>
+                                        <td>{{ team.players.all|length }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <input type="hidden" id="opponent-team" name="opponent-team">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" id="opponent-team-button" class="btn btn-primary"
+                                    onclick="chooseOpponentTeam();">Choose Opponent</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Next</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>

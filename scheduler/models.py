@@ -1,15 +1,20 @@
+"""
+This module controls django's generated database. Each model determines
+an entity while each field corresponds to an attribute or relationship. This
+controls the information to be stored for each Player, Team, Match, and
+TimeSlot.
+"""
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
-"""
-The Team model identifies an ID and Alias as identifiers. 
-Although teams can have the same alias, our database will need a unique ID 
-for each.
-"""
-
 
 class Team(models.Model):
+    """
+    The Team model identifies an ID and Alias as identifiers.
+    Although teams can have the same alias, our database will need a unique ID
+    for each.
+    """
     teamID = models.IntegerField(primary_key=True)
     teamAlias = models.CharField(max_length=32)
     team_admin = models.ForeignKey('Player', blank=True, null=True,
@@ -23,18 +28,17 @@ class Team(models.Model):
         return str(self.teamAlias) + "#" + str(self.teamID)
 
 
-"""
-This is the model for Players (users) to store in the database.
-It uses django's AbstractUser which already stores first name, last name, 
-email, username, and password. This allows us to use django's secure password 
-hashing but still give our users attributes like university, role, 
-battletag, sr, and team. The team in this model is an optional foreign key 
-that can be null and/or blank. The default string for a player is their 
-battletag. It also restricts the roles to either damage, tank, or support.
-"""
-
-
 class Player(AbstractUser):
+    """
+    This is the model for Players (users) to store in the database.
+    It uses django's AbstractUser which already stores first name, last name,
+    email, username, and password. This allows us to use django's secure password
+    hashing but still give our users attributes like university, role,
+    battletag, sr, and team. The team in this model is an optional foreign key
+    that can be null and/or blank. The default string for a player is their
+    battletag. It also restricts the roles to either damage, tank, or support.
+    """
+
     # by making these variables, we can access them easier
     # ROLES
     DAMAGE = "Damage"
@@ -69,19 +73,21 @@ class Player(AbstractUser):
 
     skillRating = models.IntegerField("SR", null=True, blank=True)
 
-    # overriding the default string for a player to their battletag
     def __str__(self):
+        """
+        overriding the default string for a player to their battletag
+
+        :return: player's battletag
+        """
         return self.battlenetID
 
 
-"""
-The model for TimeSlot allows users to set their availability. 
-The ID avoids the composite key issue from django. Since they don't allow 
-composite keys, this is the next best option.
-"""
-
-
 class TimeSlot(models.Model):
+    """
+    The model for TimeSlot allows users to set their availability.
+    The ID avoids the composite key issue from django. Since they don't allow
+    composite keys, this is the next best option.
+    """
     MON = 0
     TUES = 1
     WED = 2
@@ -105,13 +111,11 @@ class TimeSlot(models.Model):
     dayOfWeek = models.IntegerField(choices=DAYS_OF_WEEK)
     hour = models.IntegerField(default=0)
     players_available = models.ManyToManyField(Player, related_name=
-                                                    "player_availabilities")
-
-
-""" Model to store match information. """
+                                               "player_availabilities")
 
 
 class Match(models.Model):
+    """ Model to store match information. """
     matchID = models.AutoField(primary_key=True)
 
     CG = "Château Guillard"
@@ -150,7 +154,8 @@ class Match(models.Model):
         (WG, "Watchpoint: Gibraltar"),
     )
 
-    matchMap = models.CharField(max_length=50, choices=MAP_CHOICES, blank=True, null=True)
+    matchMap = models.CharField(max_length=50, choices=MAP_CHOICES,
+                                blank=True, null=True)
 
     # time match is scheduled
     time = models.DateTimeField(default=timezone.now)
@@ -159,13 +164,15 @@ class Match(models.Model):
     # players is distinguished from teams
     # since teams can have more than 6 players
     player_set_1 = models.ManyToManyField('Player',
-                                          related_name="player_set_1")
+                                          related_name="player_set_1",
+                                          blank=True)
     team_1 = models.ForeignKey('Team', related_name="team_1",
                                on_delete=models.SET_NULL, null=True)
 
     # second team
     player_set_2 = models.ManyToManyField('Player',
-                                          related_name="player_set_2")
+                                          related_name="player_set_2",
+                                          blank=True)
     team_2 = models.ForeignKey('Team', related_name="team_2",
                                on_delete=models.SET_NULL, null=True)
 
