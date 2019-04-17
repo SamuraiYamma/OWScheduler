@@ -18,3 +18,14 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+Packages
+========
+.. toctree::
+   :maxdepth: 2
+   
+   OWScheduler.rst
+   scheduler.rst
+   scheduler.migrations.rst
+   manage.rst
+   modules.rst

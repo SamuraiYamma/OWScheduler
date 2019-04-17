@@ -14,6 +14,8 @@
     <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="scheduler.migrations package" href="scheduler.migrations.html" />
+    <link rel="prev" title="OWScheduler package" href="OWScheduler.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -43,11 +45,11 @@
 <li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0003_auto_20190301_1547">scheduler.migrations.0003_auto_20190301_1547 module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0004_auto_20190302_1611">scheduler.migrations.0004_auto_20190302_1611 module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0005_auto_20190318_1449">scheduler.migrations.0005_auto_20190318_1449 module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0006_auto_20190410_1835">scheduler.migrations.0006_auto_20190410_1835 module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0007_auto_20190410_1836">scheduler.migrations.0007_auto_20190410_1836 module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0008_auto_20190410_1837">scheduler.migrations.0008_auto_20190410_1837 module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0009_auto_20190410_1845">scheduler.migrations.0009_auto_20190410_1845 module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0010_auto_20190410_2128">scheduler.migrations.0010_auto_20190410_2128 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#scheduler-migrations-0006-auto-20190410-1835-module">scheduler.migrations.0006_auto_20190410_1835 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#scheduler-migrations-0007-auto-20190410-1836-module">scheduler.migrations.0007_auto_20190410_1836 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#scheduler-migrations-0008-auto-20190410-1837-module">scheduler.migrations.0008_auto_20190410_1837 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#scheduler-migrations-0009-auto-20190410-1845-module">scheduler.migrations.0009_auto_20190410_1845 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#scheduler-migrations-0010-auto-20190410-2128-module">scheduler.migrations.0010_auto_20190410_2128 module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations">Module contents</a></li>
 </ul>
 </li>
@@ -161,7 +163,7 @@ instances of models and validating data.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="attribute">
 <dt id="scheduler.forms.CreateTeamForm.Meta.fields">
-<code class="descname">fields</code><em class="property"> = ('id', 'alias')</em><a class="headerlink" href="#scheduler.forms.CreateTeamForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fields</code><em class="property"> = ('teamID', 'teamAlias')</em><a class="headerlink" href="#scheduler.forms.CreateTeamForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -174,12 +176,12 @@ instances of models and validating data.</p>
 
 <dl class="attribute">
 <dt id="scheduler.forms.CreateTeamForm.base_fields">
-<code class="descname">base_fields</code><em class="property"> = {'alias': &lt;django.forms.fields.CharField object&gt;, 'id': &lt;django.forms.fields.IntegerField object&gt;}</em><a class="headerlink" href="#scheduler.forms.CreateTeamForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<code class="descname">base_fields</code><em class="property"> = {'teamAlias': &lt;django.forms.fields.CharField object&gt;, 'teamID': &lt;django.forms.fields.IntegerField object&gt;}</em><a class="headerlink" href="#scheduler.forms.CreateTeamForm.base_fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="scheduler.forms.CreateTeamForm.clean_id">
-<code class="descname">clean_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.CreateTeamForm.clean_id" title="Permalink to this definition">¶</a></dt>
+<dt id="scheduler.forms.CreateTeamForm.clean_teamID">
+<code class="descname">clean_teamID</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.CreateTeamForm.clean_teamID" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks if a team ID is already in use</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -190,7 +192,7 @@ instances of models and validating data.</p>
 
 <dl class="attribute">
 <dt id="scheduler.forms.CreateTeamForm.declared_fields">
-<code class="descname">declared_fields</code><em class="property"> = {'alias': &lt;django.forms.fields.CharField object&gt;, 'id': &lt;django.forms.fields.IntegerField object&gt;}</em><a class="headerlink" href="#scheduler.forms.CreateTeamForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<code class="descname">declared_fields</code><em class="property"> = {'teamAlias': &lt;django.forms.fields.CharField object&gt;, 'teamID': &lt;django.forms.fields.IntegerField object&gt;}</em><a class="headerlink" href="#scheduler.forms.CreateTeamForm.declared_fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -2276,8 +2278,25 @@ Redirects to previous page after, or home if it can’t.</p>
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="OWScheduler.html">OWScheduler package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">scheduler package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scheduler.admin">scheduler.admin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scheduler.apps">scheduler.apps module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scheduler.decorators">scheduler.decorators module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scheduler.forms">scheduler.forms module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scheduler.models">scheduler.models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scheduler.scheduler">scheduler.scheduler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scheduler.tests">scheduler.tests module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scheduler.urls">scheduler.urls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scheduler.views">scheduler.views module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scheduler">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scheduler.migrations.html">scheduler.migrations package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manage.html">manage module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">docs</a></li>
 </ul>
 
@@ -2285,6 +2304,8 @@ Redirects to previous page after, or home if it can’t.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="OWScheduler.html" title="previous chapter">OWScheduler package</a></li>
+      <li>Next: <a href="scheduler.migrations.html" title="next chapter">scheduler.migrations package</a></li>
   </ul></li>
 </ul>
 </div>

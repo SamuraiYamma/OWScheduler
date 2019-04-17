@@ -36,11 +36,3 @@ Module contents
     :members:
     :undoc-members:
     :show-inheritance:
-
-Scheduler
----------
-
-.. automodule:: scheduler
-    :members:
-    :undoc-memebers:
-    :show-inheritance:
