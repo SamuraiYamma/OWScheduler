@@ -27,11 +27,11 @@
 
 <!--- HEADING AND NAV ---->
 <div class="wrapper">
-    <div class="text-center" style="margin-bottom:0">
+    <div id="header" class="text-center">
         {% load static %} <img src=" {% static "media/logo.png" %}" style="width: 30%; height: 30%"/>
     </div>
 
-    <nav class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
+    <nav id="nav" class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
         <a class="navbar-brand" href="#">OWS</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
@@ -349,7 +349,7 @@
     </div>
 
     <!-- FOOTER --->
-    <div class="jumbotron text-center" style="margin-bottom:0">
+    <div id="footer" class="jumbotron text-center" >
         <div class="row">
             <div class = "col-sm-4">
                 <h3>Contact Us</h3>
