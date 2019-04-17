@@ -16,7 +16,6 @@ from scheduler.models import Player, Team, Match
 
 class PlayerCreationForm(UserCreationForm):
     """ The form used to create a new player/user """
-
     username = forms.CharField(label='Enter Username',
                                min_length=4, max_length=150)
     email = forms.EmailField(label='Enter Email')

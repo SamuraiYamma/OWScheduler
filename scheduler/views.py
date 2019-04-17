@@ -17,7 +17,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
-from django.conf import settings
 from django.contrib import messages
 
 from dal import autocomplete
@@ -58,10 +57,10 @@ def login_context(request):
                     admin_team = Team.objects.filter(team_admin=player)
         return {'login_form': form, 'user': user, 'user_teams': user_team,
                 'admin_teams': admin_team}
-    else:
-        player = Player.objects.get(username=request.user.username)
-        user_team = Team.objects.filter(players=player)
-        admin_team = Team.objects.filter(team_admin=player)
+
+    player = Player.objects.get(username=request.user.username)
+    user_team = Team.objects.filter(players=player)
+    admin_team = Team.objects.filter(team_admin=player)
     return {'user_teams': user_team, 'admin_teams': admin_team}
 
 
@@ -429,8 +428,9 @@ def team_profile(request, teamID):
             #  filter by everyone else
             for player in selected_roster:
                 selected_times = selected_times.filter(players_available=
-                                                Player.objects.get(
-                                                battlenetID=player)) \
+                                                       Player.objects.get(
+                                                           battlenetID=
+                                                           player)) \
                                                 .order_by('dayOfWeek', 'hour')
 
             context['selected_players'] = selected_roster
@@ -592,11 +592,11 @@ def register(request):
                                      "information to your profile using the "
                                      "account page.")
                 return HttpResponseRedirect(reverse('scheduler:home'))
-            else:
-                messages.get_messages(request).used = True
-                messages.add_message(request, messages.ERROR,
-                                     "There was a problem creating your "
-                                     "account.")
+
+            messages.get_messages(request).used = True
+            messages.add_message(request, messages.ERROR,
+                                 "There was a problem creating your "
+                                 "account.")
         else:
             form = PlayerCreationForm()
 

@@ -2,102 +2,95 @@
 scheduler/decorators.py:19:8: R1705: Unnecessary "else" after "return" (no-else-return)
 scheduler/decorators.py:34:8: R1705: Unnecessary "else" after "return" (no-else-return)
 ************* Module scheduler.tests
-scheduler/tests.py:1:0: C0302: Too many lines in module (1196/1000) (too-many-lines)
-scheduler/tests.py:242:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:245:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:252:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:261:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:309:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:312:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:317:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:325:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:335:0: C0111: Missing class docstring (missing-docstring)
-scheduler/tests.py:372:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:376:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:380:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:387:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:395:0: C0111: Missing class docstring (missing-docstring)
-scheduler/tests.py:432:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:436:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:441:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:446:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:448:8: W0612: Unused variable 'request' (unused-variable)
-scheduler/tests.py:451:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:456:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:471:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:486:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:501:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:521:0: C0111: Missing class docstring (missing-docstring)
-scheduler/tests.py:558:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:562:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:564:8: W0612: Unused variable 'request' (unused-variable)
-scheduler/tests.py:567:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:569:8: W0612: Unused variable 'request' (unused-variable)
-scheduler/tests.py:573:0: C0111: Missing class docstring (missing-docstring)
-scheduler/tests.py:593:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:598:0: C0111: Missing class docstring (missing-docstring)
-scheduler/tests.py:635:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:639:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:644:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:650:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:656:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:664:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:672:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:682:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:696:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:707:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:719:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:722:8: W0612: Unused variable 'response' (unused-variable)
-scheduler/tests.py:727:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:737:0: C0111: Missing class docstring (missing-docstring)
-scheduler/tests.py:764:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:769:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:773:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:778:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:784:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:792:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:799:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:811:0: C0111: Missing class docstring (missing-docstring)
-scheduler/tests.py:847:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:853:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:862:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:864:8: W0612: Unused variable 'response' (unused-variable)
-scheduler/tests.py:867:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:878:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:885:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:888:12: W0612: Unused variable 'player' (unused-variable)
-scheduler/tests.py:913:0: C0111: Missing class docstring (missing-docstring)
-scheduler/tests.py:949:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:958:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:964:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:969:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:977:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:987:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:996:0: C0111: Missing class docstring (missing-docstring)
-scheduler/tests.py:1025:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:1029:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:1034:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:1045:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:1057:0: C0111: Missing class docstring (missing-docstring)
-scheduler/tests.py:1093:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:1097:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:1101:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:1106:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:1128:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:1142:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:1156:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:1170:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:1184:4: C0111: Missing method docstring (missing-docstring)
-scheduler/tests.py:4:0: W0611: Unused auth imported from django.contrib (unused-import)
-scheduler/tests.py:4:0: W0611: Unused messages imported from django.contrib (unused-import)
-scheduler/tests.py:5:0: W0611: Unused AuthenticationForm imported from django.contrib.auth.forms (unused-import)
-scheduler/tests.py:8:0: W0611: Unused Match imported from scheduler.models (unused-import)
-scheduler/tests.py:9:0: W0611: Unused views imported from scheduler (unused-import)
+scheduler/tests.py:1:0: C0302: Too many lines in module (1194/1000) (too-many-lines)
+scheduler/tests.py:240:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:243:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:250:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:259:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:307:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:310:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:315:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:323:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:333:0: C0111: Missing class docstring (missing-docstring)
+scheduler/tests.py:370:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:374:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:378:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:385:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:393:0: C0111: Missing class docstring (missing-docstring)
+scheduler/tests.py:430:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:434:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:439:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:444:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:446:8: W0612: Unused variable 'request' (unused-variable)
+scheduler/tests.py:449:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:454:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:469:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:484:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:499:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:519:0: C0111: Missing class docstring (missing-docstring)
+scheduler/tests.py:556:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:560:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:562:8: W0612: Unused variable 'request' (unused-variable)
+scheduler/tests.py:565:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:567:8: W0612: Unused variable 'request' (unused-variable)
+scheduler/tests.py:571:0: C0111: Missing class docstring (missing-docstring)
+scheduler/tests.py:591:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:596:0: C0111: Missing class docstring (missing-docstring)
+scheduler/tests.py:633:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:637:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:642:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:648:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:654:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:662:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:670:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:680:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:694:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:705:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:717:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:720:8: W0612: Unused variable 'response' (unused-variable)
+scheduler/tests.py:725:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:735:0: C0111: Missing class docstring (missing-docstring)
+scheduler/tests.py:762:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:767:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:771:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:776:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:782:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:790:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:797:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:809:0: C0111: Missing class docstring (missing-docstring)
+scheduler/tests.py:845:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:851:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:860:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:862:8: W0612: Unused variable 'response' (unused-variable)
+scheduler/tests.py:865:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:876:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:883:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:886:12: W0612: Unused variable 'player' (unused-variable)
+scheduler/tests.py:911:0: C0111: Missing class docstring (missing-docstring)
+scheduler/tests.py:947:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:956:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:962:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:967:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:975:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:985:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:994:0: C0111: Missing class docstring (missing-docstring)
+scheduler/tests.py:1023:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:1027:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:1032:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:1043:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:1055:0: C0111: Missing class docstring (missing-docstring)
+scheduler/tests.py:1091:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:1095:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:1099:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:1104:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:1126:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:1140:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:1154:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:1168:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:1182:4: C0111: Missing method docstring (missing-docstring)
+scheduler/tests.py:6:0: W0611: Unused Match imported from scheduler.models (unused-import)
+scheduler/tests.py:7:0: W0611: Unused views imported from scheduler (unused-import)
 ************* Module scheduler.forms
-scheduler/forms.py:165:0: W1401: Anomalous backslash in string: '\$'. String constant might be missing an r prefix. (anomalous-backslash-in-string)
-scheduler/forms.py:165:0: W1401: Anomalous backslash in string: '\.'. String constant might be missing an r prefix. (anomalous-backslash-in-string)
-scheduler/forms.py:165:0: W1401: Anomalous backslash in string: '\+'. String constant might be missing an r prefix. (anomalous-backslash-in-string)
-scheduler/forms.py:165:0: W1401: Anomalous backslash in string: '\*'. String constant might be missing an r prefix. (anomalous-backslash-in-string)
 scheduler/forms.py:33:8: C0103: Variable name "r" doesn't conform to snake_case naming style (invalid-name)
 scheduler/forms.py:45:8: C0103: Variable name "r" doesn't conform to snake_case naming style (invalid-name)
 scheduler/forms.py:50:4: C0103: Method name "clean_battlenetID" doesn't conform to snake_case naming style (invalid-name)
@@ -155,7 +148,7 @@ scheduler/views.py:1:0: R0801: Similar lines in 2 files
 
 Report
 ======
-1126 statements analysed.
+1124 statements analysed.
 
 Statistics by type
 ------------------
@@ -185,12 +178,12 @@ External dependencies
       \-conf (scheduler.views)
       \-contrib 
       | \-admin (scheduler.admin)
-      | \-auth (scheduler.tests,scheduler.views)
+      | \-auth (scheduler.views)
       | | \-admin (scheduler.admin)
       | | \-decorators (scheduler.views)
-      | | \-forms (scheduler.forms,scheduler.tests,scheduler.views)
+      | | \-forms (scheduler.forms,scheduler.views)
       | | \-models (scheduler.models)
-      | \-messages (scheduler.tests,scheduler.views)
+      | \-messages (scheduler.views)
       \-core 
       | \-exceptions (scheduler.decorators)
       \-db (scheduler.tests)
@@ -212,13 +205,13 @@ Raw metrics
 +----------+-------+------+---------+-----------+
 |type      |number |%     |previous |difference |
 +==========+=======+======+=========+===========+
-|code      |1704   |65.11 |1704     |=          |
+|code      |1702   |65.09 |1704     |-2.00      |
 +----------+-------+------+---------+-----------+
-|docstring |518    |19.79 |518      |=          |
+|docstring |518    |19.81 |518      |=          |
 +----------+-------+------+---------+-----------+
 |comment   |55     |2.10  |55       |=          |
 +----------+-------+------+---------+-----------+
-|empty     |340    |12.99 |340      |=          |
+|empty     |340    |13.00 |340      |=          |
 +----------+-------+------+---------+-----------+
 
 
@@ -231,7 +224,7 @@ Duplication
 +=========================+======+=========+===========+
 |nb duplicated lines      |7     |7        |=          |
 +-------------------------+------+---------+-----------+
-|percent duplicated lines |0.270 |0.270    |=          |
+|percent duplicated lines |0.270 |0.270    |+0.00      |
 +-------------------------+------+---------+-----------+
 
 
@@ -246,7 +239,7 @@ Messages by category
 +-----------+-------+---------+-----------+
 |refactor   |7      |7        |=          |
 +-----------+-------+---------+-----------+
-|warning    |25     |52       |-27.00     |
+|warning    |18     |25       |-7.00      |
 +-----------+-------+---------+-----------+
 |error      |1      |1        |=          |
 +-----------+-------+---------+-----------+
@@ -259,13 +252,13 @@ Messages by category
 +---------------------+-------+--------+---------+-----------+
 |module               |error  |warning |refactor |convention |
 +=====================+=======+========+=========+===========+
-|scheduler.views      |100.00 |16.00   |71.43    |7.07       |
+|scheduler.views      |100.00 |22.22   |71.43    |7.07       |
 +---------------------+-------+--------+---------+-----------+
-|scheduler.tests      |0.00   |44.00   |0.00     |80.81      |
+|scheduler.tests      |0.00   |44.44   |0.00     |80.81      |
 +---------------------+-------+--------+---------+-----------+
-|scheduler.scheduler  |0.00   |20.00   |0.00     |5.05       |
+|scheduler.scheduler  |0.00   |27.78   |0.00     |5.05       |
 +---------------------+-------+--------+---------+-----------+
-|scheduler.forms      |0.00   |20.00   |0.00     |5.05       |
+|scheduler.forms      |0.00   |5.56    |0.00     |5.05       |
 +---------------------+-------+--------+---------+-----------+
 |scheduler.decorators |0.00   |0.00    |28.57    |0.00       |
 +---------------------+-------+--------+---------+-----------+
@@ -277,49 +270,47 @@ Messages by category
 Messages
 --------
 
-+------------------------------+------------+
-|message id                    |occurrences |
-+==============================+============+
-|missing-docstring             |83          |
-+------------------------------+------------+
-|invalid-name                  |10          |
-+------------------------------+------------+
-|unused-import                 |9           |
-+------------------------------+------------+
-|unused-variable               |6           |
-+------------------------------+------------+
-|no-else-return                |4           |
-+------------------------------+------------+
-|anomalous-backslash-in-string |4           |
-+------------------------------+------------+
-|redefined-builtin             |3           |
-+------------------------------+------------+
-|too-many-ancestors            |2           |
-+------------------------------+------------+
-|bad-continuation              |2           |
-+------------------------------+------------+
-|unused-argument               |1           |
-+------------------------------+------------+
-|trailing-newlines             |1           |
-+------------------------------+------------+
-|too-many-lines                |1           |
-+------------------------------+------------+
-|no-member                     |1           |
-+------------------------------+------------+
-|line-too-long                 |1           |
-+------------------------------+------------+
-|fixme                         |1           |
-+------------------------------+------------+
-|duplicate-key                 |1           |
-+------------------------------+------------+
-|duplicate-code                |1           |
-+------------------------------+------------+
-|bad-whitespace                |1           |
-+------------------------------+------------+
++-------------------+------------+
+|message id         |occurrences |
++===================+============+
+|missing-docstring  |83          |
++-------------------+------------+
+|invalid-name       |10          |
++-------------------+------------+
+|unused-variable    |6           |
++-------------------+------------+
+|unused-import      |6           |
++-------------------+------------+
+|no-else-return     |4           |
++-------------------+------------+
+|redefined-builtin  |3           |
++-------------------+------------+
+|too-many-ancestors |2           |
++-------------------+------------+
+|bad-continuation   |2           |
++-------------------+------------+
+|unused-argument    |1           |
++-------------------+------------+
+|trailing-newlines  |1           |
++-------------------+------------+
+|too-many-lines     |1           |
++-------------------+------------+
+|no-member          |1           |
++-------------------+------------+
+|line-too-long      |1           |
++-------------------+------------+
+|fixme              |1           |
++-------------------+------------+
+|duplicate-key      |1           |
++-------------------+------------+
+|duplicate-code     |1           |
++-------------------+------------+
+|bad-whitespace     |1           |
++-------------------+------------+
 
 
 
 
 ------------------------------------------------------------------
-Your code has been rated at 8.79/10 (previous run: 8.55/10, +0.24)
+Your code has been rated at 8.85/10 (previous run: 8.79/10, +0.06)
 

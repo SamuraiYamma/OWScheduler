@@ -4,7 +4,6 @@ from django.db import IntegrityError
 from django.shortcuts import reverse
 
 from scheduler.models import Player, Team, Match, TimeSlot
-from scheduler import views
 
 
 class PlayerModelTests(TestCase):
@@ -238,9 +237,11 @@ class HomeViewTests(TestCase):
         TimeSlot.objects.get(timeSlotID=1).players_available.add(self.user1)
 
     def test_home(self):
+        """ Make sure home uses the right html file """
         self.assertTemplateUsed(template_name='scheduler/default.html')
 
     def test_home_login(self):
+        """ test logging in from home page """
         request = self.client.post(reverse('scheduler:home'),
                                    {'username': 'test_user',
                                     'password': 'test_password'})
@@ -248,6 +249,7 @@ class HomeViewTests(TestCase):
         self.assertTrue(request.user.is_authenticated)
 
     def test_home_logout(self):
+        """ logging out from home page and correct redirects """
         self.client.login(username='test_user', password='test_password')
         response = self.client.get(reverse('user_logout'))
         self.assertRedirects(response, '/', status_code=302,
@@ -257,6 +259,7 @@ class HomeViewTests(TestCase):
 
     #  other logout tests
     def test_logout_from_teams(self):
+        """ logout from another page to make sure it redirects properly """
         self.client.login(username='test_user', password='test_password')
         response = self.client.get(reverse('user_logout'),
                                    {'next': '/teams/'})
@@ -305,14 +308,20 @@ class PlayersViewTests(TestCase):
         )
 
     def test_players_template(self):
+        """ make sure players uses the correct template"""
         self.assertTemplateUsed('scheduler/players.html')
 
     def test_players_list_size(self):
+        """
+        the context to get list of players should be the same size as the
+        list of all players
+        """
         request = self.client.get(reverse('scheduler:players'))
         self.assertEqual(len(Player.objects.filter(is_active=True)),
                          len(request.context['player_list']))
 
     def test_login_from_players(self):
+        """ logging in from players """
         self.client.logout()
         request = self.factory.post(reverse('scheduler:players'),
                                     {'username': 'test_user',
@@ -321,6 +330,7 @@ class PlayersViewTests(TestCase):
         self.assertTrue(request.user.is_authenticated)
 
     def test_logout_from_players(self):
+        """ logging out from players and redirect back to the page """
         self.client.login(username='test_user', password='test_password')
         response = self.client.get(reverse('user_logout'),
                                    {'next': '/players/'})
@@ -331,6 +341,7 @@ class PlayersViewTests(TestCase):
 
 
 class PlayerProfileViewTests(TestCase):
+    """ All tests related to viewing a user's profile """
     def setUp(self):
         self.factory = RequestFactory()
         self.team = Team.objects.create(
@@ -368,14 +379,17 @@ class PlayerProfileViewTests(TestCase):
         )
 
     def test_existing_player(self):
+        """ successful visit of a profile page """
         request = self.client.get('/players/test_user/')
         self.assertEqual(request.status_code, 200)
 
     def test_nonexistent_player(self):
+        """ visit a profile that does not exist should return a 404 """
         request = self.client.get('/players/not_a_user/')
         self.assertEqual(request.status_code, 404)
 
     def test_profile_context(self):
+        """ validate the correct context for a player's profile """
         request = self.client.get('/players/test_user/')
         self.assertIsNotNone(request.context['current_player'])
         self.assertIsNotNone(request.context['current_teams'])
@@ -383,6 +397,7 @@ class PlayerProfileViewTests(TestCase):
         self.assertIsNotNone(request.context['availability'])
 
     def test_player_profile_nocontext(self):
+        """ validate another player's context """
         request = self.client.get('/players/test_user2/')
         self.assertIsNotNone(request.context['current_player'])
         self.assertEqual(len(request.context['current_teams']), 0)
@@ -391,6 +406,7 @@ class PlayerProfileViewTests(TestCase):
 
 
 class AccountViewTests(TestCase):
+    """ All tests dealing with editing a player's account """
     def setUp(self):
         self.factory = RequestFactory()
         self.team = Team.objects.create(
@@ -428,30 +444,36 @@ class AccountViewTests(TestCase):
         )
 
     def test_account_not_logged_in(self):
+        """ Attempt to get account page without being authenticated """
         self.client.get('/players/test_user/account/')
         self.assertTemplateUsed('scheduler.access_denied.html')
 
     def test_nonexistent_player_account(self):
+        """ attempt to view an account page that doesn't exist """
         self.client.login(username='test_user', password='test_password')
         self.client.get('/players/not_a_user/account/')
         self.assertTemplateUsed('scheduler.access_denied.html')
 
     def test_wrong_account(self):
+        """ attempt to view an account page for a different player """
         self.client.login(username='test_user', password='test_password')
         self.client.get('/players/test_user2/account/')
         self.assertTemplateUsed('scheduler/access_denied.html')
 
     def test_admin_account_access(self):
+        """ attempt to view an account page as a superuser """
         self.client.login(username='test_admin', password='admin')
-        request = self.client.get('/players/test_user2/account/')
+        self.client.get('/players/test_user2/account/')
         self.assertTemplateUsed('scheduler/account.html')
 
     def test_correct_account(self):
+        """ successful view of a players own account page """
         self.client.login(username='test_user', password='test_password')
         self.client.get('/players/test_user/account/')
         self.assertTemplateUsed('scheduler/account.html')
 
     def test_change_profile_info(self):
+        """ change first and last name without errors """
         self.client.login(username='test_user', password='test_password')
         self.client.post(reverse('scheduler:account',
                                  kwargs={'username': 'test_user'}),
@@ -467,6 +489,7 @@ class AccountViewTests(TestCase):
             Player.objects.get(username='test_user').first_name, 'Ronald')
 
     def test_form_error_profile_info(self):
+        """ no battlenetID should return a form error """
         self.client.login(username='test_user', password='test_password')
         response = self.client.post(reverse('scheduler:account',
                                             kwargs={'username': 'test_user'}),
@@ -482,6 +505,7 @@ class AccountViewTests(TestCase):
                              'This field is required.')
 
     def test_fail_to_save_profile(self):
+        """ attempt to put a string into an integer field: skillRating """
         self.client.login(username='test_user', password='test_password')
         response = self.client.post(reverse('scheduler:account',
                                             kwargs={'username': 'test_user'}),
@@ -497,6 +521,7 @@ class AccountViewTests(TestCase):
         self.assertEqual(str(curr_messages[0]), "Failed to save information.")
 
     def test_change_availability_twice(self):
+        """ changing availability multiple times to ensure state is saved """
         self.client.login(username='test_user', password='test_password')
         self.assertNotIn(self.user1, TimeSlot.objects.get(timeSlotID=15).
                          players_available.all())
@@ -517,6 +542,7 @@ class AccountViewTests(TestCase):
 
 
 class MyTeamsViewTests(TestCase):
+    """ All tests related to viewing a player's my team page """
     def setUp(self):
         self.factory = RequestFactory()
         self.team = Team.objects.create(
@@ -554,22 +580,25 @@ class MyTeamsViewTests(TestCase):
         )
 
     def test_my_teams_nologin(self):
+        """ Cannot view my teams without being logged in """
         self.client.get('/user_team/my-teams/')
         self.assertTemplateUsed('scheduler/access_denied.html')
 
     def test_my_teams_wrong_account(self):
+        """ Cannot view my teams of another user """
         self.client.login(username='test_user', password='test_password')
-        request = self.client.get('/players/test_user2/my-teams/')
+        self.client.get('/players/test_user2/my-teams/')
         self.assertTemplateUsed('scheduler/access_denied.html')
 
     def test_my_teams_admin_account_access(self):
+        """ View my teams as a superuser"""
         self.client.login(username='test_admin', password='admin')
-        request = self.client.get('/players/test_user2/my-teams/')
+        self.client.get('/players/test_user2/my-teams/')
         self.assertTemplateUsed('scheduler/my_teams.html')
 
 
 class TeamsViewTests(TestCase):
-
+    """ All tests related to viewing all teams """
     def setUp(self):
         self.factory = RequestFactory()
         self.team = Team.objects.create(
@@ -589,11 +618,13 @@ class TeamsViewTests(TestCase):
         TimeSlot.objects.get(timeSlotID=1).players_available.add(self.user1)
 
     def test_teams_template(self):
+        """ verify teams uses correct template """
         self.client.get(reverse('scheduler:teams'))
         self.assertTemplateUsed('scheduler/teams.html')
 
 
 class TeamAdminViewTests(TestCase):
+    """ All tests related to managing a team via the team admin view """
     def setUp(self):
         self.factory = RequestFactory()
         self.team = Team.objects.create(
@@ -631,27 +662,34 @@ class TeamAdminViewTests(TestCase):
         )
 
     def test_ta_notlogin(self):
+        """ viewing an admin page without being logged in should fail """
         self.client.get(reverse('scheduler:team_admin', kwargs={'teamID': 1}))
         self.assertTemplateUsed('scheduler/access_denied.html')
 
     def test_ta_not_admin(self):
+        """ viewing an admin page as a team member, not admin """
         self.client.login(username='test_user2', password='test_password2')
         self.client.get(reverse('scheduler:team_admin', kwargs={'teamID': 1}))
         self.assertTemplateUsed('scheduler/access_denied.html')
 
     def test_ta_superuser(self):
+        """ superusers should have access to team admin page """
         self.client.login(username=self.admin.username,
                           password=self.admin.password)
         self.client.get(reverse('scheduler:team_admin', kwargs={'teamID': 1}))
         self.assertTemplateUsed('scheduler/team_admin.html')
 
     def test_ta_admin_login(self):
+        """
+        successful login by team admin should provide team admin template
+        """
         self.client.login(username=self.user1.username,
                           password=self.user1.password)
         self.client.get(reverse('scheduler:team_admin', kwargs={'teamID': 1}))
         self.assertTemplateUsed('scheduler/team_admin.html')
 
     def test_ta_context(self):
+        """ validate context received by team admin page """
         self.client.login(username='test_user',
                           password='test_password')
         response = self.client.get(
@@ -660,6 +698,7 @@ class TeamAdminViewTests(TestCase):
                          len(Team.objects.get(teamID=1).players.all()))
 
     def test_ta_add_single_player(self):
+        """ add a single player to the team correctly """
         self.client.login(username='test_user',
                           password='test_password')
         self.client.post(reverse('scheduler:team_admin', kwargs={'teamID': 1}),
@@ -668,6 +707,7 @@ class TeamAdminViewTests(TestCase):
                       Team.objects.get(teamID=1).players.all())
 
     def test_ta_add_players(self):
+        """ add multiple players to the team correctly"""
         self.client.login(username='test_user',
                           password='test_password')
         self.client.post(reverse('scheduler:team_admin', kwargs={'teamID': 1}),
@@ -678,6 +718,7 @@ class TeamAdminViewTests(TestCase):
                       Team.objects.get(teamID=1).players.all())
 
     def test_ta_add_same_player(self):
+        """ adding a player multiple times should provide an error message """
         self.client.login(username='test_user',
                           password='test_password')
         self.client.post(reverse('scheduler:team_admin', kwargs={'teamID': 1}),
@@ -692,6 +733,10 @@ class TeamAdminViewTests(TestCase):
                          "TestUser#2222 is already on your team!")
 
     def test_ta_same_admin(self):
+        """
+        attempting to change admin to the current team admin should
+        provide an error message
+        """
         self.client.login(username='test_user',
                           password='test_password')
         response = self.client.post(reverse('scheduler:team_admin',
@@ -703,6 +748,8 @@ class TeamAdminViewTests(TestCase):
                          "What are you trying to do?")
 
     def test_ta_new_admin(self):
+        """ changing an admin successfully should redirect the user to my teams
+        """
         self.client.login(username='test_user',
                           password='test_password')
         response = self.client.post(reverse('scheduler:team_admin',
@@ -715,14 +762,18 @@ class TeamAdminViewTests(TestCase):
         self.assertTemplateUsed(template_name='scheduler/my_teams.html')
 
     def test_ta_new_alias(self):
+        """ changing team alias correctly """
         self.client.login(username='test_user',
                           password='test_password')
-        response = self.client.post(
-            reverse('scheduler:team_admin', kwargs={'teamID': 1}),
-            {'team_alias': 'testarino'})
+        self.client.post(reverse('scheduler:team_admin', kwargs={'teamID': 1}),
+                         {'team_alias': 'testarino'})
         self.assertEqual(Team.objects.get(teamID=1).teamAlias, 'testarino')
 
     def test_ta_alias_error(self):
+        """
+        form error should be raised from changing team name to an invalid
+        name
+        """
         self.client.login(username='test_user',
                           password='test_password')
         response = self.client.post(
@@ -733,6 +784,7 @@ class TeamAdminViewTests(TestCase):
 
 
 class TeamProfileViewTests(TestCase):
+    """ All tests related to viewing a team's profile"""
     def setUp(self):
         self.team = Team.objects.create(
             teamID=1,
@@ -760,26 +812,31 @@ class TeamProfileViewTests(TestCase):
         TimeSlot.objects.get(timeSlotID=2).players_available.add(self.user2)
 
     def test_team_profile_valid(self):
+        """ validating the template used to view a team """
         request = self.client.get('/teams/1/')
         self.assertTemplateUsed('scheduler/team_profile.html')
         self.assertEqual(request.status_code, 200)
 
     def test_team_profile_fail(self):
+        """ attempt to view a team profile for a nonexistent team """
         request = self.client.get('/teams/not_a_team/')
         self.assertEqual(request.status_code, 404)
 
     def test_team_prof_context(self):
+        """ validate avg_sr context by view """
         request = self.client.get(reverse('scheduler:team_profile',
                                           kwargs={'teamID': 1}))
         self.assertEqual(request.context['avg_sr'], 100)
 
     def test_team_prof_all_avail(self):
+        """ validate all users are selected on page visit """
         self.team.players.add(Player.objects.get(username='test_user2'))
         request = self.client.get(reverse('scheduler:team_profile',
                                           kwargs={'teamID': 1}))
         self.assertEqual(len(request.context['selected_players']), 2)
 
     def test_team_prof_select_all(self):
+        """ get availability for all when selecting all users """
         self.team.players.add(Player.objects.get(username='test_user2'))
         request = self.client.post(reverse('scheduler:team_profile',
                                            kwargs={'teamID': 1}),
@@ -788,6 +845,7 @@ class TeamProfileViewTests(TestCase):
         self.assertEqual(len(request.context['selected_players']), 2)
 
     def test_team_prof_select_none(self):
+        """ get no availability when no players are selected """
         self.team.players.add(Player.objects.get(username='test_user2'))
         request = self.client.post(reverse('scheduler:team_profile',
                                            kwargs={'teamID': 1}),
@@ -795,6 +853,7 @@ class TeamProfileViewTests(TestCase):
         self.assertEqual(len(request.context['selected_players']), 0)
 
     def test_team_prof_select_players(self):
+        """ get availability for only the player that's selected """
         self.team.players.add(Player.objects.get(username='test_user2'))
         self.assertIn(self.user2,
                       TimeSlot.objects.get(timeSlotID=2).
@@ -807,6 +866,7 @@ class TeamProfileViewTests(TestCase):
 
 
 class JoinTeamViewTests(TestCase):
+    """ All tests related to joining a team via url """
     def setUp(self):
         self.team = Team.objects.create(
             teamID=1,
@@ -843,12 +903,14 @@ class JoinTeamViewTests(TestCase):
         )
 
     def test_join_team_authenticated(self):
+        """ joining a team correctly """
         self.client.login(username='test_user2', password='test_password2')
         self.client.get('/join_team/1/test_user2/')
         self.assertIn(Player.objects.get(username='test_user2'),
                       Team.objects.get(teamID=1).players.all())
 
     def test_jt_superuser(self):
+        """ superuser should be able to add anyone to a team """
         self.client.login(username='test_admin', password='admin')
         self.client.get('/leave_team/1/test_user2/')
         self.assertNotIn(Player.objects.get(username='test_user2'),
@@ -858,11 +920,16 @@ class JoinTeamViewTests(TestCase):
                       Team.objects.get(teamID=1).players.all())
 
     def test_join_team_not_authenticated(self):
+        """ cannot join a team without being logged in """
         self.client.logout()
-        response = self.client.get('/join_team/1/test_user2/', follow=True)
+        self.client.get('/join_team/1/test_user2/', follow=True)
         self.assertTemplateUsed('accounts/login.html')
 
     def test_join_team_wrong_user(self):
+        """
+        attempt to join a team while being logged into a different account.
+        should return an error message
+        """
         self.client.login(username='test_user3', password='test_password3')
         response = self.client.get('/join_team/1/test_user2/', follow=True)
         self.assertRedirects(response,
@@ -874,6 +941,10 @@ class JoinTeamViewTests(TestCase):
                          "Please check your login credentials.")
 
     def test_jt_already_on(self):
+        """
+        attempt to join a team a player is already on should return
+        an error message
+        """
         self.client.login(username='test_user', password='test_password')
         response = self.client.get('/join_team/1/test_user/', follow=True)
         curr_messages = list(response.context['messages'])
@@ -881,9 +952,10 @@ class JoinTeamViewTests(TestCase):
                          "You cannot join a team you are already in.")
 
     def test_jt_add_50(self):
+        """ attempt to join a team that has the max (50) players on it """
         self.client.login(username='test_admin', password='admin')
         for i in range(0, 49):
-            player = Player.objects.create(
+            Player.objects.create(
                 username='user'+str(i),
                 password='test_pass',
                 battlenetID='User'+str(i)+'#'+str(i)+'000',
@@ -909,6 +981,7 @@ class JoinTeamViewTests(TestCase):
 
 
 class LeaveTeamViewTests(TestCase):
+    """ all tests related to leaving a team via url"""
     def setUp(self):
         self.team = Team.objects.create(
             teamID=1,
@@ -945,6 +1018,7 @@ class LeaveTeamViewTests(TestCase):
         )
 
     def test_lt_just_fine(self):
+        """ successfully leaving a team """
         self.client.login(username='test_user2', password='test_password2')
         Team.objects.get(teamID=1).players.add(
             Player.objects.get(username='test_user2')
@@ -954,17 +1028,20 @@ class LeaveTeamViewTests(TestCase):
         self.assertEqual(str(curr_messages[0]), "Left team successfully.")
 
     def test_leave_team_authenticated(self):
+        """ leave a team while being logged in correctly """
         self.client.login(username='test_user2', password='test_password2')
         self.client.get('/leave_team/1/test_user2/')
         self.assertNotIn(Player.objects.get(username='test_user2'),
                          Team.objects.get(teamID=1).players.all())
 
     def test_leave_team_not_authenticated(self):
+        """ leave a team without being logged in """
         self.client.logout()
         self.client.get('/leave_team/1/test_user/')
         self.assertTemplateUsed('scheduler/access_denied.html')
 
     def test_leave_team_wrong_user(self):
+        """ leave a team as a different user should return error message """
         self.client.login(username='test_user3', password='test_password3')
         response = self.client.get('/leave_team/1/test_user2/', follow=True)
         curr_messages = list(response.context['messages'])
@@ -973,6 +1050,7 @@ class LeaveTeamViewTests(TestCase):
                          "Please check your login credentials.")
 
     def test_lt_admin_kick(self):
+        """ team admin is able to remove players from their team """
         self.client.login(username='test_user', password='test_password')
         Team.objects.get(teamID=1).players.add(
             Player.objects.get(username='test_user2')
@@ -983,6 +1061,7 @@ class LeaveTeamViewTests(TestCase):
                          "Removed player successfully.")
 
     def test_lt_admin_not_in_team(self):
+        """ attempt to remove a player from a team they are not in """
         self.client.login(username='test_user', password='test_password')
         response = self.client.get('/leave_team/1/test_user2/', follow=True)
         curr_messages = list(response.context['messages'])
@@ -992,6 +1071,7 @@ class LeaveTeamViewTests(TestCase):
 
 
 class DeleteTeamViewTests(TestCase):
+    """ all tests for deleting a team """
     def setUp(self):
         self.team = Team.objects.create(
             teamID=1,
@@ -1021,15 +1101,18 @@ class DeleteTeamViewTests(TestCase):
         )
 
     def test_del_nologin(self):
+        """ attempt to delete a team without being logged in """
         self.client.get('/delete_team/1/', follow=True)
         self.assertTemplateUsed('scheduler/access_denied.html')
 
     def test_del_wrong_user(self):
+        """ attempt to delete a team without being team admin """
         self.client.login(username='test_user2', password='test_password2')
         self.client.get('/delete_team/1/', follow=True)
         self.assertTemplateUsed('scheduler/access_denied.html')
 
     def test_del_team_admin(self):
+        """ delete team as a team admin """
         self.client.login(username='test_user', password='test_password')
         response = self.client.get('/delete_team/1/', follow=True)
         self.assertRedirects(response,
@@ -1041,6 +1124,7 @@ class DeleteTeamViewTests(TestCase):
         self.assertEqual(str(curr_messages[0]), "Deleted team successfully.")
 
     def test_del_superuser(self):
+        """ delete team as a superuser """
         self.client.login(username='test_admin', password='admin')
         response = self.client.get('/delete_team/1/', follow=True)
         self.assertRedirects(response,
@@ -1053,6 +1137,7 @@ class DeleteTeamViewTests(TestCase):
 
 
 class RegisterViewTests(TestCase):
+    """ all tests related to creating a user/player """
     def setUp(self):
         self.team = Team.objects.create(
             teamID=1,
@@ -1089,19 +1174,23 @@ class RegisterViewTests(TestCase):
         )
 
     def test_register_template(self):
+        """ validate register uses correct template """
         self.client.get(reverse('register'))
         self.assertTemplateUsed('scheduler/create_player.html')
 
     def test_register_uses_form(self):
+        """ register must use a form """
         request = self.client.get(reverse('register'))
         self.assertIsNotNone(request.context['form'])
 
     def test_register_withlogin(self):
+        """ attempt to register while being logged in should fail """
         self.client.login(username='test_user', password='test_password')
         self.client.get('/register/')
         self.assertTemplateUsed('scheduler/access_denied.html')
 
     def test_valid_register(self):
+        """ successful registration should return success message """
         response = self.client.post('/register/', {
             'email': 'newuser@email.com',
             'username': 'newuser',
@@ -1124,6 +1213,8 @@ class RegisterViewTests(TestCase):
                              fetch_redirect_response=False)
 
     def test_fail_register_pass_is_username(self):
+        """ attempt to register with password same as username returns error
+        """
         response = self.client.post('/register/', {
             'email': 'newuser@email.com',
             'username': 'newuser',
@@ -1138,6 +1229,7 @@ class RegisterViewTests(TestCase):
                          "There was a problem creating your account.")
 
     def test_fail_register_no_email(self):
+        """ attempt to register without email should fail """
         response = self.client.post('/register/', {
             'email': '',
             'username': 'newuser',
@@ -1152,6 +1244,7 @@ class RegisterViewTests(TestCase):
                          "There was a problem creating your account.")
 
     def test_fail_register_no_username(self):
+        """ attempt to register without username should fail """
         response = self.client.post('/register/', {
             'email': 'newuser@email.com',
             'username': '',
@@ -1166,6 +1259,7 @@ class RegisterViewTests(TestCase):
                          "There was a problem creating your account.")
 
     def test_fail_register_no_battle(self):
+        """ attempt to register without battlenetID should fail """
         response = self.client.post('/register/', {
             'email': 'newuser@email.com',
             'username': 'newuser',
@@ -1180,6 +1274,7 @@ class RegisterViewTests(TestCase):
                          "There was a problem creating your account.")
 
     def test_fail_register_pass_mismatch(self):
+        """ attempt to register with different passwords should fail """
         response = self.client.post('/register/', {
             'email': 'newuser@email.com',
             'username': 'newuser',
