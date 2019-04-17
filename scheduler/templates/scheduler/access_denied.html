@@ -6,35 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'scheduler/default.css' %}">
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/js/bootstrap4-toggle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-    <style>
-        .toggle.android { border-radius: 0px;}
-        .toggle.android .toggle-handle { border-radius: 0px; }
-        .wrapper {margin-right: auto; margin-left: auto; max-width: 80%; padding-right: 4%; padding-left: 4%;   min-height: calc(100vh);}
-        #grad{
-            background-image: linear-gradient(to top right, #2b3199, rgb(63, 211, 207));
-            background-repeat: no-repeat;
-            height: 300%;
-        }
-        #footer{
-            margin-top: 3%;
-        }
-        #nav{
-            border-radius: 4px;
-        }
-        #body{
 
-        }
-    </style>
 </head>
 <body id="grad">
 <div class="wrapper">
-<div class="jumbotron text-center" style="margin-bottom:0">
-    <h1>OWScheduler</h1>
-    <p>Overwatch Matchmaking and Scrimmage</p>
+<div class="text-center" >
+            {% load static %} <img src=" {% static "media/logo.png" %}" style="width: 30%; height: 30%"/>
 </div>
 
 <nav id="nav" class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">

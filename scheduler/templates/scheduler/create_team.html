@@ -15,11 +15,11 @@
 </head>
 <body id="grad">
 <div class="wrapper">
-    <div id="header">
+    <div id="header" class=" text-center" >
                 {% load static %} <img src=" {% static "media/logo.png" %}" style="width: 30%; height: 30%"/>
     </div>
 <div class="container-fluid">
-    <nav class="navbar navbar-expand-md sticky-top bg-dark navbar-dark" style="margin-top: 5%">
+    <nav id="nav" class="navbar navbar-expand-md sticky-top bg-dark navbar-dark" >
         <a class="navbar-brand" href="#">OWS</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
@@ -35,7 +35,7 @@
 
 </div>
 
-<div class="jumbotron" align="center">
+<div id="body" class="jumbotron" align="center">
     <h2>Create Team</h2>
     <!--- this form should eventually action url to home or to login page --->
     <form autocomplete="off" method="post">
@@ -48,7 +48,7 @@
         </div>
     </form>
 </div>
-<div class="jumbotron text-center" style="margin-top:7%">
+<div id="footer" class="jumbotron text-center" >
     <div class="row">
         <div class = "col-sm-4">
             <h3>Contact Us</h3>
