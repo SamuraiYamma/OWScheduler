@@ -131,6 +131,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = 'scheduler/static/'
+os.path.join(os.path.dirname(__file__), 'media')
+MEDIA_ROOT = 'scheduler/static/media'
+MEDIA_URL = '/media/'
 
 # User Management
 AUTH_USER_MODEL = 'scheduler.Player'

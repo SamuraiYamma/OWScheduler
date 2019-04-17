@@ -23,7 +23,7 @@ from dal import autocomplete
 
 from scheduler.models import Player, Team, Match, TimeSlot
 from scheduler.forms import PlayerCreationForm, PlayerChangeForm, \
-    TeamAdminForm, MatchCreationForm
+    TeamAdminForm, MatchCreationForm, CreateTeamForm
 from scheduler.decorators import is_team_admin_or_superuser, \
     is_user_or_superuser
 
@@ -213,7 +213,27 @@ def create_team(request):
     :param request: network session info
     :return: template with login context to create a team
     """
+
+    form = CreateTeamForm()
+    if request.method == 'POST':
+        form = CreateTeamForm(request.POST)
+        if form.is_valid():
+            form.save()
+            admin = Player.objects.get(username=request.user.username)
+            new_team = Team.objects.get(teamID=form.cleaned_data["teamID"])
+            new_team.team_admin = admin
+            new_team.save()
+            messages.get_messages(request).used = True
+            messages.add_message(request, messages.SUCCESS,
+                                 "Information has been updated.")
+            return redirect(reverse("scheduler:my_teams", kwargs={"username":request.user.username}))
+        else:
+            messages.get_messages(request).used = True
+            messages.add_message(request, messages.ERROR,
+                                 "Failed to save information.")
+
     context = login_context(request)
+    context['form'] = form
     return render(request, 'scheduler/create_team.html', context)
 
 

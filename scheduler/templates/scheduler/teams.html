@@ -19,11 +19,10 @@
 <body id="grad">
 <div class="wrapper">
     <div id="header" class=" text-center" >
-        <h1>OWScheduler</h1>
-        <p>Overwatch Matchmaking and Scrimmage</p>
+        {% load static %} <img src=" {% static "media/logo.png" %}" style="width: 30%; height: 30%"/>
     </div>
 
-<nav class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
+<nav id="nav" class="navbar navbar-expand-md sticky-top bg-dark navbar-dark">
     <a class="navbar-brand" href="#">OWS</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
@@ -94,7 +93,7 @@
     </div>
 </nav>
     <!--- ALERTS: error and success messages ---->
-    {% if messages %}
+    {% if messages %}tyle="margin-bottom:0"
         {% for message in messages %}
             {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">

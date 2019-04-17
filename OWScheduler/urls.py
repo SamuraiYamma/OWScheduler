@@ -42,7 +42,9 @@ urlpatterns = [
     url(r'^player-autocomplete/$', PlayerAutoComplete.as_view(),
         name='player-autocomplete'),
     # path('', include('django.contrib.auth.urls')),
+
 ]
+
 
 handler404 = 'scheduler.views.handler404'
 handler500 = 'scheduler.views.handler500'

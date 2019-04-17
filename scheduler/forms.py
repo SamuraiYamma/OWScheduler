@@ -102,18 +102,18 @@ class PlayerChangeForm(UserChangeForm):
 
 class CreateTeamForm(forms.ModelForm):
     """ Form that handles creating a team """
-    id = forms.IntegerField(label="ID")
-    alias = forms.CharField(max_length=32,
+    teamID = forms.IntegerField(label="ID")
+    teamAlias = forms.CharField(max_length=32,
                             label="Name",
                             help_text="Must be less than 32 characters.")
 
-    def clean_id(self):
+    def clean_teamID(self):
         """
         Checks if a team ID is already in use
 
         :return: id that is available for use
         """
-        team_id = self.cleaned_data['id']
+        team_id = self.cleaned_data['teamID']
         existing = Team.objects.filter(teamID=team_id)
         if existing.count():
             raise ValidationError("A team with that ID already exists.")
@@ -121,7 +121,7 @@ class CreateTeamForm(forms.ModelForm):
 
     class Meta:
         model = Team
-        fields = ('id', 'alias')
+        fields = ('teamID', 'teamAlias')
 
 
 class DetailedPlayerModelMultipleChoiceField(ModelMultipleChoiceField):
