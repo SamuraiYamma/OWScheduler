@@ -197,8 +197,11 @@
                             editable: false,
                             events: {{ matches_playing_json|safe }},
                             eventRender: function (info) {
-                                $(info.el).tooltip({
-                                    title: 'hello',
+                                $(info.el).popover({
+                                    title: info.event.title,
+                                    content: info.event.extendedProps.participation +
+                                        "  Players: "+ info.event.extendedProps.players_1 +
+                                        " vs "+info.event.extendedProps.players_2,
                                     placement: 'top',
                                     trigger: 'hover',
                                     container: 'body'

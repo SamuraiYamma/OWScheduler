@@ -305,7 +305,7 @@ def my_teams(request, username):
                 'start': str(match.time.year) + '-' +
                          str(match.time.month) + '-' +
                          str(match.time.day),
-                'backgroundColor': '#a0ffa3',
+                'backgroundColor': '#2f7017',
                 'participation': 'You admin a team in this match!',
                 'players_1': list(match.player_set_1.values_list(
                     'battlenetID', flat=True)),

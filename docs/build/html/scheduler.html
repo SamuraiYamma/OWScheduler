@@ -1,0 +1,2329 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>scheduler package &#8212; OWScheduler 2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="scheduler-package">
+<h1>scheduler package<a class="headerlink" href="#scheduler-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="scheduler.migrations.html">scheduler.migrations package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0001_initial">scheduler.migrations.0001_initial module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0002_auto_20190301_0209">scheduler.migrations.0002_auto_20190301_0209 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0003_auto_20190301_1547">scheduler.migrations.0003_auto_20190301_1547 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0004_auto_20190302_1611">scheduler.migrations.0004_auto_20190302_1611 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0005_auto_20190318_1449">scheduler.migrations.0005_auto_20190318_1449 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0006_auto_20190410_1835">scheduler.migrations.0006_auto_20190410_1835 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0007_auto_20190410_1836">scheduler.migrations.0007_auto_20190410_1836 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0008_auto_20190410_1837">scheduler.migrations.0008_auto_20190410_1837 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0009_auto_20190410_1845">scheduler.migrations.0009_auto_20190410_1845 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations.0010_auto_20190410_2128">scheduler.migrations.0010_auto_20190410_2128 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler.migrations.html#module-scheduler.migrations">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-scheduler.admin">
+<span id="scheduler-admin-module"></span><h2>scheduler.admin module<a class="headerlink" href="#module-scheduler.admin" title="Permalink to this headline">¶</a></h2>
+<p>This module controls the admin page for django. This is mainly for the
+superuser to alter data in the database.</p>
+<dl class="class">
+<dt id="scheduler.admin.PlayerAdmin">
+<em class="property">class </em><code class="descclassname">scheduler.admin.</code><code class="descname">PlayerAdmin</code><span class="sig-paren">(</span><em>model</em>, <em>admin_site</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.admin.PlayerAdmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.admin.UserAdmin</span></code></p>
+<p>Controls the fields for creating a user in the admin page.
+This is also why the admin has the ability to set permissions</p>
+<dl class="attribute">
+<dt id="scheduler.admin.PlayerAdmin.add_fieldsets">
+<code class="descname">add_fieldsets</code><em class="property"> = ((None, {'classes': ('wide',), 'fields': ('username', 'password1', 'password2')}), ('User', {'fields': ('first_name', 'last_name', 'email', 'battlenetID', 'university', 'role', 'skillRating')}), ('Permissions', {'fields': ('is_active', 'is_staff')}))</em><a class="headerlink" href="#scheduler.admin.PlayerAdmin.add_fieldsets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.admin.PlayerAdmin.list_display">
+<code class="descname">list_display</code><em class="property"> = ['battlenetID', 'username', 'first_name', 'last_name', 'university']</em><a class="headerlink" href="#scheduler.admin.PlayerAdmin.list_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.admin.PlayerAdmin.media">
+<code class="descname">media</code><a class="headerlink" href="#scheduler.admin.PlayerAdmin.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.admin.PlayerAdmin.model">
+<code class="descname">model</code><a class="headerlink" href="#scheduler.admin.PlayerAdmin.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#scheduler.models.Player" title="scheduler.models.Player"><code class="xref py py-class docutils literal notranslate"><span class="pre">scheduler.models.Player</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.admin.TeamAdmin">
+<em class="property">class </em><code class="descclassname">scheduler.admin.</code><code class="descname">TeamAdmin</code><span class="sig-paren">(</span><em>model</em>, <em>admin_site</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.admin.TeamAdmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.admin.options.ModelAdmin</span></code></p>
+<p>Sets up the fields for creating a team.
+Uses django’s default form aside from a form to add players to the
+specified team.</p>
+<dl class="method">
+<dt id="scheduler.admin.TeamAdmin.get_form">
+<code class="descname">get_form</code><span class="sig-paren">(</span><em>request</em>, <em>obj=None</em>, <em>change=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.admin.TeamAdmin.get_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a Form class for use in the admin add view. This is used by
+add_view and change_view.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.admin.TeamAdmin.media">
+<code class="descname">media</code><a class="headerlink" href="#scheduler.admin.TeamAdmin.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.apps">
+<span id="scheduler-apps-module"></span><h2>scheduler.apps module<a class="headerlink" href="#module-scheduler.apps" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scheduler.apps.SchedulerConfig">
+<em class="property">class </em><code class="descclassname">scheduler.apps.</code><code class="descname">SchedulerConfig</code><span class="sig-paren">(</span><em>app_name</em>, <em>app_module</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.apps.SchedulerConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.apps.config.AppConfig</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.apps.SchedulerConfig.name">
+<code class="descname">name</code><em class="property"> = 'scheduler'</em><a class="headerlink" href="#scheduler.apps.SchedulerConfig.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.decorators">
+<span id="scheduler-decorators-module"></span><h2>scheduler.decorators module<a class="headerlink" href="#module-scheduler.decorators" title="Permalink to this headline">¶</a></h2>
+<p>This module holds all the custom decorators for views that use it.
+This includes ensuring a user has the correct permissions to access certain
+views.</p>
+<dl class="function">
+<dt id="scheduler.decorators.is_team_admin_or_superuser">
+<code class="descclassname">scheduler.decorators.</code><code class="descname">is_team_admin_or_superuser</code><span class="sig-paren">(</span><em>function</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.decorators.is_team_admin_or_superuser" title="Permalink to this definition">¶</a></dt>
+<dd><p>:returns True if user is the admin of the
+team from function param or a superuser</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.decorators.is_user_or_superuser">
+<code class="descclassname">scheduler.decorators.</code><code class="descname">is_user_or_superuser</code><span class="sig-paren">(</span><em>function</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.decorators.is_user_or_superuser" title="Permalink to this definition">¶</a></dt>
+<dd><p>:returns True if the user is the same specified in function
+params or a superuser</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.forms">
+<span id="scheduler-forms-module"></span><h2>scheduler.forms module<a class="headerlink" href="#module-scheduler.forms" title="Permalink to this headline">¶</a></h2>
+<p>Controls all the forms generated into HTML by django. This includes editing
+instances of models and validating data.</p>
+<dl class="class">
+<dt id="scheduler.forms.CreateTeamForm">
+<em class="property">class </em><code class="descclassname">scheduler.forms.</code><code class="descname">CreateTeamForm</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>instance=None</em>, <em>use_required_attribute=None</em>, <em>renderer=None</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.CreateTeamForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.forms.models.ModelForm</span></code></p>
+<p>Form that handles creating a team</p>
+<dl class="class">
+<dt id="scheduler.forms.CreateTeamForm.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="headerlink" href="#scheduler.forms.CreateTeamForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.forms.CreateTeamForm.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ('id', 'alias')</em><a class="headerlink" href="#scheduler.forms.CreateTeamForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.CreateTeamForm.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#scheduler.forms.CreateTeamForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#scheduler.models.Team" title="scheduler.models.Team"><code class="xref py py-class docutils literal notranslate"><span class="pre">scheduler.models.Team</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.CreateTeamForm.base_fields">
+<code class="descname">base_fields</code><em class="property"> = {'alias': &lt;django.forms.fields.CharField object&gt;, 'id': &lt;django.forms.fields.IntegerField object&gt;}</em><a class="headerlink" href="#scheduler.forms.CreateTeamForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="scheduler.forms.CreateTeamForm.clean_id">
+<code class="descname">clean_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.CreateTeamForm.clean_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if a team ID is already in use</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>id that is available for use</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.CreateTeamForm.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = {'alias': &lt;django.forms.fields.CharField object&gt;, 'id': &lt;django.forms.fields.IntegerField object&gt;}</em><a class="headerlink" href="#scheduler.forms.CreateTeamForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.CreateTeamForm.media">
+<code class="descname">media</code><a class="headerlink" href="#scheduler.forms.CreateTeamForm.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.forms.DetailedPlayerModelMultipleChoiceField">
+<em class="property">class </em><code class="descclassname">scheduler.forms.</code><code class="descname">DetailedPlayerModelMultipleChoiceField</code><span class="sig-paren">(</span><em>queryset</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.DetailedPlayerModelMultipleChoiceField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.forms.models.ModelMultipleChoiceField</span></code></p>
+<p>A class that extends django’s ModelMultipleChoiceField
+to display extra attributes in the form’s field</p>
+<dl class="method">
+<dt id="scheduler.forms.DetailedPlayerModelMultipleChoiceField.label_from_instance">
+<code class="descname">label_from_instance</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.DetailedPlayerModelMultipleChoiceField.label_from_instance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds more detail to the label for each player</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>obj</strong> – player to describe</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a player’s battletag and university</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.forms.MatchCreationForm">
+<em class="property">class </em><code class="descclassname">scheduler.forms.</code><code class="descname">MatchCreationForm</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>instance=None</em>, <em>use_required_attribute=None</em>, <em>renderer=None</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.MatchCreationForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.forms.models.ModelForm</span></code></p>
+<p>Manages fields to create a match.</p>
+<dl class="class">
+<dt id="scheduler.forms.MatchCreationForm.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="headerlink" href="#scheduler.forms.MatchCreationForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.forms.MatchCreationForm.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ('matchMap',)</em><a class="headerlink" href="#scheduler.forms.MatchCreationForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.MatchCreationForm.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#scheduler.forms.MatchCreationForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#scheduler.models.Match" title="scheduler.models.Match"><code class="xref py py-class docutils literal notranslate"><span class="pre">scheduler.models.Match</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.MatchCreationForm.base_fields">
+<code class="descname">base_fields</code><em class="property"> = {'matchMap': &lt;django.forms.fields.TypedChoiceField object&gt;}</em><a class="headerlink" href="#scheduler.forms.MatchCreationForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.MatchCreationForm.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = {}</em><a class="headerlink" href="#scheduler.forms.MatchCreationForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.MatchCreationForm.media">
+<code class="descname">media</code><a class="headerlink" href="#scheduler.forms.MatchCreationForm.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.forms.PlayerChangeForm">
+<em class="property">class </em><code class="descclassname">scheduler.forms.</code><code class="descname">PlayerChangeForm</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.PlayerChangeForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.forms.UserChangeForm</span></code></p>
+<p>The form used to change a player’s information</p>
+<dl class="class">
+<dt id="scheduler.forms.PlayerChangeForm.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="headerlink" href="#scheduler.forms.PlayerChangeForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.forms.Meta</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.forms.PlayerChangeForm.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ('first_name', 'last_name', 'email', 'battlenetID', 'university', 'role', 'skillRating')</em><a class="headerlink" href="#scheduler.forms.PlayerChangeForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.PlayerChangeForm.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#scheduler.forms.PlayerChangeForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#scheduler.models.Player" title="scheduler.models.Player"><code class="xref py py-class docutils literal notranslate"><span class="pre">scheduler.models.Player</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.PlayerChangeForm.base_fields">
+<code class="descname">base_fields</code><em class="property"> = {'battlenetID': &lt;django.forms.fields.CharField object&gt;, 'email': &lt;django.forms.fields.EmailField object&gt;, 'first_name': &lt;django.forms.fields.CharField object&gt;, 'last_name': &lt;django.forms.fields.CharField object&gt;, 'role': &lt;django.forms.fields.TypedChoiceField object&gt;, 'skillRating': &lt;django.forms.fields.IntegerField object&gt;, 'university': &lt;django.forms.fields.TypedChoiceField object&gt;}</em><a class="headerlink" href="#scheduler.forms.PlayerChangeForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.PlayerChangeForm.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = {}</em><a class="headerlink" href="#scheduler.forms.PlayerChangeForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.PlayerChangeForm.media">
+<code class="descname">media</code><a class="headerlink" href="#scheduler.forms.PlayerChangeForm.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.PlayerChangeForm.password">
+<code class="descname">password</code><em class="property"> = None</em><a class="headerlink" href="#scheduler.forms.PlayerChangeForm.password" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.forms.PlayerCreationForm">
+<em class="property">class </em><code class="descclassname">scheduler.forms.</code><code class="descname">PlayerCreationForm</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.PlayerCreationForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.forms.UserCreationForm</span></code></p>
+<p>The form used to create a new player/user</p>
+<dl class="class">
+<dt id="scheduler.forms.PlayerCreationForm.Meta">
+<em class="property">class </em><code class="descname">Meta</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.PlayerCreationForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.forms.UserCreationForm</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.forms.PlayerCreationForm.Meta.base_fields">
+<code class="descname">base_fields</code><em class="property"> = {'password1': &lt;django.forms.fields.CharField object&gt;, 'password2': &lt;django.forms.fields.CharField object&gt;, 'username': &lt;django.contrib.auth.forms.UsernameField object&gt;}</em><a class="headerlink" href="#scheduler.forms.PlayerCreationForm.Meta.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.PlayerCreationForm.Meta.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = {'password1': &lt;django.forms.fields.CharField object&gt;, 'password2': &lt;django.forms.fields.CharField object&gt;}</em><a class="headerlink" href="#scheduler.forms.PlayerCreationForm.Meta.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.PlayerCreationForm.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ('email', 'username', 'battlenetID', 'password1', 'password2')</em><a class="headerlink" href="#scheduler.forms.PlayerCreationForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.PlayerCreationForm.Meta.media">
+<code class="descname">media</code><a class="headerlink" href="#scheduler.forms.PlayerCreationForm.Meta.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.PlayerCreationForm.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#scheduler.forms.PlayerCreationForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#scheduler.models.Player" title="scheduler.models.Player"><code class="xref py py-class docutils literal notranslate"><span class="pre">scheduler.models.Player</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.PlayerCreationForm.base_fields">
+<code class="descname">base_fields</code><em class="property"> = {'battlenetID': &lt;django.forms.fields.CharField object&gt;, 'email': &lt;django.forms.fields.EmailField object&gt;, 'password1': &lt;django.forms.fields.CharField object&gt;, 'password2': &lt;django.forms.fields.CharField object&gt;, 'username': &lt;django.forms.fields.CharField object&gt;}</em><a class="headerlink" href="#scheduler.forms.PlayerCreationForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="scheduler.forms.PlayerCreationForm.clean_battlenetID">
+<code class="descname">clean_battlenetID</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.PlayerCreationForm.clean_battlenetID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the battlenetID isn’t already in use and follows blizzard’s
+battletag naming conventions:
+<a class="reference external" href="https://us.battle.net/support/en/article/26963">https://us.battle.net/support/en/article/26963</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>battlenetID after validating it is available and is a valid</p>
+</dd>
+</dl>
+<p>battletag</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.forms.PlayerCreationForm.clean_email">
+<code class="descname">clean_email</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.PlayerCreationForm.clean_email" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the email isn’t already in use</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>email after validating it is available</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.forms.PlayerCreationForm.clean_username">
+<code class="descname">clean_username</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.PlayerCreationForm.clean_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the username isn’t already in use</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>username after validating it is available</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.PlayerCreationForm.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = {'battlenetID': &lt;django.forms.fields.CharField object&gt;, 'email': &lt;django.forms.fields.EmailField object&gt;, 'password1': &lt;django.forms.fields.CharField object&gt;, 'password2': &lt;django.forms.fields.CharField object&gt;, 'username': &lt;django.forms.fields.CharField object&gt;}</em><a class="headerlink" href="#scheduler.forms.PlayerCreationForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.PlayerCreationForm.media">
+<code class="descname">media</code><a class="headerlink" href="#scheduler.forms.PlayerCreationForm.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="scheduler.forms.PlayerCreationForm.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>commit=True</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.PlayerCreationForm.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>saves the user after assigning the entered battletag</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.forms.TeamAdminForm">
+<em class="property">class </em><code class="descclassname">scheduler.forms.</code><code class="descname">TeamAdminForm</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>instance=None</em>, <em>use_required_attribute=None</em>, <em>renderer=None</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.TeamAdminForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.forms.models.ModelForm</span></code></p>
+<p>A form for a <em>user</em> to manage their teams</p>
+<dl class="class">
+<dt id="scheduler.forms.TeamAdminForm.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="headerlink" href="#scheduler.forms.TeamAdminForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.forms.TeamAdminForm.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ('team_alias', 'add_player', 'change_admin')</em><a class="headerlink" href="#scheduler.forms.TeamAdminForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.TeamAdminForm.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#scheduler.forms.TeamAdminForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#scheduler.models.Team" title="scheduler.models.Team"><code class="xref py py-class docutils literal notranslate"><span class="pre">scheduler.models.Team</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.TeamAdminForm.Meta.widgets">
+<code class="descname">widgets</code><em class="property"> = {'add_player': &lt;dal_select2.widgets.ModelSelect2 object&gt;, 'change_admin': &lt;dal_select2.widgets.ModelSelect2 object&gt;, 'players': &lt;dal_select2.widgets.ModelSelect2 object&gt;}</em><a class="headerlink" href="#scheduler.forms.TeamAdminForm.Meta.widgets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.TeamAdminForm.base_fields">
+<code class="descname">base_fields</code><em class="property"> = {'add_player': &lt;django.forms.models.ModelChoiceField object&gt;, 'change_admin': &lt;django.forms.models.ModelChoiceField object&gt;, 'team_alias': &lt;django.forms.fields.CharField object&gt;}</em><a class="headerlink" href="#scheduler.forms.TeamAdminForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="scheduler.forms.TeamAdminForm.clean_team_alias">
+<code class="descname">clean_team_alias</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.TeamAdminForm.clean_team_alias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates the team alias is url safe in case it needs to be used in
+any url</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>an internet safe team alias</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.TeamAdminForm.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = {'add_player': &lt;django.forms.models.ModelChoiceField object&gt;, 'change_admin': &lt;django.forms.models.ModelChoiceField object&gt;, 'team_alias': &lt;django.forms.fields.CharField object&gt;}</em><a class="headerlink" href="#scheduler.forms.TeamAdminForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.TeamAdminForm.media">
+<code class="descname">media</code><a class="headerlink" href="#scheduler.forms.TeamAdminForm.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.forms.TeamDjangoAdminForm">
+<em class="property">class </em><code class="descclassname">scheduler.forms.</code><code class="descname">TeamDjangoAdminForm</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>instance=None</em>, <em>use_required_attribute=None</em>, <em>renderer=None</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.forms.TeamDjangoAdminForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.forms.models.ModelForm</span></code></p>
+<p>A form used for <em>superusers</em> to manage teams in the admin page.</p>
+<dl class="class">
+<dt id="scheduler.forms.TeamDjangoAdminForm.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="headerlink" href="#scheduler.forms.TeamDjangoAdminForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.forms.TeamDjangoAdminForm.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ('teamAlias', 'teamID', 'team_admin', 'player_autocomplete', 'is_active')</em><a class="headerlink" href="#scheduler.forms.TeamDjangoAdminForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.TeamDjangoAdminForm.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#scheduler.forms.TeamDjangoAdminForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#scheduler.models.Team" title="scheduler.models.Team"><code class="xref py py-class docutils literal notranslate"><span class="pre">scheduler.models.Team</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.TeamDjangoAdminForm.Meta.widgets">
+<code class="descname">widgets</code><em class="property"> = {'players': &lt;dal_select2.widgets.ModelSelect2Multiple object&gt;, 'team_admin': &lt;dal_select2.widgets.ModelSelect2 object&gt;}</em><a class="headerlink" href="#scheduler.forms.TeamDjangoAdminForm.Meta.widgets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.TeamDjangoAdminForm.base_fields">
+<code class="descname">base_fields</code><em class="property"> = {'is_active': &lt;django.forms.fields.BooleanField object&gt;, 'player_autocomplete': &lt;django.forms.models.ModelMultipleChoiceField object&gt;, 'teamAlias': &lt;django.forms.fields.CharField object&gt;, 'teamID': &lt;django.forms.fields.IntegerField object&gt;, 'team_admin': &lt;django.forms.models.ModelChoiceField object&gt;}</em><a class="headerlink" href="#scheduler.forms.TeamDjangoAdminForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.TeamDjangoAdminForm.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = {'player_autocomplete': &lt;django.forms.models.ModelMultipleChoiceField object&gt;, 'team_admin': &lt;django.forms.models.ModelChoiceField object&gt;}</em><a class="headerlink" href="#scheduler.forms.TeamDjangoAdminForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.forms.TeamDjangoAdminForm.media">
+<code class="descname">media</code><a class="headerlink" href="#scheduler.forms.TeamDjangoAdminForm.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.models">
+<span id="scheduler-models-module"></span><h2>scheduler.models module<a class="headerlink" href="#module-scheduler.models" title="Permalink to this headline">¶</a></h2>
+<p>This module controls django’s generated database. Each model determines
+an entity while each field corresponds to an attribute or relationship. This
+controls the information to be stored for each Player, Team, Match, and
+TimeSlot.</p>
+<dl class="class">
+<dt id="scheduler.models.Match">
+<em class="property">class </em><code class="descclassname">scheduler.models.</code><code class="descname">Match</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.models.Match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>Model to store match information.</p>
+<dl class="attribute">
+<dt id="scheduler.models.Match.CG">
+<code class="descname">CG</code><em class="property"> = 'Château Guillard'</em><a class="headerlink" href="#scheduler.models.Match.CG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.DOR">
+<code class="descname">DOR</code><em class="property"> = 'Dorado'</em><a class="headerlink" href="#scheduler.models.Match.DOR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="scheduler.models.Match.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#scheduler.models.Match.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.EICH">
+<code class="descname">EICH</code><em class="property"> = 'Eichenwalde'</em><a class="headerlink" href="#scheduler.models.Match.EICH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.HANA">
+<code class="descname">HANA</code><em class="property"> = 'Hanamura'</em><a class="headerlink" href="#scheduler.models.Match.HANA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.HLC">
+<code class="descname">HLC</code><em class="property"> = 'Horizon Lunar Colony'</em><a class="headerlink" href="#scheduler.models.Match.HLC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.HOL">
+<code class="descname">HOL</code><em class="property"> = 'Hollywood'</em><a class="headerlink" href="#scheduler.models.Match.HOL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.ILI">
+<code class="descname">ILI</code><em class="property"> = 'Ilios'</em><a class="headerlink" href="#scheduler.models.Match.ILI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.KR">
+<code class="descname">KR</code><em class="property"> = &quot;King's Row&quot;</em><a class="headerlink" href="#scheduler.models.Match.KR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.LT">
+<code class="descname">LT</code><em class="property"> = 'Lijang Tower'</em><a class="headerlink" href="#scheduler.models.Match.LT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.MAP_CHOICES">
+<code class="descname">MAP_CHOICES</code><em class="property"> = (('Château Guillard', 'Château Guillard'), ('Dorado', 'Dorado'), ('Eichenwalde', 'Eichenwalde'), ('Hanamura', 'Hanamura'), ('Hollywood', 'Hollywood'), ('Horizon Lunar Colony', 'Horizon Lunar Colony'), ('Ilios', 'Ilios'), (&quot;King's Row&quot;, &quot;King's Row&quot;), ('Lijang Tower', 'Lijang Tower'), ('Nepal', 'Nepal'), ('Numbani', 'Numbani'), ('Oasis', 'Oasis'), ('Route 66', 'Route 66'), ('Temple of Anubis', 'Temple of Anubis'), ('Volskaya Industries', 'Volskaya Industries'), ('Watchpoint: Gibraltar', 'Watchpoint: Gibraltar'))</em><a class="headerlink" href="#scheduler.models.Match.MAP_CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="scheduler.models.Match.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#scheduler.models.Match.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.NEP">
+<code class="descname">NEP</code><em class="property"> = 'Nepal'</em><a class="headerlink" href="#scheduler.models.Match.NEP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.NUM">
+<code class="descname">NUM</code><em class="property"> = 'Numbani'</em><a class="headerlink" href="#scheduler.models.Match.NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.OAS">
+<code class="descname">OAS</code><em class="property"> = 'Oasis'</em><a class="headerlink" href="#scheduler.models.Match.OAS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.R66">
+<code class="descname">R66</code><em class="property"> = 'Route 66'</em><a class="headerlink" href="#scheduler.models.Match.R66" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.TA">
+<code class="descname">TA</code><em class="property"> = 'Temple of Anubis'</em><a class="headerlink" href="#scheduler.models.Match.TA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.TEAMS">
+<code class="descname">TEAMS</code><em class="property"> = ((1, 'Team 1'), (2, 'Team 2'))</em><a class="headerlink" href="#scheduler.models.Match.TEAMS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.TEAM_1">
+<code class="descname">TEAM_1</code><em class="property"> = 1</em><a class="headerlink" href="#scheduler.models.Match.TEAM_1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.TEAM_2">
+<code class="descname">TEAM_2</code><em class="property"> = 2</em><a class="headerlink" href="#scheduler.models.Match.TEAM_2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.VI">
+<code class="descname">VI</code><em class="property"> = 'Volskaya Industries'</em><a class="headerlink" href="#scheduler.models.Match.VI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.WG">
+<code class="descname">WG</code><em class="property"> = 'Watchpoint: Gibraltar'</em><a class="headerlink" href="#scheduler.models.Match.WG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="scheduler.models.Match.get_matchMap_display">
+<code class="descname">get_matchMap_display</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.CharField: matchMap&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.models.Match.get_matchMap_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="scheduler.models.Match.get_next_by_time">
+<code class="descname">get_next_by_time</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.DateTimeField: time&gt;</em>, <em>is_next=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.models.Match.get_next_by_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="scheduler.models.Match.get_previous_by_time">
+<code class="descname">get_previous_by_time</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.DateTimeField: time&gt;</em>, <em>is_next=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.models.Match.get_previous_by_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="scheduler.models.Match.get_winner_display">
+<code class="descname">get_winner_display</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.IntegerField: winner&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.models.Match.get_winner_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.matchID">
+<code class="descname">matchID</code><a class="headerlink" href="#scheduler.models.Match.matchID" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.matchMap">
+<code class="descname">matchMap</code><a class="headerlink" href="#scheduler.models.Match.matchMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.objects">
+<code class="descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#scheduler.models.Match.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.player_set_1">
+<code class="descname">player_set_1</code><a class="headerlink" href="#scheduler.models.Match.player_set_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.player_set_2">
+<code class="descname">player_set_2</code><a class="headerlink" href="#scheduler.models.Match.player_set_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.team_1">
+<code class="descname">team_1</code><a class="headerlink" href="#scheduler.models.Match.team_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.team_1_id">
+<code class="descname">team_1_id</code><a class="headerlink" href="#scheduler.models.Match.team_1_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.team_2">
+<code class="descname">team_2</code><a class="headerlink" href="#scheduler.models.Match.team_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.team_2_id">
+<code class="descname">team_2_id</code><a class="headerlink" href="#scheduler.models.Match.team_2_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.time">
+<code class="descname">time</code><a class="headerlink" href="#scheduler.models.Match.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Match.winner">
+<code class="descname">winner</code><a class="headerlink" href="#scheduler.models.Match.winner" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.models.Player">
+<em class="property">class </em><code class="descclassname">scheduler.models.</code><code class="descname">Player</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.models.Player" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.AbstractUser</span></code></p>
+<p>This is the model for Players (users) to store in the database.
+It uses django’s AbstractUser which already stores first name, last name,
+email, username, and password. This allows us to use django’s secure password
+hashing but still give our users attributes like university, role,
+battletag, sr, and team. The team in this model is an optional foreign key
+that can be null and/or blank. The default string for a player is their
+battletag. It also restricts the roles to either damage, tank, or support.</p>
+<dl class="attribute">
+<dt id="scheduler.models.Player.DAMAGE">
+<code class="descname">DAMAGE</code><em class="property"> = 'Damage'</em><a class="headerlink" href="#scheduler.models.Player.DAMAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="scheduler.models.Player.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#scheduler.models.Player.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.GVSU">
+<code class="descname">GVSU</code><em class="property"> = 'Grand Valley State University'</em><a class="headerlink" href="#scheduler.models.Player.GVSU" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="scheduler.models.Player.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#scheduler.models.Player.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.ROLE_CHOICES">
+<code class="descname">ROLE_CHOICES</code><em class="property"> = (('Damage', 'Damage'), ('Tank', 'Tank'), ('Support', 'Support'))</em><a class="headerlink" href="#scheduler.models.Player.ROLE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.SUPPORT">
+<code class="descname">SUPPORT</code><em class="property"> = 'Support'</em><a class="headerlink" href="#scheduler.models.Player.SUPPORT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.TANK">
+<code class="descname">TANK</code><em class="property"> = 'Tank'</em><a class="headerlink" href="#scheduler.models.Player.TANK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.UNIVERSITY_CHOICES">
+<code class="descname">UNIVERSITY_CHOICES</code><em class="property"> = (('Grand Valley State University', 'Grand Valley State University'),)</em><a class="headerlink" href="#scheduler.models.Player.UNIVERSITY_CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.battlenetID">
+<code class="descname">battlenetID</code><a class="headerlink" href="#scheduler.models.Player.battlenetID" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.models.Player.get_next_by_date_joined">
+<code class="descname">get_next_by_date_joined</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.DateTimeField: date_joined&gt;</em>, <em>is_next=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.models.Player.get_next_by_date_joined" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="scheduler.models.Player.get_previous_by_date_joined">
+<code class="descname">get_previous_by_date_joined</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.DateTimeField: date_joined&gt;</em>, <em>is_next=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.models.Player.get_previous_by_date_joined" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="scheduler.models.Player.get_role_display">
+<code class="descname">get_role_display</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.CharField: role&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.models.Player.get_role_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="scheduler.models.Player.get_university_display">
+<code class="descname">get_university_display</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.CharField: university&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.models.Player.get_university_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.groups">
+<code class="descname">groups</code><a class="headerlink" href="#scheduler.models.Player.groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.logentry_set">
+<code class="descname">logentry_set</code><a class="headerlink" href="#scheduler.models.Player.logentry_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.player_availabilities">
+<code class="descname">player_availabilities</code><a class="headerlink" href="#scheduler.models.Player.player_availabilities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.player_set_1">
+<code class="descname">player_set_1</code><a class="headerlink" href="#scheduler.models.Player.player_set_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.player_set_2">
+<code class="descname">player_set_2</code><a class="headerlink" href="#scheduler.models.Player.player_set_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.role">
+<code class="descname">role</code><a class="headerlink" href="#scheduler.models.Player.role" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.skillRating">
+<code class="descname">skillRating</code><a class="headerlink" href="#scheduler.models.Player.skillRating" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.team_admin">
+<code class="descname">team_admin</code><a class="headerlink" href="#scheduler.models.Player.team_admin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.team_set">
+<code class="descname">team_set</code><a class="headerlink" href="#scheduler.models.Player.team_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.university">
+<code class="descname">university</code><a class="headerlink" href="#scheduler.models.Player.university" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Player.user_permissions">
+<code class="descname">user_permissions</code><a class="headerlink" href="#scheduler.models.Player.user_permissions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.models.Team">
+<em class="property">class </em><code class="descclassname">scheduler.models.</code><code class="descname">Team</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.models.Team" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>The Team model identifies an ID and Alias as identifiers.
+Although teams can have the same alias, our database will need a unique ID
+for each.</p>
+<dl class="exception">
+<dt id="scheduler.models.Team.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#scheduler.models.Team.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="scheduler.models.Team.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#scheduler.models.Team.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Team.is_active">
+<code class="descname">is_active</code><a class="headerlink" href="#scheduler.models.Team.is_active" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Team.objects">
+<code class="descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#scheduler.models.Team.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Team.organization">
+<code class="descname">organization</code><a class="headerlink" href="#scheduler.models.Team.organization" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Team.players">
+<code class="descname">players</code><a class="headerlink" href="#scheduler.models.Team.players" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Team.teamAlias">
+<code class="descname">teamAlias</code><a class="headerlink" href="#scheduler.models.Team.teamAlias" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Team.teamID">
+<code class="descname">teamID</code><a class="headerlink" href="#scheduler.models.Team.teamID" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Team.team_1">
+<code class="descname">team_1</code><a class="headerlink" href="#scheduler.models.Team.team_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Team.team_2">
+<code class="descname">team_2</code><a class="headerlink" href="#scheduler.models.Team.team_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Team.team_admin">
+<code class="descname">team_admin</code><a class="headerlink" href="#scheduler.models.Team.team_admin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.Team.team_admin_id">
+<code class="descname">team_admin_id</code><a class="headerlink" href="#scheduler.models.Team.team_admin_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.models.TimeSlot">
+<em class="property">class </em><code class="descclassname">scheduler.models.</code><code class="descname">TimeSlot</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.models.TimeSlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>The model for TimeSlot allows users to set their availability.
+The ID avoids the composite key issue from django. Since they don’t allow
+composite keys, this is the next best option.</p>
+<dl class="attribute">
+<dt id="scheduler.models.TimeSlot.DAYS_OF_WEEK">
+<code class="descname">DAYS_OF_WEEK</code><em class="property"> = ((0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday'))</em><a class="headerlink" href="#scheduler.models.TimeSlot.DAYS_OF_WEEK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="scheduler.models.TimeSlot.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#scheduler.models.TimeSlot.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.TimeSlot.FRI">
+<code class="descname">FRI</code><em class="property"> = 4</em><a class="headerlink" href="#scheduler.models.TimeSlot.FRI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.TimeSlot.MON">
+<code class="descname">MON</code><em class="property"> = 0</em><a class="headerlink" href="#scheduler.models.TimeSlot.MON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="scheduler.models.TimeSlot.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#scheduler.models.TimeSlot.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.TimeSlot.SAT">
+<code class="descname">SAT</code><em class="property"> = 5</em><a class="headerlink" href="#scheduler.models.TimeSlot.SAT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.TimeSlot.SUN">
+<code class="descname">SUN</code><em class="property"> = 6</em><a class="headerlink" href="#scheduler.models.TimeSlot.SUN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.TimeSlot.THURS">
+<code class="descname">THURS</code><em class="property"> = 3</em><a class="headerlink" href="#scheduler.models.TimeSlot.THURS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.TimeSlot.TUES">
+<code class="descname">TUES</code><em class="property"> = 1</em><a class="headerlink" href="#scheduler.models.TimeSlot.TUES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.TimeSlot.WED">
+<code class="descname">WED</code><em class="property"> = 2</em><a class="headerlink" href="#scheduler.models.TimeSlot.WED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.TimeSlot.dayOfWeek">
+<code class="descname">dayOfWeek</code><a class="headerlink" href="#scheduler.models.TimeSlot.dayOfWeek" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.models.TimeSlot.get_dayOfWeek_display">
+<code class="descname">get_dayOfWeek_display</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.IntegerField: dayOfWeek&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.models.TimeSlot.get_dayOfWeek_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.TimeSlot.hour">
+<code class="descname">hour</code><a class="headerlink" href="#scheduler.models.TimeSlot.hour" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.TimeSlot.objects">
+<code class="descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#scheduler.models.TimeSlot.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.TimeSlot.players_available">
+<code class="descname">players_available</code><a class="headerlink" href="#scheduler.models.TimeSlot.players_available" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.models.TimeSlot.timeSlotID">
+<code class="descname">timeSlotID</code><a class="headerlink" href="#scheduler.models.TimeSlot.timeSlotID" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.scheduler">
+<span id="scheduler-scheduler-module"></span><h2>scheduler.scheduler module<a class="headerlink" href="#module-scheduler.scheduler" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scheduler.scheduler.no_restriction_schedule">
+<code class="descclassname">scheduler.scheduler.</code><code class="descname">no_restriction_schedule</code><span class="sig-paren">(</span><em>schedule</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.scheduler.no_restriction_schedule" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.tests">
+<span id="scheduler-tests-module"></span><h2>scheduler.tests module<a class="headerlink" href="#module-scheduler.tests" title="Permalink to this headline">¶</a></h2>
+<p>Contains all the tests for scheduler. This includes the models and views.</p>
+<dl class="class">
+<dt id="scheduler.tests.AccountViewTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">AccountViewTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.AccountViewTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>All tests dealing with editing a player’s account</p>
+<dl class="method">
+<dt id="scheduler.tests.AccountViewTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.AccountViewTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.AccountViewTests.test_account_not_logged_in">
+<code class="descname">test_account_not_logged_in</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.AccountViewTests.test_account_not_logged_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempt to get account page without being authenticated</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.AccountViewTests.test_admin_account_access">
+<code class="descname">test_admin_account_access</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.AccountViewTests.test_admin_account_access" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to view an account page as a superuser</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.AccountViewTests.test_change_availability_twice">
+<code class="descname">test_change_availability_twice</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.AccountViewTests.test_change_availability_twice" title="Permalink to this definition">¶</a></dt>
+<dd><p>changing availability multiple times to ensure state is saved</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.AccountViewTests.test_change_profile_info">
+<code class="descname">test_change_profile_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.AccountViewTests.test_change_profile_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>change first and last name without errors</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.AccountViewTests.test_correct_account">
+<code class="descname">test_correct_account</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.AccountViewTests.test_correct_account" title="Permalink to this definition">¶</a></dt>
+<dd><p>successful view of a players own account page</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.AccountViewTests.test_fail_to_save_profile">
+<code class="descname">test_fail_to_save_profile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.AccountViewTests.test_fail_to_save_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to put a string into an integer field: skillRating</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.AccountViewTests.test_form_error_profile_info">
+<code class="descname">test_form_error_profile_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.AccountViewTests.test_form_error_profile_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>no battlenetID should return a form error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.AccountViewTests.test_nonexistent_player_account">
+<code class="descname">test_nonexistent_player_account</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.AccountViewTests.test_nonexistent_player_account" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to view an account page that doesn’t exist</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.AccountViewTests.test_wrong_account">
+<code class="descname">test_wrong_account</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.AccountViewTests.test_wrong_account" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to view an account page for a different player</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.tests.DeleteTeamViewTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">DeleteTeamViewTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.DeleteTeamViewTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>all tests for deleting a team</p>
+<dl class="method">
+<dt id="scheduler.tests.DeleteTeamViewTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.DeleteTeamViewTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.DeleteTeamViewTests.test_del_nologin">
+<code class="descname">test_del_nologin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.DeleteTeamViewTests.test_del_nologin" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to delete a team without being logged in</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.DeleteTeamViewTests.test_del_superuser">
+<code class="descname">test_del_superuser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.DeleteTeamViewTests.test_del_superuser" title="Permalink to this definition">¶</a></dt>
+<dd><p>delete team as a superuser</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.DeleteTeamViewTests.test_del_team_admin">
+<code class="descname">test_del_team_admin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.DeleteTeamViewTests.test_del_team_admin" title="Permalink to this definition">¶</a></dt>
+<dd><p>delete team as a team admin</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.DeleteTeamViewTests.test_del_wrong_user">
+<code class="descname">test_del_wrong_user</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.DeleteTeamViewTests.test_del_wrong_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to delete a team without being team admin</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.tests.HomeViewTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">HomeViewTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.HomeViewTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>all the tests for the home method in views</p>
+<dl class="method">
+<dt id="scheduler.tests.HomeViewTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.HomeViewTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.HomeViewTests.test_home">
+<code class="descname">test_home</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.HomeViewTests.test_home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make sure home uses the right html file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.HomeViewTests.test_home_login">
+<code class="descname">test_home_login</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.HomeViewTests.test_home_login" title="Permalink to this definition">¶</a></dt>
+<dd><p>test logging in from home page</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.HomeViewTests.test_home_logout">
+<code class="descname">test_home_logout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.HomeViewTests.test_home_logout" title="Permalink to this definition">¶</a></dt>
+<dd><p>logging out from home page and correct redirects</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.HomeViewTests.test_logout_from_teams">
+<code class="descname">test_logout_from_teams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.HomeViewTests.test_logout_from_teams" title="Permalink to this definition">¶</a></dt>
+<dd><p>logout from another page to make sure it redirects properly</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.tests.JoinTeamViewTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">JoinTeamViewTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.JoinTeamViewTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>All tests related to joining a team via url</p>
+<dl class="method">
+<dt id="scheduler.tests.JoinTeamViewTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.JoinTeamViewTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.JoinTeamViewTests.test_join_team_authenticated">
+<code class="descname">test_join_team_authenticated</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.JoinTeamViewTests.test_join_team_authenticated" title="Permalink to this definition">¶</a></dt>
+<dd><p>joining a team correctly</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.JoinTeamViewTests.test_join_team_not_authenticated">
+<code class="descname">test_join_team_not_authenticated</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.JoinTeamViewTests.test_join_team_not_authenticated" title="Permalink to this definition">¶</a></dt>
+<dd><p>cannot join a team without being logged in</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.JoinTeamViewTests.test_join_team_wrong_user">
+<code class="descname">test_join_team_wrong_user</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.JoinTeamViewTests.test_join_team_wrong_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to join a team while being logged into a different account.
+should return an error message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.JoinTeamViewTests.test_jt_add_50">
+<code class="descname">test_jt_add_50</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.JoinTeamViewTests.test_jt_add_50" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to join a team that has the max (50) players on it</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.JoinTeamViewTests.test_jt_already_on">
+<code class="descname">test_jt_already_on</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.JoinTeamViewTests.test_jt_already_on" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to join a team a player is already on should return
+an error message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.JoinTeamViewTests.test_jt_superuser">
+<code class="descname">test_jt_superuser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.JoinTeamViewTests.test_jt_superuser" title="Permalink to this definition">¶</a></dt>
+<dd><p>superuser should be able to add anyone to a team</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.tests.LeaveTeamViewTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">LeaveTeamViewTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.LeaveTeamViewTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>all tests related to leaving a team via url</p>
+<dl class="method">
+<dt id="scheduler.tests.LeaveTeamViewTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.LeaveTeamViewTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.LeaveTeamViewTests.test_leave_team_authenticated">
+<code class="descname">test_leave_team_authenticated</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.LeaveTeamViewTests.test_leave_team_authenticated" title="Permalink to this definition">¶</a></dt>
+<dd><p>leave a team while being logged in correctly</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.LeaveTeamViewTests.test_leave_team_not_authenticated">
+<code class="descname">test_leave_team_not_authenticated</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.LeaveTeamViewTests.test_leave_team_not_authenticated" title="Permalink to this definition">¶</a></dt>
+<dd><p>leave a team without being logged in</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.LeaveTeamViewTests.test_leave_team_wrong_user">
+<code class="descname">test_leave_team_wrong_user</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.LeaveTeamViewTests.test_leave_team_wrong_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>leave a team as a different user should return error message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.LeaveTeamViewTests.test_lt_admin_kick">
+<code class="descname">test_lt_admin_kick</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.LeaveTeamViewTests.test_lt_admin_kick" title="Permalink to this definition">¶</a></dt>
+<dd><p>team admin is able to remove players from their team</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.LeaveTeamViewTests.test_lt_admin_not_in_team">
+<code class="descname">test_lt_admin_not_in_team</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.LeaveTeamViewTests.test_lt_admin_not_in_team" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to remove a player from a team they are not in</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.LeaveTeamViewTests.test_lt_just_fine">
+<code class="descname">test_lt_just_fine</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.LeaveTeamViewTests.test_lt_just_fine" title="Permalink to this definition">¶</a></dt>
+<dd><p>successfully leaving a team</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.tests.MyTeamsViewTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">MyTeamsViewTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.MyTeamsViewTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>All tests related to viewing a player’s my team page</p>
+<dl class="method">
+<dt id="scheduler.tests.MyTeamsViewTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.MyTeamsViewTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.MyTeamsViewTests.test_my_teams_admin_account_access">
+<code class="descname">test_my_teams_admin_account_access</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.MyTeamsViewTests.test_my_teams_admin_account_access" title="Permalink to this definition">¶</a></dt>
+<dd><p>View my teams as a superuser</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.MyTeamsViewTests.test_my_teams_nologin">
+<code class="descname">test_my_teams_nologin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.MyTeamsViewTests.test_my_teams_nologin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cannot view my teams without being logged in</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.MyTeamsViewTests.test_my_teams_wrong_account">
+<code class="descname">test_my_teams_wrong_account</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.MyTeamsViewTests.test_my_teams_wrong_account" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cannot view my teams of another user</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.tests.PlayerModelTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">PlayerModelTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerModelTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>tests for accessing objects of the Player model and their team</p>
+<dl class="method">
+<dt id="scheduler.tests.PlayerModelTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerModelTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayerModelTests.test_duplicate_error">
+<code class="descname">test_duplicate_error</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerModelTests.test_duplicate_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raise an error when creating a player with information that is already
+in the database</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayerModelTests.test_find_by_username">
+<code class="descname">test_find_by_username</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerModelTests.test_find_by_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Searching a player by their username</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayerModelTests.test_player_not_found">
+<code class="descname">test_player_not_found</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerModelTests.test_player_not_found" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raise an error when looking up a nonexistent user
+:return: Player.DoesNotExist error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayerModelTests.test_player_role">
+<code class="descname">test_player_role</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerModelTests.test_player_role" title="Permalink to this definition">¶</a></dt>
+<dd><p>Players roles correspond to choices for roles in models</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayerModelTests.test_player_skill_rating">
+<code class="descname">test_player_skill_rating</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerModelTests.test_player_skill_rating" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test that players can be looked up by their skillRating</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayerModelTests.test_player_university">
+<code class="descname">test_player_university</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerModelTests.test_player_university" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look up a player(s) by their university</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayerModelTests.test_str">
+<code class="descname">test_str</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerModelTests.test_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Str method should return a player’s battletag</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayerModelTests.test_username_not_found">
+<code class="descname">test_username_not_found</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerModelTests.test_username_not_found" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raise a DoesNotExist error when looking up a nonexistent username
+:return: Player.DoesNotExist error</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.tests.PlayerProfileViewTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">PlayerProfileViewTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerProfileViewTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>All tests related to viewing a user’s profile</p>
+<dl class="method">
+<dt id="scheduler.tests.PlayerProfileViewTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerProfileViewTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayerProfileViewTests.test_existing_player">
+<code class="descname">test_existing_player</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerProfileViewTests.test_existing_player" title="Permalink to this definition">¶</a></dt>
+<dd><p>successful visit of a profile page</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayerProfileViewTests.test_nonexistent_player">
+<code class="descname">test_nonexistent_player</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerProfileViewTests.test_nonexistent_player" title="Permalink to this definition">¶</a></dt>
+<dd><p>visit a profile that does not exist should return a 404</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayerProfileViewTests.test_player_profile_nocontext">
+<code class="descname">test_player_profile_nocontext</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerProfileViewTests.test_player_profile_nocontext" title="Permalink to this definition">¶</a></dt>
+<dd><p>validate another player’s context</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayerProfileViewTests.test_profile_context">
+<code class="descname">test_profile_context</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayerProfileViewTests.test_profile_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>validate the correct context for a player’s profile</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.tests.PlayersViewTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">PlayersViewTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayersViewTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>contains tests for players method in views</p>
+<dl class="method">
+<dt id="scheduler.tests.PlayersViewTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayersViewTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayersViewTests.test_login_from_players">
+<code class="descname">test_login_from_players</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayersViewTests.test_login_from_players" title="Permalink to this definition">¶</a></dt>
+<dd><p>logging in from players</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayersViewTests.test_logout_from_players">
+<code class="descname">test_logout_from_players</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayersViewTests.test_logout_from_players" title="Permalink to this definition">¶</a></dt>
+<dd><p>logging out from players and redirect back to the page</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayersViewTests.test_players_list_size">
+<code class="descname">test_players_list_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayersViewTests.test_players_list_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>the context to get list of players should be the same size as the
+list of all players</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.PlayersViewTests.test_players_template">
+<code class="descname">test_players_template</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.PlayersViewTests.test_players_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>make sure players uses the correct template</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.tests.RegisterViewTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">RegisterViewTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.RegisterViewTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>all tests related to creating a user/player</p>
+<dl class="method">
+<dt id="scheduler.tests.RegisterViewTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.RegisterViewTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.RegisterViewTests.test_fail_register_no_battle">
+<code class="descname">test_fail_register_no_battle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.RegisterViewTests.test_fail_register_no_battle" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to register without battlenetID should fail</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.RegisterViewTests.test_fail_register_no_email">
+<code class="descname">test_fail_register_no_email</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.RegisterViewTests.test_fail_register_no_email" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to register without email should fail</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.RegisterViewTests.test_fail_register_no_username">
+<code class="descname">test_fail_register_no_username</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.RegisterViewTests.test_fail_register_no_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to register without username should fail</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.RegisterViewTests.test_fail_register_pass_is_username">
+<code class="descname">test_fail_register_pass_is_username</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.RegisterViewTests.test_fail_register_pass_is_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to register with password same as username returns error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.RegisterViewTests.test_fail_register_pass_mismatch">
+<code class="descname">test_fail_register_pass_mismatch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.RegisterViewTests.test_fail_register_pass_mismatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to register with different passwords should fail</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.RegisterViewTests.test_register_template">
+<code class="descname">test_register_template</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.RegisterViewTests.test_register_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>validate register uses correct template</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.RegisterViewTests.test_register_uses_form">
+<code class="descname">test_register_uses_form</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.RegisterViewTests.test_register_uses_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>register must use a form</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.RegisterViewTests.test_register_withlogin">
+<code class="descname">test_register_withlogin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.RegisterViewTests.test_register_withlogin" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to register while being logged in should fail</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.RegisterViewTests.test_valid_register">
+<code class="descname">test_valid_register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.RegisterViewTests.test_valid_register" title="Permalink to this definition">¶</a></dt>
+<dd><p>successful registration should return success message</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.tests.TeamAdminViewTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">TeamAdminViewTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamAdminViewTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>All tests related to managing a team via the team admin view</p>
+<dl class="method">
+<dt id="scheduler.tests.TeamAdminViewTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamAdminViewTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamAdminViewTests.test_ta_add_players">
+<code class="descname">test_ta_add_players</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamAdminViewTests.test_ta_add_players" title="Permalink to this definition">¶</a></dt>
+<dd><p>add multiple players to the team correctly</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamAdminViewTests.test_ta_add_same_player">
+<code class="descname">test_ta_add_same_player</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamAdminViewTests.test_ta_add_same_player" title="Permalink to this definition">¶</a></dt>
+<dd><p>adding a player multiple times should provide an error message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamAdminViewTests.test_ta_add_single_player">
+<code class="descname">test_ta_add_single_player</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamAdminViewTests.test_ta_add_single_player" title="Permalink to this definition">¶</a></dt>
+<dd><p>add a single player to the team correctly</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamAdminViewTests.test_ta_admin_login">
+<code class="descname">test_ta_admin_login</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamAdminViewTests.test_ta_admin_login" title="Permalink to this definition">¶</a></dt>
+<dd><p>successful login by team admin should provide team admin template</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamAdminViewTests.test_ta_alias_error">
+<code class="descname">test_ta_alias_error</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamAdminViewTests.test_ta_alias_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>form error should be raised from changing team name to an invalid
+name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamAdminViewTests.test_ta_context">
+<code class="descname">test_ta_context</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamAdminViewTests.test_ta_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>validate context received by team admin page</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamAdminViewTests.test_ta_new_admin">
+<code class="descname">test_ta_new_admin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamAdminViewTests.test_ta_new_admin" title="Permalink to this definition">¶</a></dt>
+<dd><p>changing an admin successfully should redirect the user to my teams</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamAdminViewTests.test_ta_new_alias">
+<code class="descname">test_ta_new_alias</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamAdminViewTests.test_ta_new_alias" title="Permalink to this definition">¶</a></dt>
+<dd><p>changing team alias correctly</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamAdminViewTests.test_ta_not_admin">
+<code class="descname">test_ta_not_admin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamAdminViewTests.test_ta_not_admin" title="Permalink to this definition">¶</a></dt>
+<dd><p>viewing an admin page as a team member, not admin</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamAdminViewTests.test_ta_notlogin">
+<code class="descname">test_ta_notlogin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamAdminViewTests.test_ta_notlogin" title="Permalink to this definition">¶</a></dt>
+<dd><p>viewing an admin page without being logged in should fail</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamAdminViewTests.test_ta_same_admin">
+<code class="descname">test_ta_same_admin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamAdminViewTests.test_ta_same_admin" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempting to change admin to the current team admin should
+provide an error message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamAdminViewTests.test_ta_superuser">
+<code class="descname">test_ta_superuser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamAdminViewTests.test_ta_superuser" title="Permalink to this definition">¶</a></dt>
+<dd><p>superusers should have access to team admin page</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.tests.TeamModelTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">TeamModelTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamModelTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>tests for accessing the Team model objects and
+their information via alias and id</p>
+<dl class="method">
+<dt id="scheduler.tests.TeamModelTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamModelTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamModelTests.test_org">
+<code class="descname">test_org</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamModelTests.test_org" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve a team’s organization</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamModelTests.test_same_alias">
+<code class="descname">test_same_alias</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamModelTests.test_same_alias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Two teams can have the same name/alias</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamModelTests.test_same_id">
+<code class="descname">test_same_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamModelTests.test_same_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Two teams cannot have the same id</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamModelTests.test_set_alias">
+<code class="descname">test_set_alias</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamModelTests.test_set_alias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Team alias can be changed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamModelTests.test_set_multiple_alias">
+<code class="descname">test_set_multiple_alias</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamModelTests.test_set_multiple_alias" title="Permalink to this definition">¶</a></dt>
+<dd><p>One team alias can be set to several teams at once</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamModelTests.test_set_org">
+<code class="descname">test_set_org</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamModelTests.test_set_org" title="Permalink to this definition">¶</a></dt>
+<dd><p>A team can set an organization</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamModelTests.test_str">
+<code class="descname">test_str</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamModelTests.test_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Str for team should be a combination of team name joined with a
+‘#’ symbol and their id</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamModelTests.test_team_active">
+<code class="descname">test_team_active</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamModelTests.test_team_active" title="Permalink to this definition">¶</a></dt>
+<dd><p>Users should only see active teams</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamModelTests.test_team_admin">
+<code class="descname">test_team_admin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamModelTests.test_team_admin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Team admins exist when set correctly</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.tests.TeamProfileViewTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">TeamProfileViewTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamProfileViewTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>All tests related to viewing a team’s profile</p>
+<dl class="method">
+<dt id="scheduler.tests.TeamProfileViewTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamProfileViewTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamProfileViewTests.test_team_prof_all_avail">
+<code class="descname">test_team_prof_all_avail</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamProfileViewTests.test_team_prof_all_avail" title="Permalink to this definition">¶</a></dt>
+<dd><p>validate all users are selected on page visit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamProfileViewTests.test_team_prof_context">
+<code class="descname">test_team_prof_context</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamProfileViewTests.test_team_prof_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>validate avg_sr context by view</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamProfileViewTests.test_team_prof_select_all">
+<code class="descname">test_team_prof_select_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamProfileViewTests.test_team_prof_select_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>get availability for all when selecting all users</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamProfileViewTests.test_team_prof_select_none">
+<code class="descname">test_team_prof_select_none</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamProfileViewTests.test_team_prof_select_none" title="Permalink to this definition">¶</a></dt>
+<dd><p>get no availability when no players are selected</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamProfileViewTests.test_team_prof_select_players">
+<code class="descname">test_team_prof_select_players</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamProfileViewTests.test_team_prof_select_players" title="Permalink to this definition">¶</a></dt>
+<dd><p>get availability for only the player that’s selected</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamProfileViewTests.test_team_profile_fail">
+<code class="descname">test_team_profile_fail</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamProfileViewTests.test_team_profile_fail" title="Permalink to this definition">¶</a></dt>
+<dd><p>attempt to view a team profile for a nonexistent team</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamProfileViewTests.test_team_profile_valid">
+<code class="descname">test_team_profile_valid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamProfileViewTests.test_team_profile_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>validating the template used to view a team</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.tests.TeamsViewTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">TeamsViewTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamsViewTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>All tests related to viewing all teams</p>
+<dl class="method">
+<dt id="scheduler.tests.TeamsViewTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamsViewTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.TeamsViewTests.test_teams_template">
+<code class="descname">test_teams_template</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.TeamsViewTests.test_teams_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>verify teams uses correct template</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.tests.UserLoginTests">
+<em class="property">class </em><code class="descclassname">scheduler.tests.</code><code class="descname">UserLoginTests</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.UserLoginTests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>tests for all the views along with their errors and weaknesses</p>
+<dl class="method">
+<dt id="scheduler.tests.UserLoginTests.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.UserLoginTests.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.UserLoginTests.test_authenticated_login_context">
+<code class="descname">test_authenticated_login_context</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.UserLoginTests.test_authenticated_login_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>User authenticated by django should have teams</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.UserLoginTests.test_failed_user_login_context">
+<code class="descname">test_failed_user_login_context</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.UserLoginTests.test_failed_user_login_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>User failed to login and therefore some context does not exist</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.UserLoginTests.test_user_login_context_get">
+<code class="descname">test_user_login_context_get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.UserLoginTests.test_user_login_context_get" title="Permalink to this definition">¶</a></dt>
+<dd><p>login_context should not exist for unauthenticated user</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scheduler.tests.UserLoginTests.test_user_login_context_post">
+<code class="descname">test_user_login_context_post</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.tests.UserLoginTests.test_user_login_context_post" title="Permalink to this definition">¶</a></dt>
+<dd><p>templates have context referencing an authenticated user</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.urls">
+<span id="scheduler-urls-module"></span><h2>scheduler.urls module<a class="headerlink" href="#module-scheduler.urls" title="Permalink to this headline">¶</a></h2>
+<p>Includes all the definitions for urls related to the scheduler app</p>
+<dl class="function">
+<dt id="scheduler.urls.path">
+<code class="descclassname">scheduler.urls.</code><code class="descname">path</code><span class="sig-paren">(</span><em>route</em>, <em>view</em>, <em>kwargs=None</em>, <em>name=None</em>, <em>*</em>, <em>Pattern=&lt;class 'django.urls.resolvers.RoutePattern'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.urls.path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.views">
+<span id="scheduler-views-module"></span><h2>scheduler.views module<a class="headerlink" href="#module-scheduler.views" title="Permalink to this headline">¶</a></h2>
+<p>This file handles the connections between the server and client. The views
+provide information for the html files and handle redirection and rendering
+of templates. The views also ensure access protection for users, and require
+authentication on certain pages.</p>
+<p>Allison Bickford
+4/11/2019</p>
+<dl class="class">
+<dt id="scheduler.views.PlayerAutoComplete">
+<em class="property">class </em><code class="descclassname">scheduler.views.</code><code class="descname">PlayerAutoComplete</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.PlayerAutoComplete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dal_select2.views.Select2QuerySetView</span></code></p>
+<p>handles autocomplete for players</p>
+<dl class="method">
+<dt id="scheduler.views.PlayerAutoComplete.get_queryset">
+<code class="descname">get_queryset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.PlayerAutoComplete.get_queryset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter the queryset with GET[‘q’].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scheduler.views.TeamAutoComplete">
+<em class="property">class </em><code class="descclassname">scheduler.views.</code><code class="descname">TeamAutoComplete</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.TeamAutoComplete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dal_select2.views.Select2QuerySetView</span></code></p>
+<p>Extends the autocomplete plugin. Creates the parameters used to search for
+a team in PlayerChangeForm team field, which is a drop down search.</p>
+<dl class="method">
+<dt id="scheduler.views.TeamAutoComplete.get_queryset">
+<code class="descname">get_queryset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.TeamAutoComplete.get_queryset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter the queryset with GET[‘q’].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.create_match">
+<code class="descclassname">scheduler.views.</code><code class="descname">create_match</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.create_match" title="Permalink to this definition">¶</a></dt>
+<dd><p>handles creating a match between teams.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> – network session info</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>redirects to next step in creating a match, or access denied if</p>
+</dd>
+</dl>
+<p>a user does not manage/admin any teams</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.create_match_next">
+<code class="descclassname">scheduler.views.</code><code class="descname">create_match_next</code><span class="sig-paren">(</span><em>request</em>, <em>match_id</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.create_match_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles creating/editing optional details for a match. User must be an
+admin of either team.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> – network session info</p></li>
+<li><p><strong>match_id</strong> – primary key of match to change</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>redirects to my teams on successful change, access denied if user</p>
+</dd>
+</dl>
+<p>is not an admin, otherwise returns the create_match_next template</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.create_team">
+<code class="descclassname">scheduler.views.</code><code class="descname">create_team</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.create_team" title="Permalink to this definition">¶</a></dt>
+<dd><p>handles creating a team</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> – network session info</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>template with login context to create a team</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.edit_match">
+<code class="descclassname">scheduler.views.</code><code class="descname">edit_match</code><span class="sig-paren">(</span><em>request</em>, <em>match_id</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.edit_match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles changing a match’s teams and times. The user must be an admin
+of either team.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> – network session info</p></li>
+<li><p><strong>match_id</strong> – primary key of match to edit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>redirects to create_match_next, or access denied if not an admin</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.handler403">
+<code class="descclassname">scheduler.views.</code><code class="descname">handler403</code><span class="sig-paren">(</span><em>request</em>, <em>exception=None</em>, <em>template_name='scheduler/access_denied.html'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.handler403" title="Permalink to this definition">¶</a></dt>
+<dd><p>using code adapted from <a class="reference external" href="https://stackoverflow.com/questions/17662928">https://stackoverflow.com/questions/17662928</a>
+/django-creating-a-custom-500-404-error-page</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.handler404">
+<code class="descclassname">scheduler.views.</code><code class="descname">handler404</code><span class="sig-paren">(</span><em>request</em>, <em>exception=None</em>, <em>template_name='scheduler/404.html'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.handler404" title="Permalink to this definition">¶</a></dt>
+<dd><p>using code adapted from <a class="reference external" href="https://stackoverflow.com/questions/17662928">https://stackoverflow.com/questions/17662928</a>
+/django-creating-a-custom-500-404-error-page</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.handler500">
+<code class="descclassname">scheduler.views.</code><code class="descname">handler500</code><span class="sig-paren">(</span><em>request</em>, <em>exception=None</em>, <em>template_name='scheduler/500.html'</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.handler500" title="Permalink to this definition">¶</a></dt>
+<dd><p>using code adapted from <a class="reference external" href="https://stackoverflow.com/questions/17662928">https://stackoverflow.com/questions/17662928</a>
+/django-creating-a-custom-500-404-error-page</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.home">
+<code class="descclassname">scheduler.views.</code><code class="descname">home</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Home page</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> – network request info</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>template and variables to pass into it</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.join_team">
+<code class="descclassname">scheduler.views.</code><code class="descname">join_team</code><span class="sig-paren">(</span><em>request</em>, <em>teamID</em>, <em>username</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.join_team" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows a user to join a team. Also provides a way for a superuser to add a
+player to a team without going through the admin page.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> – network session info</p></li>
+<li><p><strong>teamID</strong> – primary key of team to join</p></li>
+<li><p><strong>username</strong> – username of player requesting to join team</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>redirect to my teams view</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.leave_team">
+<code class="descclassname">scheduler.views.</code><code class="descname">leave_team</code><span class="sig-paren">(</span><em>request</em>, <em>teamID</em>, <em>username</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.leave_team" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows a user to leave a team. Allows a superuser to remove a player from
+their team. This can be used later to allow team leaders to remove players.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> – network session info</p></li>
+<li><p><strong>teamID</strong> – primary key of team to get removed from</p></li>
+<li><p><strong>username</strong> – username of the player to remove from team</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>redirects to team page for users and superusers, while admins are</p>
+</dd>
+</dl>
+<p>redirected to their admin page</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.login_context">
+<code class="descclassname">scheduler.views.</code><code class="descname">login_context</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.login_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>view that handles logging in the current user and returning the context</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> – network request info, such as user</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>:returns dict containing login form, authenticated user,</dt><dd><p>teams, and teams user admins</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.player_profile">
+<code class="descclassname">scheduler.views.</code><code class="descname">player_profile</code><span class="sig-paren">(</span><em>request</em>, <em>username</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.player_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>displays the profile page for a player by username
+the battletag doesn’t work in url so the username is another key we can use to
+identify the player</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> – network request info</p></li>
+<li><p><strong>username</strong> – username of the players whose profile to view</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.players">
+<code class="descclassname">scheduler.views.</code><code class="descname">players</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.players" title="Permalink to this definition">¶</a></dt>
+<dd><p>Goes to the players page using the list of players sorted by battletags and
+uses the player search bar to generate the list of players matching the
+search.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> – network request info</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>login context and list of all players</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.register">
+<code class="descclassname">scheduler.views.</code><code class="descname">register</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>view to add a new user and log them in. Redirects on successful user
+creation or shows form errors if the input was not valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> – network session info</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>access denied if user is logged in, otherwise the register</p>
+</dd>
+</dl>
+<p>template</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.team_profile">
+<code class="descclassname">scheduler.views.</code><code class="descname">team_profile</code><span class="sig-paren">(</span><em>request</em>, <em>teamID</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.team_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>displays the profile page for a team and their relevant information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> – network session info</p></li>
+<li><p><strong>teamID</strong> – primary key of team to view profile of</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>template with information about the requested team</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.teams">
+<code class="descclassname">scheduler.views.</code><code class="descname">teams</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.teams" title="Permalink to this definition">¶</a></dt>
+<dd><p>displays the page that lists all the teams, sorted by their teamID. This
+also implements searching for teams by their name or id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> – HttpRequest with network info</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>template for teams with login context and list of all teams</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.views.user_logout">
+<code class="descclassname">scheduler.views.</code><code class="descname">user_logout</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.views.user_logout" title="Permalink to this definition">¶</a></dt>
+<dd><p>view that handles logging out the current user.
+Redirects to previous page after, or home if it can’t.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scheduler" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">OWScheduler</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">docs</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Allison Bickford, Ethan Carter.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/scheduler.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

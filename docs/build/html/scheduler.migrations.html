@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>scheduler.migrations package &#8212; OWScheduler 2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="scheduler-migrations-package">
+<h1>scheduler.migrations package<a class="headerlink" href="#scheduler-migrations-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-scheduler.migrations.0001_initial">
+<span id="scheduler-migrations-0001-initial-module"></span><h2>scheduler.migrations.0001_initial module<a class="headerlink" href="#module-scheduler.migrations.0001_initial" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scheduler.migrations.0001_initial.Migration">
+<em class="property">class </em><code class="descclassname">scheduler.migrations.0001_initial.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.migrations.0001_initial.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.migrations.0001_initial.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('auth', '0009_alter_user_last_name_max_length')]</em><a class="headerlink" href="#scheduler.migrations.0001_initial.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.migrations.0001_initial.Migration.initial">
+<code class="descname">initial</code><em class="property"> = True</em><a class="headerlink" href="#scheduler.migrations.0001_initial.Migration.initial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.migrations.0001_initial.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;CreateModel  name='Player', fields=[('password', &lt;django.db.models.fields.CharField&gt;), ('last_login', &lt;django.db.models.fields.DateTimeField&gt;), ('is_superuser', &lt;django.db.models.fields.BooleanField&gt;), ('username', &lt;django.db.models.fields.CharField&gt;), ('first_name', &lt;django.db.models.fields.CharField&gt;), ('last_name', &lt;django.db.models.fields.CharField&gt;), ('email', &lt;django.db.models.fields.EmailField&gt;), ('is_staff', &lt;django.db.models.fields.BooleanField&gt;), ('is_active', &lt;django.db.models.fields.BooleanField&gt;), ('date_joined', &lt;django.db.models.fields.DateTimeField&gt;), ('university', &lt;django.db.models.fields.CharField&gt;), ('role', &lt;django.db.models.fields.CharField&gt;), ('battlenetID', &lt;django.db.models.fields.CharField&gt;), ('skillRating', &lt;django.db.models.fields.IntegerField&gt;), ('groups', &lt;django.db.models.fields.related.ManyToManyField&gt;)], options={'verbose_name': 'user', 'verbose_name_plural': 'users', 'abstract': False}, managers=[('objects', &lt;django.contrib.auth.models.UserManager object&gt;)]&gt;, &lt;CreateModel  name='Match', fields=[('matchID', &lt;django.db.models.fields.AutoField&gt;), ('matchMap', &lt;django.db.models.fields.CharField&gt;)]&gt;, &lt;CreateModel  name='Team', fields=[('teamID', &lt;django.db.models.fields.IntegerField&gt;), ('teamAlias', &lt;django.db.models.fields.CharField&gt;), ('is_active', &lt;django.db.models.fields.BooleanField&gt;), ('team_admin', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;, &lt;CreateModel  name='TimeSlot', fields=[('timeSlotID', &lt;django.db.models.fields.AutoField&gt;), ('dayOfWeek', &lt;django.db.models.fields.CharField&gt;), ('hour', &lt;django.db.models.fields.IntegerField&gt;), ('players_available', &lt;django.db.models.fields.related.ManyToManyField&gt;)]&gt;, &lt;AddField  model_name='match', name='captureTeam', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;AddField  model_name='match', name='defenseTeam', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;AddField  model_name='match', name='loser', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;AddField  model_name='match', name='match_time', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;AddField  model_name='match', name='winner', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;AddField  model_name='player', name='team', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;AddField  model_name='player', name='user_permissions', field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;]</em><a class="headerlink" href="#scheduler.migrations.0001_initial.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.migrations.0002_auto_20190301_0209">
+<span id="scheduler-migrations-0002-auto-20190301-0209-module"></span><h2>scheduler.migrations.0002_auto_20190301_0209 module<a class="headerlink" href="#module-scheduler.migrations.0002_auto_20190301_0209" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scheduler.migrations.0002_auto_20190301_0209.Migration">
+<em class="property">class </em><code class="descclassname">scheduler.migrations.0002_auto_20190301_0209.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.migrations.0002_auto_20190301_0209.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.migrations.0002_auto_20190301_0209.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('scheduler', '0001_initial')]</em><a class="headerlink" href="#scheduler.migrations.0002_auto_20190301_0209.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.migrations.0002_auto_20190301_0209.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;RunPython &lt;function load_times&gt;&gt;]</em><a class="headerlink" href="#scheduler.migrations.0002_auto_20190301_0209.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="scheduler.migrations.0002_auto_20190301_0209.load_times">
+<code class="descclassname">scheduler.migrations.0002_auto_20190301_0209.</code><code class="descname">load_times</code><span class="sig-paren">(</span><em>apps</em>, <em>schema_editor</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.migrations.0002_auto_20190301_0209.load_times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.migrations.0003_auto_20190301_1547">
+<span id="scheduler-migrations-0003-auto-20190301-1547-module"></span><h2>scheduler.migrations.0003_auto_20190301_1547 module<a class="headerlink" href="#module-scheduler.migrations.0003_auto_20190301_1547" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scheduler.migrations.0003_auto_20190301_1547.Migration">
+<em class="property">class </em><code class="descclassname">scheduler.migrations.0003_auto_20190301_1547.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.migrations.0003_auto_20190301_1547.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.migrations.0003_auto_20190301_1547.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('scheduler', '0002_auto_20190301_0209')]</em><a class="headerlink" href="#scheduler.migrations.0003_auto_20190301_1547.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.migrations.0003_auto_20190301_1547.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='player', name='role', field=&lt;django.db.models.fields.CharField&gt;&gt;, &lt;AlterField  model_name='player', name='skillRating', field=&lt;django.db.models.fields.IntegerField&gt;&gt;, &lt;AlterField  model_name='player', name='university', field=&lt;django.db.models.fields.CharField&gt;&gt;, &lt;AlterField  model_name='timeslot', name='dayOfWeek', field=&lt;django.db.models.fields.IntegerField&gt;&gt;]</em><a class="headerlink" href="#scheduler.migrations.0003_auto_20190301_1547.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.migrations.0004_auto_20190302_1611">
+<span id="scheduler-migrations-0004-auto-20190302-1611-module"></span><h2>scheduler.migrations.0004_auto_20190302_1611 module<a class="headerlink" href="#module-scheduler.migrations.0004_auto_20190302_1611" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scheduler.migrations.0004_auto_20190302_1611.Migration">
+<em class="property">class </em><code class="descclassname">scheduler.migrations.0004_auto_20190302_1611.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.migrations.0004_auto_20190302_1611.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.migrations.0004_auto_20190302_1611.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('scheduler', '0003_auto_20190301_1547')]</em><a class="headerlink" href="#scheduler.migrations.0004_auto_20190302_1611.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.migrations.0004_auto_20190302_1611.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;RemoveField  model_name='player', name='team'&gt;, &lt;AddField  model_name='team', name='players', field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;]</em><a class="headerlink" href="#scheduler.migrations.0004_auto_20190302_1611.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.migrations.0005_auto_20190318_1449">
+<span id="scheduler-migrations-0005-auto-20190318-1449-module"></span><h2>scheduler.migrations.0005_auto_20190318_1449 module<a class="headerlink" href="#module-scheduler.migrations.0005_auto_20190318_1449" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scheduler.migrations.0005_auto_20190318_1449.Migration">
+<em class="property">class </em><code class="descclassname">scheduler.migrations.0005_auto_20190318_1449.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.migrations.0005_auto_20190318_1449.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.migrations.0005_auto_20190318_1449.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('scheduler', '0004_auto_20190302_1611')]</em><a class="headerlink" href="#scheduler.migrations.0005_auto_20190318_1449.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.migrations.0005_auto_20190318_1449.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='player', name='role', field=&lt;django.db.models.fields.CharField&gt;&gt;]</em><a class="headerlink" href="#scheduler.migrations.0005_auto_20190318_1449.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.migrations.0006_auto_20190410_1835">
+<span id="scheduler-migrations-0006-auto-20190410-1835-module"></span><h2>scheduler.migrations.0006_auto_20190410_1835 module<a class="headerlink" href="#module-scheduler.migrations.0006_auto_20190410_1835" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scheduler.migrations.0006_auto_20190410_1835.Migration">
+<em class="property">class </em><code class="descclassname">scheduler.migrations.0006_auto_20190410_1835.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.migrations.0006_auto_20190410_1835.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.migrations.0006_auto_20190410_1835.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('scheduler', '0005_auto_20190318_1449')]</em><a class="headerlink" href="#scheduler.migrations.0006_auto_20190410_1835.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.migrations.0006_auto_20190410_1835.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;RemoveField  model_name='match', name='captureTeam'&gt;, &lt;RemoveField  model_name='match', name='defenseTeam'&gt;, &lt;RemoveField  model_name='match', name='loser'&gt;, &lt;RemoveField  model_name='match', name='match_time'&gt;, &lt;AddField  model_name='match', name='player_set_1', field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;, &lt;AddField  model_name='match', name='player_set_2', field=&lt;django.db.models.fields.related.ManyToManyField&gt;&gt;, &lt;AddField  model_name='match', name='team_1', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;AddField  model_name='match', name='team_2', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;AddField  model_name='match', name='time', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AddField  model_name='team', name='organization', field=&lt;django.db.models.fields.CharField&gt;&gt;, &lt;AlterField  model_name='match', name='matchMap', field=&lt;django.db.models.fields.CharField&gt;&gt;, &lt;AlterField  model_name='match', name='winner', field=&lt;django.db.models.fields.IntegerField&gt;&gt;, &lt;AlterField  model_name='player', name='is_active', field=&lt;django.db.models.fields.BooleanField&gt;&gt;, &lt;AlterField  model_name='player', name='university', field=&lt;django.db.models.fields.CharField&gt;&gt;]</em><a class="headerlink" href="#scheduler.migrations.0006_auto_20190410_1835.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.migrations.0007_auto_20190410_1836">
+<span id="scheduler-migrations-0007-auto-20190410-1836-module"></span><h2>scheduler.migrations.0007_auto_20190410_1836 module<a class="headerlink" href="#module-scheduler.migrations.0007_auto_20190410_1836" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scheduler.migrations.0007_auto_20190410_1836.Migration">
+<em class="property">class </em><code class="descclassname">scheduler.migrations.0007_auto_20190410_1836.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.migrations.0007_auto_20190410_1836.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.migrations.0007_auto_20190410_1836.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('scheduler', '0006_auto_20190410_1835')]</em><a class="headerlink" href="#scheduler.migrations.0007_auto_20190410_1836.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.migrations.0007_auto_20190410_1836.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='match', name='time', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;]</em><a class="headerlink" href="#scheduler.migrations.0007_auto_20190410_1836.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.migrations.0008_auto_20190410_1837">
+<span id="scheduler-migrations-0008-auto-20190410-1837-module"></span><h2>scheduler.migrations.0008_auto_20190410_1837 module<a class="headerlink" href="#module-scheduler.migrations.0008_auto_20190410_1837" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scheduler.migrations.0008_auto_20190410_1837.Migration">
+<em class="property">class </em><code class="descclassname">scheduler.migrations.0008_auto_20190410_1837.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.migrations.0008_auto_20190410_1837.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.migrations.0008_auto_20190410_1837.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('scheduler', '0007_auto_20190410_1836')]</em><a class="headerlink" href="#scheduler.migrations.0008_auto_20190410_1837.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.migrations.0008_auto_20190410_1837.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='match', name='time', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;]</em><a class="headerlink" href="#scheduler.migrations.0008_auto_20190410_1837.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.migrations.0009_auto_20190410_1845">
+<span id="scheduler-migrations-0009-auto-20190410-1845-module"></span><h2>scheduler.migrations.0009_auto_20190410_1845 module<a class="headerlink" href="#module-scheduler.migrations.0009_auto_20190410_1845" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scheduler.migrations.0009_auto_20190410_1845.Migration">
+<em class="property">class </em><code class="descclassname">scheduler.migrations.0009_auto_20190410_1845.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.migrations.0009_auto_20190410_1845.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.migrations.0009_auto_20190410_1845.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('scheduler', '0008_auto_20190410_1837')]</em><a class="headerlink" href="#scheduler.migrations.0009_auto_20190410_1845.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.migrations.0009_auto_20190410_1845.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='match', name='matchMap', field=&lt;django.db.models.fields.CharField&gt;&gt;, &lt;AlterField  model_name='match', name='time', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;]</em><a class="headerlink" href="#scheduler.migrations.0009_auto_20190410_1845.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.migrations.0010_auto_20190410_2128">
+<span id="scheduler-migrations-0010-auto-20190410-2128-module"></span><h2>scheduler.migrations.0010_auto_20190410_2128 module<a class="headerlink" href="#module-scheduler.migrations.0010_auto_20190410_2128" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scheduler.migrations.0010_auto_20190410_2128.Migration">
+<em class="property">class </em><code class="descclassname">scheduler.migrations.0010_auto_20190410_2128.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#scheduler.migrations.0010_auto_20190410_2128.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="scheduler.migrations.0010_auto_20190410_2128.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('scheduler', '0009_auto_20190410_1845')]</em><a class="headerlink" href="#scheduler.migrations.0010_auto_20190410_2128.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="scheduler.migrations.0010_auto_20190410_2128.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='match', name='time', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;]</em><a class="headerlink" href="#scheduler.migrations.0010_auto_20190410_2128.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scheduler.migrations">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scheduler.migrations" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">OWScheduler</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">docs</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Allison Bickford, Ethan Carter.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/scheduler.migrations.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
