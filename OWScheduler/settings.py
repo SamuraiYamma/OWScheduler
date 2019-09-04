@@ -151,3 +151,6 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'ows'
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True
+
+# Activate Django-Heroku
+django_heroku.settings(locals())
